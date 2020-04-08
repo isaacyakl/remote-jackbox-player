@@ -44,17 +44,17 @@ formReady(() => {
 
 	function swapViews() {
 		if (streamElement.classList.contains("z-10")) {
-			streamElement.classList.add("z-20");
 			streamElement.classList.remove("z-10");
+			streamElement.classList.add("z-20");
 
-			gameElement.classList.add("z-10");
 			gameElement.classList.remove("z-20");
+			gameElement.classList.add("z-10");
 		} else {
-			streamElement.classList.add("z-10");
 			streamElement.classList.remove("z-20");
+			streamElement.classList.add("z-10");
 
-			gameElement.classList.add("z-20");
 			gameElement.classList.remove("z-10");
+			gameElement.classList.add("z-20");
 		}
 	}
 
