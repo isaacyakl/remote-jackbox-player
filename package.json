@@ -1,0 +1,29 @@
+{
+	"name": "remote-jackbox-player",
+	"version": "1.0.0",
+	"browser": "dist/index.html",
+	"scripts": {
+		"build:css": "tailwind build src/style.css -o dist/style.css"
+	},
+	"author": "Isaac 'yak' L.",
+	"license": "MIT",
+	"description": "Play Jackbox games with your friends remotely.",
+	"dependencies": {
+		"tailwindcss": "^1.2.0"
+	},
+	"main": "index.js",
+	"devDependencies": {},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/isaacyakl/remote-jackbox-player.git"
+	},
+	"keywords": [
+		"jackbox",
+		"remote",
+		"player"
+	],
+	"bugs": {
+		"url": "https://github.com/isaacyakl/remote-jackbox-player/issues"
+	},
+	"homepage": "https://github.com/isaacyakl/remote-jackbox-player#readme"
+}

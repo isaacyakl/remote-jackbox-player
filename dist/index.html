@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+		<title>Gaming with Penguin</title>
+		<link href="style.css" rel="stylesheet" />
+		<script src="https://kit.fontawesome.com/c7c7078646.js" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<nav id="layoutControls" class="fixed bg-white rounded z-40 p-1 top-0 right-0">
+			<i
+				id="splitViewButton"
+				class="fas fa-columns p-1 sm:text-3xl md:text-2xl"
+				role="button"
+			></i>
+			<i id="swapViewButton" class="fas fa-clone p-1 sm:text-3xl md:text-2xl" role="button"></i>
+		</nav>
+		<main id="viewer" class="flex flex-wrap">
+			<iframe
+				id="stream"
+				class="w-screen h-screen lg:w-1/2"
+				src="https://steamcommunity.com/broadcast/watch/76561198005503422/"
+			></iframe>
+			<iframe id="game" class="w-screen h-screen lg:w-1/2" src="http://jackbox.tv/"></iframe>
+		</main>
+		<script src="script.js" type="text/javascript"></script>
+	</body>
+</html>
