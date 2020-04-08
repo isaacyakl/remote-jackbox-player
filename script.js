@@ -58,6 +58,27 @@ formReady(() => {
 		}
 	}
 
+	const copyToClipboard = (str) => {
+		const el = document.createElement("textarea"); // Create a <textarea> element
+		el.value = str; // Set its value to the string that you want copied
+		el.setAttribute("readonly", ""); // Make it readonly to be tamper-proof
+		el.style.position = "absolute";
+		el.style.left = "-9999px"; // Move outside the screen to make it invisible
+		document.body.appendChild(el); // Append the <textarea> element to the HTML document
+		const selected =
+			document.getSelection().rangeCount > 0 // Check if there is any content selected previously
+				? document.getSelection().getRangeAt(0) // Store selection if found
+				: false; // Mark as false to know no selection existed before
+		el.select(); // Select the <textarea> content
+		document.execCommand("copy"); // Copy - only works as a result of a user action (e.g. click events)
+		document.body.removeChild(el); // Remove the <textarea> element
+		if (selected) {
+			// If a selection existed before copying
+			document.getSelection().removeAllRanges(); // Unselect everything on the HTML document
+			document.getSelection().addRange(selected); // Restore the original selection
+		}
+	};
+
 	// Add event listener for the split view button
 	document.getElementById("splitViewButton").addEventListener("click", () => {
 		splitView();
@@ -71,6 +92,26 @@ formReady(() => {
 
 	// Add event listener for URL input field
 	streamURLElement.addEventListener("input", () => {
-		streamElement.src = streamURLElement.value;
+		// If the stream URL field is not blank
+		if (streamURLElement.value != "") {
+			// Update the iframe source
+			streamElement.src = streamURLElement.value;
+		} else {
+			// Otherwise default to Twitch category for latest Jackbox Party Pack
+			streamElement.src =
+				"https://www.twitch.tv/directory/game/The%20Jackbox%20Party%20Pack%206";
+		}
+	});
+
+	// Add event listener for share button
+	document.getElementById("shareButton").addEventListener("click", () => {
+		// Copy URL to clipboard
+		copyToClipboard(window.location.href);
+
+		// Let the user know the link was copied to the clipboard
+		document.getElementById("shareText").classList.remove("hidden");
+		setTimeout(() => {
+			document.getElementById("shareText").classList.add("hidden");
+		}, 3500);
 	});
 });
