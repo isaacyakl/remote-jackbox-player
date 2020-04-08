@@ -6,5 +6,6 @@ Play Jackbox games with your friends remotely.
 
 ## To-Do
 
+-  Implement URL param that includes stream URL for easy sharing and bookmarking
+-  Publish to website with Git hook
 -  Frame width adjustment in Split View
--  Share button with current stream URL

@@ -94,12 +94,33 @@ formReady(() => {
 	streamURLElement.addEventListener("input", () => {
 		// If the stream URL field is not blank
 		if (streamURLElement.value != "") {
+			// If the entered URL does not include "https" or "http"
+			if (
+				!streamURLElement.value.includes("https://") &&
+				!streamURLElement.value.includes("http://")
+			) {
+				// Add https
+				streamURLElement.value = "https://" + streamURLElement.value;
+			}
+
 			// Update the iframe source
 			streamElement.src = streamURLElement.value;
 		} else {
 			// Otherwise default to Twitch category for latest Jackbox Party Pack
 			streamElement.src =
 				"https://www.twitch.tv/directory/game/The%20Jackbox%20Party%20Pack%206";
+		}
+	});
+
+	// Add event listener for iframe location
+	streamElement.addEventListener("load", () => {
+		// When the location changes update the URL input
+		streamURLElement.value = streamElement.contentWindow.location.href;
+
+		// If Chrome blocked due to cross-origin frame policy (http embedding https iframe)
+		if (streamURLElement.value == "about:blank#blocked") {
+			// Clear URL input
+			streamURLElement.value = "";
 		}
 	});
 
