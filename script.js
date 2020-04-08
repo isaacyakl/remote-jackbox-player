@@ -8,6 +8,7 @@ let formReady = (callback) => {
 formReady(() => {
 	let streamElement = document.getElementById("stream");
 	let gameElement = document.getElementById("game");
+	let streamURLElement = document.getElementById("streamURL");
 
 	function splitView() {
 		streamElement.classList.remove("lg:w-1/2");
@@ -66,5 +67,10 @@ formReady(() => {
 	document.getElementById("swapViewButton").addEventListener("click", () => {
 		swapView();
 		swapViews();
+	});
+
+	// Add event listener for URL input field
+	streamURLElement.addEventListener("input", () => {
+		streamElement.src = streamURLElement.value;
 	});
 });

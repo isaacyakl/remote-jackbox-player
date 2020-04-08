@@ -21,6 +21,21 @@
 			<i id="swapViewButton" class="fas fa-clone p-1 sm:text-3xl md:text-2xl" role="button"></i>
 		</nav>
 		<main id="viewer" class="flex flex-wrap">
+			<div id="streamURLBar" class="fixed bg-white rounded z-50 p-1 top-0">
+				<label class="text-gray-800 p-1" for="streamURL">Stream URL</label
+				><span class="text-gray-300 p-1 text-sm"> | </span
+				><input
+					type="url"
+					name="streamURL"
+					id="streamURL"
+					placeholder="https://www.twitch.tv/"
+					pattern="https://.*"
+					size="50"
+					class="p1"
+					value="https://steamcommunity.com/broadcast/watch/76561198005503422/"
+					required
+				/>
+			</div>
 			<iframe
 				id="stream"
 				class="w-screen h-screen lg:w-1/2"
