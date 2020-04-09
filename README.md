@@ -7,6 +7,7 @@ Play Jackbox games with your friends remotely.
 ## To-Do
 
 -  Add bookmarking button or add param without reloading page: update playerURL
--  Remove starting stream page in favor of usage instructions
+-  Block inception by keeping user from inputting URL of the Remote Jackbox Player
 -  Add warning about losing game progress when exiting page
 -  Frame width adjustment in Split View
+-  Add stream URL growth on focus

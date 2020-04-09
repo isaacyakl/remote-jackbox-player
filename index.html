@@ -14,7 +14,7 @@
 	<body>
 		<div
 			id="layoutControls"
-			class="fixed bg-white rounded-bl z-50 p-1 top-0 right-0"
+			class="fixed bg-white rounded-bl shadow z-50 p-1 top-0 right-0"
 			role="menubar"
 		>
 			<i
@@ -31,15 +31,15 @@
 		<main id="viewer" class="flex flex-wrap">
 			<div
 				id="streamURLBar"
-				class="fixed bg-white rounded-br z-40 p-1 top-0 truncate"
+				class="fixed bg-white rounded-br shadow z-40 p-1 top-0 truncate"
 				role="navigation"
 			>
-				<a href="./"
-					><i
-						class="fas fa-home p-1 mr-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
-						role="button"
-					></i></a
-				><input
+				<i
+					id="instructionsButton"
+					class="fas fa-question p-1 mr-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
+					role="button"
+				></i>
+				<input
 					type="url"
 					name="streamURL"
 					id="streamURL"
@@ -53,7 +53,7 @@
 			<iframe
 				id="stream"
 				class="z-20 w-screen h-screen lg:w-1/2"
-				src="https://www.twitch.tv/directory/game/The%20Jackbox%20Party%20Pack%206"
+				src="instructions.html"
 			></iframe>
 			<iframe
 				id="game"
@@ -62,7 +62,7 @@
 			></iframe>
 			<div
 				id="shareControl"
-				class="fixed bg-white rounded-l z-50 p-1 mb-5 bottom-0 right-0"
+				class="fixed bg-white rounded-l shadow z-50 p-1 mb-5 bottom-0 right-0"
 				role="menubar"
 			>
 				<i

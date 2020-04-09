@@ -101,6 +101,33 @@ formReady(() => {
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
 	}
 
+	// Function for navigating stream frame
+	function updateStreamFrame() {
+		// If the stream URL field is not blank
+		if (streamURLElement.value != "") {
+			// If the entered URL starts with "http://" but not "https://"
+			if (
+				streamURLElement.value.toString().startsWith("http://") &&
+				!streamURLElement.value.toString().startsWith("https://")
+			) {
+				// Swap "http://" out for "https://"
+				streamURLElement.value = streamURLElement.value
+					.toString()
+					.replace(/http:\/\//, "https://");
+			} // Else if it does not start with "https://"
+			else if (!streamURLElement.value.toString().startsWith("https://")) {
+				// Add https
+				streamURLElement.value = "https://" + streamURLElement.value;
+			}
+
+			// If frame source is not the same as the value in the stream URL field (probably due to clicking the instructions button)
+			if (streamElement.src != streamURLElement.value) {
+				// Update the iframe source
+				streamElement.src = streamURLElement.value;
+			}
+		}
+	}
+
 	// Add event listener for the split view button
 	document.getElementById("splitViewButton").addEventListener("click", () => {
 		setupSplitView();
@@ -114,24 +141,14 @@ formReady(() => {
 
 	// Add event listener for URL input field
 	streamURLElement.addEventListener("input", () => {
-		// If the stream URL field is not blank
-		if (streamURLElement.value != "") {
-			// If the entered URL does not include "https" or "http"
-			if (
-				!streamURLElement.value.includes("https://") &&
-				!streamURLElement.value.includes("http://")
-			) {
-				// Add https
-				streamURLElement.value = "https://" + streamURLElement.value;
-			}
+		// Update the stream frame
+		updateStreamFrame();
+	});
 
-			// Update the iframe source
-			streamElement.src = streamURLElement.value;
-		} else {
-			// Otherwise default to Twitch category for latest Jackbox Party Pack
-			streamElement.src =
-				"https://www.twitch.tv/directory/game/The%20Jackbox%20Party%20Pack%206";
-		}
+	// Add event listener for URL input field
+	streamURLElement.addEventListener("focus", () => {
+		// Update the stream frame
+		updateStreamFrame();
 	});
 
 	// Add event listener for iframe location
@@ -164,6 +181,12 @@ formReady(() => {
 		setTimeout(() => {
 			document.getElementById("shareText").classList.add("hidden");
 		}, 3500);
+	});
+
+	// Add event listener for instructions button
+	document.getElementById("instructionsButton").addEventListener("click", () => {
+		// Set stream frame to instructions page
+		streamElement.src = "instructions.html";
 	});
 
 	// Variable for streamURL
