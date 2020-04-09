@@ -2,11 +2,13 @@
 
 Play Jackbox games with your friends remotely.
 
-[Go to the player >>](https://isaacyakl.github.io/remote-jackbox-player/)
+[Play on GitHub >>](https://isaacyakl.github.io/remote-jackbox-player/)
+
+[Play on my website >>](https://remote-jackbox-player.isaacyakl.com)
 
 ## To-Do
 
--  Block inception by keeping user from inputting URL of the Remote Jackbox Player
--  Add warning about losing game progress when exiting page
--  Frame width adjustment in Split View
 -  Add stream URL growth on focus
+-  Add warning about losing game progress when exiting/reloading page
+-  Block inception by keeping user from inputting URL of the Remote Jackbox Player
+-  Frame width adjustment in Split View
