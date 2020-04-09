@@ -79,17 +79,8 @@ formReady(() => {
 		}
 	};
 
-	let playerURL = new URL(document.location.href.toString()); // Grab current URL for the player URL
-
-	// Function for adding stream URL to player URL using a param
-	function setStreamURLParam() {
-		playerURL.searchParams.set("streamURL", streamURLElement.value); // Add stream URL as a param
-	}
-
-	// Function for navigating the window to the player URL
-	function updatePlayerURL() {
-		document.location.href = playerURL; // Set the window URL to the new playerURL
-	}
+	let playerURL = new URL(document.location.href.toString()); // Grab current URL for the player URL used for link sharing
+	let streamURL = getStreamURLParam(); // Get stream URL from player URL param
 
 	// Function for getting stream URL from player URL param
 	// Based on: https://blog.bitscry.com/2018/08/17/getting-and-setting-url-parameters-with-javascript/
@@ -99,6 +90,18 @@ formReady(() => {
 		let regex = new RegExp("[\\?|&]" + parameter.toLowerCase() + "=([^&#]*)");
 		let results = regex.exec("?" + playerURL.toString().toLowerCase().split("?")[1]);
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
+	}
+
+	// Function for navigating the window to the player URL
+	function updatePlayerURL() {
+		// Update the streamURL variable with the entered stream URL
+		streamURL = streamURLElement.value;
+
+		// If there is a stream URL entered
+		if (streamURL != "") {
+			playerURL.searchParams.set("streamURL", streamURLElement.value); // Add stream URL as a param to the player URL
+			window.history.replaceState(null, null, "?streamURL=" + encodeURIComponent(streamURL)); // Add the streamURL to the window URL
+		}
 	}
 
 	// Function for navigating stream frame
@@ -141,14 +144,14 @@ formReady(() => {
 
 	// Add event listener for URL input field
 	streamURLElement.addEventListener("input", () => {
-		// Update the stream frame
-		updateStreamFrame();
+		updateStreamFrame(); // Update the stream frame
+		updatePlayerURL(); // Update the player URL
 	});
 
 	// Add event listener for URL input field
 	streamURLElement.addEventListener("focus", () => {
-		// Update the stream frame
-		updateStreamFrame();
+		updateStreamFrame(); // Update the stream frame
+		updatePlayerURL(); // Update the player URL
 	});
 
 	// Add event listener for iframe location
@@ -170,9 +173,6 @@ formReady(() => {
 
 	// Add event listener for share button
 	document.getElementById("shareButton").addEventListener("click", () => {
-		// Update streamURL
-		setStreamURLParam();
-
 		// Copy URL to clipboard
 		copyToClipboard(playerURL.toString());
 
@@ -189,18 +189,10 @@ formReady(() => {
 		streamElement.src = "instructions.html";
 	});
 
-	// Variable for streamURL
-	let streamURL = getStreamURLParam(); // Get stream URL from player URL param
-
-	// If the streamURL param was not blank
-	if (streamURL != "") {
-		streamURL = new URL(streamURL); // Get stream URL from player URL param
-	}
-
 	// If stream URL param of the player URL is not blank
 	if (streamURL != "") {
 		// Set the stream URL input element to the stream URL
-		streamURLElement.value = streamURL.toString();
+		streamURLElement.value = streamURL;
 
 		// Set the stream element to the stream URL param
 		streamElement.src = streamURL;
