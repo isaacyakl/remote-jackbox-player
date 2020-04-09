@@ -10,7 +10,7 @@ formReady(() => {
 	let gameElement = document.getElementById("game");
 	let streamURLElement = document.getElementById("streamURL");
 
-	function splitView() {
+	function setupSplitView() {
 		streamElement.classList.remove("lg:w-1/2");
 
 		streamElement.classList.add("static");
@@ -26,7 +26,7 @@ formReady(() => {
 		gameElement.classList.remove("w-screen");
 	}
 
-	function swapView() {
+	function setupSwapView() {
 		streamElement.classList.remove("lg:w-1/2");
 
 		streamElement.classList.remove("static");
@@ -42,7 +42,7 @@ formReady(() => {
 		gameElement.classList.add("w-screen");
 	}
 
-	function swapViews() {
+	function swapView() {
 		if (streamElement.classList.contains("z-10")) {
 			streamElement.classList.remove("z-10");
 			streamElement.classList.add("z-20");
@@ -79,15 +79,39 @@ formReady(() => {
 		}
 	};
 
+	// URLs for the player and stream respectively
+	let playerURL = new URL(document.location.href.toString()); // Grab current URL
+	let streamURL = new URL(getStreamURLParam()); // Get stream URL from player URL param
+
+	// Function for adding stream URL to player URL using a param
+	function setStreamURLParam() {
+		playerURL.searchParams.set("streamURL", streamURLElement.value); // Add stream URL as a param
+	}
+
+	// Function for navigating the window to the player URL
+	function updatePlayerURL() {
+		document.location.href = playerURL; // Set the window URL to the new playerURL
+	}
+
+	// Function for getting stream URL from player URL param
+	// Based on: https://blog.bitscry.com/2018/08/17/getting-and-setting-url-parameters-with-javascript/
+	function getStreamURLParam() {
+		parameter = "streamURL";
+		parameter = parameter.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?|&]" + parameter.toLowerCase() + "=([^&#]*)");
+		var results = regex.exec("?" + playerURL.toString().toLowerCase().split("?")[1]);
+		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
+	}
+
 	// Add event listener for the split view button
 	document.getElementById("splitViewButton").addEventListener("click", () => {
-		splitView();
+		setupSplitView();
 	});
 
 	// Add event listener for the swap view button
 	document.getElementById("swapViewButton").addEventListener("click", () => {
+		setupSwapView();
 		swapView();
-		swapViews();
 	});
 
 	// Add event listener for URL input field
@@ -114,11 +138,16 @@ formReady(() => {
 
 	// Add event listener for iframe location
 	streamElement.addEventListener("load", () => {
-		// When the location changes update the URL input
-		streamURLElement.value = streamElement.contentWindow.location.href;
+		// Violates cross-origin frame policy
 
-		// If Chrome blocked due to cross-origin frame policy (http embedding https iframe)
-		if (streamURLElement.value == "about:blank#blocked") {
+		// When the location changes update the URL input
+		// streamURLElement.value = streamElement.contentWindow.location.href;
+
+		// If Chrome blocked due to cross-origin frame policy
+		if (
+			streamURLElement.value == "about:blank#blocked" ||
+			streamURLElement.value == "undefined"
+		) {
 			// Clear URL input
 			streamURLElement.value = "";
 		}
@@ -126,8 +155,11 @@ formReady(() => {
 
 	// Add event listener for share button
 	document.getElementById("shareButton").addEventListener("click", () => {
+		// Update streamURL
+		setStreamURLParam();
+
 		// Copy URL to clipboard
-		copyToClipboard(window.location.href);
+		copyToClipboard(playerURL.toString());
 
 		// Let the user know the link was copied to the clipboard
 		document.getElementById("shareText").classList.remove("hidden");
@@ -135,4 +167,13 @@ formReady(() => {
 			document.getElementById("shareText").classList.add("hidden");
 		}, 3500);
 	});
+
+	// If stream URL param of the player URL is not blank
+	if (streamURL != "") {
+		// Set the stream URL input element to the stream URL
+		streamURLElement.value = streamURL.toString();
+
+		// Set the stream element to the stream URL param
+		streamElement.src = streamURL;
+	}
 });
