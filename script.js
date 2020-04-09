@@ -79,9 +79,7 @@ formReady(() => {
 		}
 	};
 
-	// URLs for the player and stream respectively
-	let playerURL = new URL(document.location.href.toString()); // Grab current URL
-	let streamURL = new URL(getStreamURLParam()); // Get stream URL from player URL param
+	let playerURL = new URL(document.location.href.toString()); // Grab current URL for the player URL
 
 	// Function for adding stream URL to player URL using a param
 	function setStreamURLParam() {
@@ -96,10 +94,10 @@ formReady(() => {
 	// Function for getting stream URL from player URL param
 	// Based on: https://blog.bitscry.com/2018/08/17/getting-and-setting-url-parameters-with-javascript/
 	function getStreamURLParam() {
-		parameter = "streamURL";
+		let parameter = "streamURL";
 		parameter = parameter.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-		var regex = new RegExp("[\\?|&]" + parameter.toLowerCase() + "=([^&#]*)");
-		var results = regex.exec("?" + playerURL.toString().toLowerCase().split("?")[1]);
+		let regex = new RegExp("[\\?|&]" + parameter.toLowerCase() + "=([^&#]*)");
+		let results = regex.exec("?" + playerURL.toString().toLowerCase().split("?")[1]);
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
 	}
 
@@ -167,6 +165,14 @@ formReady(() => {
 			document.getElementById("shareText").classList.add("hidden");
 		}, 3500);
 	});
+
+	// Variable for streamURL
+	let streamURL = getStreamURLParam(); // Get stream URL from player URL param
+
+	// If the streamURL param was not blank
+	if (streamURL != "") {
+		streamURL = new URL(streamURL); // Get stream URL from player URL param
+	}
 
 	// If stream URL param of the player URL is not blank
 	if (streamURL != "") {
