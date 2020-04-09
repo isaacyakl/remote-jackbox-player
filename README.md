@@ -14,8 +14,14 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Work around for Apple devices refusing to show "frame-ancestors 'none'"?
+-  CORS work around for devices refusing to show "frame-ancestors 'none'"?
 -  Add warning about losing game progress when exiting/reloading page
--  Add stream URL growth on focus
+-  Stream URL bar on bottom
+-  Shrink/grow stream URL on focus
+-  Controls stacking on middle-right; swap button on top
+-  Controls bigger
+-  Share button with controls?
+-  Fulls screen button?
+-  Row split view?
 -  Block inception by keeping user from inputting URL of the Remote Jackbox Player
 -  Frame width adjustment in Split View
