@@ -3,3 +3,29 @@
 @tailwind components;
 
 @tailwind utilities;
+
+#instructions {
+	background: rgb(49, 151, 149);
+	background: -moz-linear-gradient(
+		180deg,
+		rgba(44, 122, 123, 1) 0%,
+		rgba(49, 151, 149, 1) 15%,
+		rgba(49, 151, 149, 1) 85%,
+		rgba(56, 178, 172, 1) 100%
+	);
+	background: -webkit-linear-gradient(
+		180deg,
+		rgba(44, 122, 123, 1) 0%,
+		rgba(49, 151, 149, 1) 15%,
+		rgba(49, 151, 149, 1) 85%,
+		rgba(56, 178, 172, 1) 100%
+	);
+	background: linear-gradient(
+		180deg,
+		rgba(44, 122, 123, 1) 0%,
+		rgba(49, 151, 149, 1) 15%,
+		rgba(49, 151, 149, 1) 85%,
+		rgba(56, 178, 172, 1) 100%
+	);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#319795",endColorstr="#38b2ac",GradientType=1);
+}

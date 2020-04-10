@@ -14,7 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Add a gradient to background of instructions
 -  Place Stream URL bar on bottom
 -  Stack controls on middle-right with swap button on top
 -  Enlarge controls
