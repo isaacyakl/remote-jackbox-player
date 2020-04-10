@@ -207,7 +207,7 @@ formReady(() => {
 			}
 
 			/////////////////////////////
-			//   Setup needed stream   //
+			//   Setup stream element  //
 			/////////////////////////////
 
 			// If the stream URL is for Twitch
@@ -296,8 +296,11 @@ formReady(() => {
 				// Show unknown stream element
 				showStreamFrameElement();
 
-				// Update the iframe source
-				unknownStreamElement.src = streamURLElement.value;
+				// If the stream source has not changed do not waste time updating/reloading it
+				if (unknownStreamElement.src !== streamURLElement.value) {
+					// Update the iframe source
+					unknownStreamElement.src = streamURLElement.value;
+				}
 			}
 		}
 	}
@@ -339,7 +342,13 @@ formReady(() => {
 
 	// Add event listener for instructions button
 	document.getElementById("instructionsButton").addEventListener("click", () => {
-		showStreamFrameElement("instructions"); // Show instructions element
+		// If the instructions are hidden
+		if (Array.from(instructionsElement.classList).includes("hidden")) {
+			showStreamFrameElement("instructions"); // Show instructions element
+		} else {
+			updateStreamFrame(); // Update the stream frame
+			updatePlayerURL(); // Update the player URL
+		}
 	});
 
 	// If stream URL param of the player URL is not blank
