@@ -6,17 +6,26 @@ let formReady = (callback) => {
 
 // Execute form code when DOM is ready
 formReady(() => {
-	let streamElement = document.getElementById("stream");
+	// Element variables
+	let streamFrame = document.getElementById("streamFrame");
+	let unknownStreamElement = document.getElementById("unknownStream");
+	let twitchStreamElement = document.getElementById("twitchStream");
+	let instructionsElement = document.getElementById("instructions");
 	let gameElement = document.getElementById("game");
 	let streamURLElement = document.getElementById("streamURL");
 
-	function setupSplitView() {
-		streamElement.classList.remove("lg:w-1/2");
+	// Data variables
+	let playerURL = new URL(document.location.href.toString()); // Grab current URL for the player URL used for link sharing
+	let streamURL = getStreamURLParam(); // Get stream URL from player URL param
+	let twitchChannelId = ""; // Variable to hold Twitch channel id
 
-		streamElement.classList.add("static");
-		streamElement.classList.add("w-1/2");
-		streamElement.classList.remove("absolute");
-		streamElement.classList.remove("w-screen");
+	function setupSplitView() {
+		streamFrame.classList.remove("lg:w-1/2");
+
+		streamFrame.classList.add("static");
+		streamFrame.classList.add("w-1/2");
+		streamFrame.classList.remove("absolute");
+		streamFrame.classList.remove("w-screen");
 
 		gameElement.classList.remove("lg:w-1/2");
 
@@ -27,12 +36,12 @@ formReady(() => {
 	}
 
 	function setupSwapView() {
-		streamElement.classList.remove("lg:w-1/2");
+		streamFrame.classList.remove("lg:w-1/2");
 
-		streamElement.classList.remove("static");
-		streamElement.classList.remove("w-1/2");
-		streamElement.classList.add("absolute");
-		streamElement.classList.add("w-screen");
+		streamFrame.classList.remove("static");
+		streamFrame.classList.remove("w-1/2");
+		streamFrame.classList.add("absolute");
+		streamFrame.classList.add("w-screen");
 
 		gameElement.classList.remove("lg:w-1/2");
 
@@ -43,15 +52,15 @@ formReady(() => {
 	}
 
 	function swapView() {
-		if (streamElement.classList.contains("z-10")) {
-			streamElement.classList.remove("z-10");
-			streamElement.classList.add("z-20");
+		if (streamFrame.classList.contains("z-10")) {
+			streamFrame.classList.remove("z-10");
+			streamFrame.classList.add("z-20");
 
 			gameElement.classList.remove("z-20");
 			gameElement.classList.add("z-10");
 		} else {
-			streamElement.classList.remove("z-20");
-			streamElement.classList.add("z-10");
+			streamFrame.classList.remove("z-20");
+			streamFrame.classList.add("z-10");
 
 			gameElement.classList.remove("z-10");
 			gameElement.classList.add("z-20");
@@ -79,9 +88,6 @@ formReady(() => {
 		}
 	};
 
-	let playerURL = new URL(document.location.href.toString()); // Grab current URL for the player URL used for link sharing
-	let streamURL = getStreamURLParam(); // Get stream URL from player URL param
-
 	// Function for getting stream URL from player URL param
 	// Based on: https://blog.bitscry.com/2018/08/17/getting-and-setting-url-parameters-with-javascript/
 	function getStreamURLParam() {
@@ -92,7 +98,7 @@ formReady(() => {
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
 	}
 
-	// Function for navigating the window to the player URL
+	// Function for navigating the window URL to the player URL
 	function updatePlayerURL() {
 		// Update the streamURL variable with the entered stream URL
 		streamURL = streamURLElement.value;
@@ -104,10 +110,56 @@ formReady(() => {
 		}
 	}
 
+	// Show appropriate stream type
+	function showStreamFrameElement(type) {
+		// Hide unknown Stream Element
+		function hideUnknownStream() {
+			unknownStreamElement.classList.add("hidden"); // Hide unknown stream element
+			unknownStreamElement.src = ""; // Clear unknown stream element
+		}
+
+		// Hide instructions
+		function hideInstructions() {
+			instructionsElement.classList.add("hidden"); // Hide instructions
+		}
+
+		// Hide Twitch Stream Element
+		function hideTwitchStream() {
+			twitchStreamElement.classList.add("hidden"); // Hide Twitch stream element
+			twitchStreamElement.innerHTML = ""; // Clear Twitch stream element
+			twitchChannelId = ""; // Clear Twitch channel id
+		}
+
+		if (type == "twitch") {
+			// Display twitch stream element
+			twitchStreamElement.classList.remove("hidden");
+
+			hideInstructions(); // Hide instructions
+			hideUnknownStream(); // Hide unknown stream
+		} else if (type == "instructions") {
+			// Display instructions element
+			instructionsElement.classList.remove("hidden");
+
+			hideTwitchStream(); // Hide twitch
+		}
+		// Else use unknown stream element
+		else {
+			// Display unknown stream element
+			unknownStreamElement.classList.remove("hidden");
+
+			hideInstructions(); // Hide instructions
+			hideTwitchStream(); // Hide twitch
+		}
+	}
+
 	// Function for navigating stream frame
 	function updateStreamFrame() {
 		// If the stream URL field is not blank
 		if (streamURLElement.value != "") {
+			/////////////////////////////
+			// Clean up URL formatting //
+			/////////////////////////////
+
 			// If the entered URL starts with "http://" but not "https://"
 			if (
 				streamURLElement.value.toString().startsWith("http://") &&
@@ -123,10 +175,78 @@ formReady(() => {
 				streamURLElement.value = "https://" + streamURLElement.value;
 			}
 
-			// If frame source is not the same as the value in the stream URL field (probably due to clicking the instructions button)
-			if (streamElement.src != streamURLElement.value) {
+			/////////////////////////////
+			//   Setup needed stream   //
+			/////////////////////////////
+
+			// If the stream URL is for Twitch
+			if (streamURLElement.value.toString().includes("twitch.tv")) {
+				// If Twitch channel id is blank or has changed
+				if (
+					twitchChannelId === "" ||
+					twitchChannelId !== streamURLElement.value.toString().split("/")[3]
+				) {
+					// Update the Twitch channel id
+					twitchChannelId = streamURLElement.value.toString().split("/")[3];
+
+					// Show Twitch stream
+					showStreamFrameElement("twitch");
+
+					// TTV configuration
+					let ttvConfig = () => {
+						var embed = new Twitch.Embed("twitchStream", {
+							allowfullscreen: false,
+							width: "100%",
+							height: "100%",
+							channel: twitchChannelId,
+							theme: "dark",
+							layout: "video-with-chat",
+							autoplay: true,
+							// only needed if your site is also embedded on embed.example.com and othersite.example.com
+							parent: [
+								"remote-jackbox-player.isaacyakl.com",
+								"isaacyakl.com",
+								"isaacyakl.github.io",
+							],
+						});
+
+						embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
+							var player = embed.getPlayer();
+							player.play();
+						});
+					};
+
+					// If the Twitch embed script has not previously been loaded
+					if (
+						document.getElementById("ttvEmbedScript") == null ||
+						document.getElementById("ttvEmbedScript") == undefined
+					) {
+						// Load and configure Twitch script
+						let ttvEmbedScript = document.createElement("script");
+						ttvEmbedScript.setAttribute("id", "ttvEmbedScript");
+						ttvEmbedScript.setAttribute("type", "text/javascript");
+						ttvEmbedScript.setAttribute("src", "https://embed.twitch.tv/embed/v1.js");
+						ttvEmbedScript.addEventListener("load", ttvConfig);
+
+						document.body.appendChild(ttvEmbedScript); // Append Twitch script
+					}
+					// Else it has already loaded
+					else {
+						// Clear any previous Twitch streams
+						twitchStreamElement.innerHTML = "";
+
+						// Configure Twitch stream
+						ttvConfig();
+					}
+				}
+			} // If the stream URL is for Mixer
+			// Use unknown stream element
+			else {
+				// Show unknown stream element
+				showStreamFrameElement();
+
 				// Update the iframe source
-				streamElement.src = streamURLElement.value;
+				unknownStreamElement.src = streamURLElement.value;
 			}
 		}
 	}
@@ -154,23 +274,6 @@ formReady(() => {
 		updatePlayerURL(); // Update the player URL
 	});
 
-	// Add event listener for iframe location
-	streamElement.addEventListener("load", () => {
-		// Violates cross-origin frame policy
-
-		// When the location changes update the URL input
-		// streamURLElement.value = streamElement.contentWindow.location.href;
-
-		// If Chrome blocked due to cross-origin frame policy
-		if (
-			streamURLElement.value == "about:blank#blocked" ||
-			streamURLElement.value == "undefined"
-		) {
-			// Clear URL input
-			streamURLElement.value = "";
-		}
-	});
-
 	// Add event listener for share button
 	document.getElementById("shareButton").addEventListener("click", () => {
 		// Copy URL to clipboard
@@ -185,8 +288,7 @@ formReady(() => {
 
 	// Add event listener for instructions button
 	document.getElementById("instructionsButton").addEventListener("click", () => {
-		// Set stream frame to instructions page
-		streamElement.src = "instructions.html";
+		showStreamFrameElement("instructions"); // Show instructions element
 	});
 
 	// If stream URL param of the player URL is not blank
@@ -194,7 +296,7 @@ formReady(() => {
 		// Set the stream URL input element to the stream URL
 		streamURLElement.value = streamURL;
 
-		// Set the stream element to the stream URL param
-		streamElement.src = streamURL;
+		// Show the stream
+		updateStreamFrame();
 	}
 });

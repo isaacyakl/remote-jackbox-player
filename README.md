@@ -22,6 +22,7 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 -  Controls bigger
 -  Share button with controls?
 -  Fulls screen button?
+-  Add support for Mixer, Steam Broadcasting, YouTubeLive,and Facebook Gaming
 -  Row split view?
 -  Block inception by keeping user from inputting URL of the Remote Jackbox Player
 -  Frame width adjustment in Split View
