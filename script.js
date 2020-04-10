@@ -10,6 +10,8 @@ formReady(() => {
 	let streamFrame = document.getElementById("streamFrame");
 	let unknownStreamElement = document.getElementById("unknownStream");
 	let twitchStreamElement = document.getElementById("twitchStream");
+	let mixerStreamElement = document.getElementById("mixerStream");
+	let mixerChatElement = document.getElementById("mixerChat");
 	let instructionsElement = document.getElementById("instructions");
 	let gameElement = document.getElementById("game");
 	let streamURLElement = document.getElementById("streamURL");
@@ -18,6 +20,7 @@ formReady(() => {
 	let playerURL = new URL(document.location.href.toString()); // Grab current URL for the player URL used for link sharing
 	let streamURL = getStreamURLParam(); // Get stream URL from player URL param
 	let twitchChannelId = ""; // Variable to hold Twitch channel id
+	let mixerChannelName = ""; // Variable to hold Mixer channel name
 
 	function setupSplitView() {
 		streamFrame.classList.remove("lg:w-1/2");
@@ -130,17 +133,44 @@ formReady(() => {
 			twitchChannelId = ""; // Clear Twitch channel id
 		}
 
+		// Hide Mixer Stream Element
+		function hideMixerStream() {
+			mixerStreamElement.classList.add("hidden"); // Hide Mixer stream element
+			mixerChatElement.classList.add("hidden"); // Hide Mixer chat element
+			mixerStreamElement.src = ""; // Clear Mixer stream element
+			mixerChatElement.src = ""; // Clear Mixer chat element
+			mixerChannelName = ""; // Clear Mixer channel name
+		}
+
+		// If type equals Twitch
 		if (type == "twitch") {
-			// Display twitch stream element
+			// Display Twitch stream element
 			twitchStreamElement.classList.remove("hidden");
 
 			hideInstructions(); // Hide instructions
 			hideUnknownStream(); // Hide unknown stream
-		} else if (type == "instructions") {
+			hideMixerStream(); // Hide Mixer stream
+		}
+		// If type equals instructions
+		else if (type == "instructions") {
 			// Display instructions element
 			instructionsElement.classList.remove("hidden");
 
+			hideUnknownStream(); // Hide unknown stream
 			hideTwitchStream(); // Hide twitch
+			hideMixerStream(); // Hide Mixer stream
+		}
+		// If type equals mixer
+		else if (type == "mixer") {
+			// Display Mixer stream element
+			mixerStreamElement.classList.remove("hidden");
+
+			// Display Mixer chat element
+			mixerChatElement.classList.remove("hidden");
+
+			hideInstructions(); // Hide instructions
+			hideUnknownStream(); // Hide unknown stream
+			hideTwitchStream(); // Hide Twitch stream
 		}
 		// Else use unknown stream element
 		else {
@@ -148,7 +178,8 @@ formReady(() => {
 			unknownStreamElement.classList.remove("hidden");
 
 			hideInstructions(); // Hide instructions
-			hideTwitchStream(); // Hide twitch
+			hideTwitchStream(); // Hide Twitch stream
+			hideMixerStream(); // Hide Mixer stream
 		}
 	}
 
@@ -238,7 +269,28 @@ formReady(() => {
 						ttvConfig();
 					}
 				}
-			} // If the stream URL is for Mixer
+			}
+			// If the stream URL is for Mixer
+			else if (streamURLElement.value.toString().includes("mixer.com")) {
+				// If Mixer channel name is blank or has changed
+				if (
+					mixerChannelName === "" ||
+					mixerChannelName !== streamURLElement.value.toString().split("/")[3]
+				) {
+					// Update the Mixer channel name
+					mixerChannelName = streamURLElement.value.toString().split("/")[3];
+
+					// Show Mixer stream
+					showStreamFrameElement("mixer");
+
+					mixerStreamElement.src =
+						"https://mixer.com/embed/player/" +
+						streamURLElement.value.toString().split("/")[3];
+
+					mixerChatElement.src =
+						"https://mixer.com/embed/chat/" + streamURLElement.value.toString().split("/")[3];
+				}
+			}
 			// Use unknown stream element
 			else {
 				// Show unknown stream element

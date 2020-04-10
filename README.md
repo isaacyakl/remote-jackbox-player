@@ -14,6 +14,7 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
+-  Add support for Steam Broadcasting, YouTubeLive,and Facebook Gaming
 -  CORS work around for devices refusing to show "frame-ancestors 'none'"?
 -  Add warning about losing game progress when exiting/reloading page
 -  Stream URL bar on bottom
@@ -23,7 +24,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 -  Change swap views icon?
 -  Share button with controls?
 -  Fullscreen button?
--  Add support for Mixer, Steam Broadcasting, YouTubeLive,and Facebook Gaming
 -  Add stream title to player title for bookmarking benefits
 -  Add "find a room" and "auto-lobby" features
 -  Row split view?
