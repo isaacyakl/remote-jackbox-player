@@ -14,18 +14,18 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Add support for YouTubeLive,and Facebook Gaming
--  CORS work around for devices refusing to show "frame-ancestors 'none'"?
--  Add warning about losing game progress when exiting/reloading page
 -  Stream URL bar on bottom
--  Shrink/grow stream URL on focus
 -  Controls stacking on middle-right; swap button on top
 -  Controls bigger
--  Change swap views icon?
+-  Shrink/grow stream URL on focus
 -  Share button with controls?
+-  Change swap views icon?
 -  Fullscreen button?
--  Add stream title to player title for bookmarking benefits
--  Add "find a room" and "auto-lobby" features
 -  Row split view?
+-  Add stream title to player title for bookmarking benefits
+-  Add warning about losing game progress when exiting/reloading page
+-  Maximize browser support/polyfill/evaluate minimum reqs
+-  Add support for YouTubeLive,and Facebook Gaming
+-  Add "find a room" and "auto-lobby" features
 -  Block inception by keeping user from inputting URL of the Remote Jackbox Player
 -  Frame width adjustment in Split View
