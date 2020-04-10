@@ -14,7 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Enlarge controls
 -  Improve touch screen response for controls
 -  Place share button with controls?
 -  Change swap views icon?
