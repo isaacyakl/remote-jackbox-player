@@ -14,7 +14,7 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Add support for Steam Broadcasting, YouTubeLive,and Facebook Gaming
+-  Add support for YouTubeLive,and Facebook Gaming
 -  CORS work around for devices refusing to show "frame-ancestors 'none'"?
 -  Add warning about losing game progress when exiting/reloading page
 -  Stream URL bar on bottom
