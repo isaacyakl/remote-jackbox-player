@@ -55,12 +55,30 @@
 				/>
 			</div>
 			<div id="streamFrame" class="z-10 w-screen h-screen lg:w-1/2">
-				<div id="instructions" class="w-full h-full bg-teal-500 text-white p-4">
-					<h1 class="text-center text-3xl mt-12">🎮 Remote Jackbox Player</h1>
-					<h2 class="text-xl text-center font-bold underline mb-4 mt-10">Instructions</h2>
+				<div id="instructions" class="w-full h-full bg-teal-600 text-white p-4 overflow-y-auto">
+					<h1
+						class="text-center text-3xl mt-12 transition duration-700 ease-in-out transform hover:scale-110"
+					>
+						<a
+							href="https://github.com/isaacyakl/remote-jackbox-player"
+							title="Visit code base"
+							>🎮 Remote Jackbox Player</a
+						>
+					</h1>
+					<p class="text-center mt-4">
+						Play
+						<a href="https://jackboxgames.com" target="_blank">Jackbox games</a> remotely
+						using one device/browser window!<br />Try it on your mobile device 📲
+					</p>
+
+					<h2
+						class="text-xl text-center font-bold mb-4 mt-8 p-1 shadow-inner rounded bg-teal-500"
+					>
+						How to play
+					</h2>
 					<p class="text-xl text-center mb-4">
-						<i class="fas fa-level-down-alt transform rotate-180 mr-2"></i> Paste a stream URL
-						in the field above.
+						<i class="fas fa-level-down-alt transform rotate-180 mr-2"></i>
+						Paste a stream URL in the field above.
 					</p>
 					<p class="text-xl text-center mb-4">
 						<i class="fas fa-search mr-2"></i> Find or ask for the 4-letter room code.
@@ -71,7 +89,11 @@
 					<p class="text-xl text-center mb-4">
 						<i class="fas fa-gamepad mr-2"></i> Play with your friends!
 					</p>
-					<h2 class="text-xl text-center font-bold underline mb-4 mt-10">Controls</h2>
+					<h2
+						class="text-xl text-center font-bold mb-4 mt-6 p-1 shadow-inner rounded bg-teal-500"
+					>
+						Controls
+					</h2>
 					<p class="text-xl text-center mb-4">
 						<i class="fas fa-clone mr-2"></i> Swap between stream and game view
 					</p>
@@ -84,24 +106,36 @@
 					<p class="text-xl text-center mb-4">
 						<i class="fas fa-question mr-2"></i> Show instructions
 					</p>
-					<h2 class="text-xl text-center font-bold underline mb-4 mt-10">
-						Supported Stream Sources
+					<h2
+						class="text-xl text-center font-bold mb-4 mt-6 p-1 shadow-inner rounded bg-teal-500"
+					>
+						Supported Streaming Platforms
 					</h2>
-					<p class="text-xl text-center mb-4"><i class="fab fa-mixer mr-2"></i> Mixer</p>
-					<p class="text-sm text-center mt-4">
+					<p class="text-center mb-4">
+						Game owners, stream your game on one of these supported platforms so others can
+						join you.
+					</p>
+					<p class="text-center text-2xl mb-4">
+						<a href="https://twitch.tv/search?term=jackbox" target="_blank"
+							><i class="fab fa-twitch"></i></a
+						><a href="https://mixer.com/browse/games" target="_blank">
+							<i class="fab fa-mixer"></i>
+						</a>
+					</p>
+					<p class="text-center mt-10">
 						<a
 							href="https://github.com/isaacyakl/remote-jackbox-player/issues/new"
 							target="_blank"
 							>Report a <i class="fas fa-bug"></i
 						></a>
 					</p>
-					<p class="text-sm text-center mt-4">
+					<p class="text-center mt-1">
 						Created by <a href="https://isaacyakl.com" target="_blank">yak</a><br />
 						<a href="https://twitter.com/isaacyakl/" target="_blank"
-							><i class="fab fa-twitter"></i
+							><i class="fab fa-twitter text-lg"></i
 						></a>
 						<a href="https://github.com/isaacyakl/" target="_blank"
-							><i class="fab fa-github"></i
+							><i class="fab fa-github text-lg"></i
 						></a>
 					</p>
 				</div>
@@ -132,6 +166,6 @@
 				>
 			</div>
 		</main>
-		<script src="script.js" type="text/javascript"></script>
+		<script src="script.js"></script>
 	</body>
 </html>

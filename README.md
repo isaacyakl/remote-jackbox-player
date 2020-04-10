@@ -1,10 +1,10 @@
 # remote-jackbox-player
 
-Play Jackbox games with your friends remotely.
+Play Jackbox games remotely using one device/browser window!
 
-Play now [on my website](https://remote-jackbox-player.isaacyakl.com)
-or
-[on GitHub](https://isaacyakl.github.io/remote-jackbox-player/)
+Try it on your mobile device 📲 
+
+[Launch ↗️](https://remote-jackbox-player.isaacyakl.com)
 
 Distributed under the [MIT License](https://isaacyakl.github.io/remote-jackbox-player/LICENSE).
 
@@ -20,9 +20,12 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 -  Shrink/grow stream URL on focus
 -  Controls stacking on middle-right; swap button on top
 -  Controls bigger
+-  Change swap views icon?
 -  Share button with controls?
--  Fulls screen button?
+-  Fullscreen button?
 -  Add support for Mixer, Steam Broadcasting, YouTubeLive,and Facebook Gaming
+-  Add stream title to player title for bookmarking benefits
+-  Add "find a room" and "auto-lobby" features
 -  Row split view?
 -  Block inception by keeping user from inputting URL of the Remote Jackbox Player
 -  Frame width adjustment in Split View

@@ -224,7 +224,6 @@ formReady(() => {
 						// Load and configure Twitch script
 						let ttvEmbedScript = document.createElement("script");
 						ttvEmbedScript.setAttribute("id", "ttvEmbedScript");
-						ttvEmbedScript.setAttribute("type", "text/javascript");
 						ttvEmbedScript.setAttribute("src", "https://embed.twitch.tv/embed/v1.js");
 						ttvEmbedScript.addEventListener("load", ttvConfig);
 
