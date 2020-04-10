@@ -13958,6 +13958,18 @@ video {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#319795",endColorstr="#38b2ac",GradientType=1);
 }
 
+#layoutControls {
+  top: 40%;
+}
+
+#mixerStream {
+  height: 50%;
+}
+
+#mixerChat {
+  height: 50%;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;
