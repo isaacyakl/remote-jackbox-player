@@ -14,7 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Stack controls on middle-right with swap button on top
 -  Enlarge controls
 -  Improve touch screen response for controls
 -  Place share button with controls?
