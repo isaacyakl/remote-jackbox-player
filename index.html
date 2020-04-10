@@ -12,48 +12,9 @@
 		<script src="https://kit.fontawesome.com/c7c7078646.js" crossorigin="anonymous"></script>
 	</head>
 	<body>
-		<div
-			id="layoutControls"
-			class="fixed bg-white rounded-bl shadow z-50 p-1 top-0 right-0"
-			role="menubar"
-		>
-			<i
-				id="splitViewButton"
-				class="fas fa-columns p-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
-				role="button"
-				title="Split View"
-			></i>
-			<i
-				id="swapViewButton"
-				class="fas fa-clone p-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
-				role="button"
-				title="Swap Views"
-			></i>
-		</div>
+		<!-- Viewer -->
 		<main id="viewer" class="flex flex-wrap">
-			<div
-				id="streamURLBar"
-				class="fixed bg-white rounded-br shadow z-40 p-1 top-0 truncate"
-				role="navigation"
-			>
-				<i
-					id="instructionsButton"
-					class="fas fa-question p-1 mr-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
-					role="button"
-					title="Read Instructions"
-				></i>
-				<input
-					type="url"
-					name="streamURL"
-					id="streamURL"
-					placeholder="Paste a stream URL here..."
-					pattern="https://.*"
-					class="pl-1 sm:text-3xl md:text-2xl rounded bg-teal-100 hover:bg-teal-200 hover:shadow-inner focus:bg-teal-200 overflow-hidden"
-					value=""
-					title="Enter a stream URL"
-					required
-				/>
-			</div>
+			<!-- Stream/Instructions Frame -->
 			<div id="streamFrame" class="z-10 w-screen h-screen lg:w-1/2">
 				<div id="instructions" class="w-full h-full bg-teal-600 text-white p-4 overflow-y-auto">
 					<h1
@@ -98,10 +59,10 @@
 						<i class="fas fa-clone mr-2"></i> Swap between stream and game view
 					</p>
 					<p class="text-xl text-center mb-4">
-						<i class="fas fa-columns mr-2"></i> Use split screen
+						<i class="fas fa-columns mr-2"></i> Use split screen mode
 					</p>
 					<p class="text-xl text-center mb-4">
-						<i class="fas fa-share mr-2"></i> Share a link to this stream view
+						<i class="fas fa-share mr-2"></i> Share the current stream view
 					</p>
 					<p class="text-xl text-center mb-4">
 						<i class="fas fa-question mr-2"></i> Show instructions
@@ -150,30 +111,72 @@
 				<iframe id="mixerStream" class="w-full hidden" style="height: 50%;"></iframe>
 				<iframe id="mixerChat" class="w-full hidden" style="height: 50%;"></iframe>
 			</div>
+			<!-- Game Frame -->
 			<iframe
 				id="game"
 				class="z-10 w-screen h-screen lg:w-1/2"
 				src="https://jackbox.tv/"
 			></iframe>
-			<div
-				id="shareControl"
-				class="fixed bg-white rounded-l shadow z-50 p-1 mb-5 bottom-0 right-0"
-				role="menubar"
-			>
-				<i
-					id="shareButton"
-					class="fas fa-share p-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
-					role="button"
-					title="Share this stream view"
-				></i
-				><span
-					id="shareText"
-					class="p-1 sm:text-3xl md:text-2xl font-semibold hidden"
-					role="alert"
-					>Link copied!</span
-				>
-			</div>
 		</main>
+		<!-- Controls -->
+		<div
+			id="layoutControls"
+			class="fixed bg-white rounded-bl shadow z-50 p-1 top-0 right-0"
+			role="menubar"
+		>
+			<i
+				id="splitViewButton"
+				class="fas fa-columns p-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
+				role="button"
+				title="Split View"
+			></i>
+			<i
+				id="swapViewButton"
+				class="fas fa-clone p-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
+				role="button"
+				title="Swap Views"
+			></i>
+		</div>
+		<!-- Stream URL Bar -->
+		<div
+			id="streamURLBar"
+			class="fixed bg-white rounded-br shadow z-40 p-1 top-0 truncate"
+			role="navigation"
+		>
+			<i
+				id="instructionsButton"
+				class="fas fa-question p-1 mr-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
+				role="button"
+				title="Read Instructions"
+			></i>
+			<input
+				type="url"
+				name="streamURL"
+				id="streamURL"
+				placeholder="Paste a stream URL here"
+				pattern="https://.*"
+				class="pl-1 sm:text-3xl md:text-2xl rounded bg-teal-100 hover:bg-teal-200 hover:shadow-inner focus:bg-teal-200 overflow-hidden"
+				value=""
+				title="Enter a stream URL"
+				required
+			/>
+		</div>
+		<!-- Share Control -->
+		<div
+			id="shareControl"
+			class="fixed bg-white rounded-l shadow z-50 p-1 mb-5 bottom-0 right-0"
+			role="menubar"
+		>
+			<i
+				id="shareButton"
+				class="fas fa-share p-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
+				role="button"
+				title="Share this stream view"
+			></i
+			><span id="shareText" class="p-1 sm:text-3xl md:text-2xl font-semibold hidden" role="alert"
+				>URL copied!</span
+			>
+		</div>
 		<script src="script.js"></script>
 	</body>
 </html>

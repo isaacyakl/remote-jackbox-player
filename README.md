@@ -14,14 +14,17 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Stream URL bar on bottom
--  Controls stacking on middle-right; swap button on top
--  Controls bigger
--  Shrink/grow stream URL on focus
--  Share button with controls?
+-  Add a gradient to background of instructions
+-  Place Stream URL bar on bottom
+-  Stack controls on middle-right with swap button on top
+-  Enlarge controls
+-  Improve touch screen response for controls
+-  Place share button with controls?
 -  Change swap views icon?
--  Fullscreen button?
--  Row split view?
+-  Clear streamURL param if URL bar is empty
+-  Shrink/grow stream URL on focus
+-  Add fullscreen button?
+-  Add row split view?
 -  Add stream title to player title for bookmarking benefits
 -  Add warning about losing game progress when exiting/reloading page
 -  Maximize browser support/polyfill/evaluate minimum reqs
