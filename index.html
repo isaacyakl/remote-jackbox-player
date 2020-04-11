@@ -18,7 +18,7 @@
 			<div id="streamFrame" class="z-10 w-screen h-screen lg:w-1/2">
 				<div id="instructions" class="w-full h-full bg-teal-600 text-white p-4 overflow-y-auto">
 					<h1
-						class="text-center text-3xl mt-12 font-bold transition duration-700 ease-in-out transform hover:scale-110"
+						class="text-center text-3xl font-bold transition duration-500 ease-in-out transform hover:scale-95"
 					>
 						<a
 							href="https://github.com/isaacyakl/remote-jackbox-player"
@@ -38,8 +38,8 @@
 						How to play
 					</h2>
 					<p class="text-xl text-center mb-4">
-						<i class="fas fa-level-down-alt transform rotate-180 mr-2"></i>
-						Paste a stream URL in the field above.
+						<i class="fas fa-reply transform -rotate-90 mr-2"></i>
+						Paste a stream URL in the field below.
 					</p>
 					<p class="text-xl text-center mb-4">
 						<i class="fas fa-search mr-2"></i> Find or ask for the 4-letter room code.
@@ -78,15 +78,21 @@
 					</p>
 					<p class="text-center text-2xl mb-4">
 						<a href="https://twitch.tv/search?term=jackbox" target="_blank"
-							><i class="fab fa-twitch"></i></a
+							><i
+								class="fab fa-twitch transition duration-300 ease-in-out transform hover:scale-125"
+							></i></a
 						><a href="https://mixer.com/browse/games" target="_blank">
-							<i class="fab fa-mixer"></i>
+							<i
+								class="fab fa-mixer transition duration-300 ease-in-out transform hover:scale-125"
+							></i>
 						</a>
 						<a
 							href="https://steamcommunity.com/?subsection=broadcasts"
 							target="_blank"
 							rel="noopener noreferrer"
-							><i class="fab fa-steam-symbol"></i
+							><i
+								class="fab fa-steam-symbol transition duration-300 ease-in-out transform hover:scale-125"
+							></i
 						></a>
 					</p>
 					<p class="text-center mt-10">
@@ -108,8 +114,8 @@
 				</div>
 				<iframe id="unknownStream" class="w-full h-full hidden"></iframe>
 				<div id="twitchStream" class="w-full h-full hidden"></div>
-				<iframe id="mixerStream" class="w-full hidden" style="height: 50%;"></iframe>
-				<iframe id="mixerChat" class="w-full hidden" style="height: 50%;"></iframe>
+				<iframe id="mixerStream" class="w-full hidden"></iframe>
+				<iframe id="mixerChat" class="w-full hidden"></iframe>
 			</div>
 			<!-- Game Frame -->
 			<iframe
@@ -121,41 +127,32 @@
 		<!-- Controls -->
 		<div
 			id="layoutControls"
-			class="fixed bg-white rounded-bl shadow z-50 p-1 top-0 right-0"
+			class="fixed bg-white rounded-l shadow z-50 p-1 right-0 text-2xl"
 			role="menubar"
 		>
-			<i
-				id="splitViewButton"
-				class="fas fa-columns p-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
-				role="button"
-				title="Split View"
-			></i>
-			<i
-				id="swapViewButton"
-				class="fas fa-clone p-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
-				role="button"
-				title="Swap Views"
-			></i>
+			<button id="swapViewButton" title="Swap Views" class="px-2 py-1 rounded-tl">
+				<i class="fas fa-clone"></i></button
+			><br />
+			<button id="splitViewButton" title="Split View" class="px-2 py-1 rounded-bl">
+				<i class="fas fa-columns"></i>
+			</button>
 		</div>
 		<!-- Stream URL Bar -->
 		<div
 			id="streamURLBar"
-			class="fixed bg-white rounded-br shadow z-40 p-1 top-0 truncate"
+			class="fixed bg-white rounded-r shadow z-40 p-1 mb-10 bottom-0 truncate text-2xl"
 			role="navigation"
 		>
-			<i
-				id="instructionsButton"
-				class="fas fa-question p-1 mr-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
-				role="button"
-				title="Read Instructions"
-			></i>
+			<button id="instructionsButton" title="Read Instructions" class="px-2 py-1">
+				<i class="fas fa-question"></i>
+			</button>
 			<input
 				type="url"
 				name="streamURL"
 				id="streamURL"
 				placeholder="Paste a stream URL here"
 				pattern="https://.*"
-				class="pl-1 sm:text-3xl md:text-2xl rounded bg-teal-100 hover:bg-teal-200 hover:shadow-inner focus:bg-teal-200 overflow-hidden"
+				class="pl-1 py-1 rounded-r bg-teal-100 hover:bg-teal-200 hover:shadow-inner focus:bg-teal-200 overflow-hidden"
 				value=""
 				title="Enter a stream URL"
 				required
@@ -164,18 +161,13 @@
 		<!-- Share Control -->
 		<div
 			id="shareControl"
-			class="fixed bg-white rounded-l shadow z-50 p-1 mb-5 bottom-0 right-0"
+			class="fixed bg-white rounded-l shadow z-50 p-1 mb-10 bottom-0 right-0 text-2xl"
 			role="menubar"
 		>
-			<i
-				id="shareButton"
-				class="fas fa-share p-1 sm:text-3xl md:text-2xl hover:bg-teal-300 hover:shadow-inner rounded"
-				role="button"
-				title="Share this stream view"
-			></i
-			><span id="shareText" class="p-1 sm:text-3xl md:text-2xl font-semibold hidden" role="alert"
-				>URL copied!</span
-			>
+			<button id="shareButton" title="Share this stream view" class="px-2 py-1 rounded-l">
+				<i class="fas fa-share"></i>
+			</button>
+			<span id="shareText" class="rounded hidden" role="alert">URL copied!</span>
 		</div>
 		<script src="script.js"></script>
 	</body>
