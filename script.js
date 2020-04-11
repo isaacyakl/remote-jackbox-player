@@ -119,19 +119,19 @@ formReady(() => {
 	}
 
 	// Function for navigating the window URL to the player URL
-	function updatePlayerURL() {
+	function updateWindowURL() {
 		// Update the streamURL variable with the entered stream URL
 		streamURL = streamURLElement.value;
 
 		// If there is a stream URL entered
 		if (streamURL != "") {
 			playerURL.searchParams.set("streamURL", streamURLElement.value); // Add stream URL as a param to the player URL
-			window.history.replaceState(null, null, "?streamURL=" + encodeURIComponent(streamURL)); // Add the streamURL to the window URL
+			window.history.pushState(null, null, "?streamURL=" + encodeURIComponent(streamURL)); // Add the streamURL to the window URL
 		}
 		// Else it is empty
 		else {
 			playerURL.searchParams.delete("streamURL"); // Delete streamURL param from the player URL
-			window.history.replaceState(null, null, "/"); // Remove the streamURL param
+			window.history.pushState(null, null, "/"); // Remove the streamURL param
 		}
 	}
 
@@ -359,13 +359,21 @@ formReady(() => {
 	// Add event listener for URL input field
 	streamURLElement.addEventListener("input", () => {
 		updateStreamFrame(); // Update the stream frame
-		updatePlayerURL(); // Update the player URL
+		updateWindowURL(); // Update the player URL
 	});
 
 	// Add event listener for URL input field
 	streamURLElement.addEventListener("focus", () => {
 		updateStreamFrame(); // Update the stream frame
-		updatePlayerURL(); // Update the player URL
+		updateWindowURL(); // Update the player URL
+	});
+
+	// Add event listener to update the stream frame and URL input if the user presses the "Back" or "Forward" buttons
+	window.addEventListener("popstate", () => {
+		playerURL = new URL(document.location.toString()); // Update playerURL
+		streamURL = getStreamURLParam(); // Extract streamURL
+		streamURLElement.value = streamURL; // Set the stream URL input to the extracted stream URL
+		updateStreamFrame(); // Update the stream frame
 	});
 
 	// Add event listener for share button
@@ -388,7 +396,7 @@ formReady(() => {
 			showStreamFrameElement("instructions"); // Show instructions element
 		} else {
 			updateStreamFrame(); // Update the stream frame
-			updatePlayerURL(); // Update the player URL
+			updateWindowURL(); // Update the player URL
 		}
 	});
 
