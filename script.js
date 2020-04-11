@@ -110,6 +110,11 @@ formReady(() => {
 			playerURL.searchParams.set("streamURL", streamURLElement.value); // Add stream URL as a param to the player URL
 			window.history.replaceState(null, null, "?streamURL=" + encodeURIComponent(streamURL)); // Add the streamURL to the window URL
 		}
+		// Else it is empty
+		else {
+			// Remove the streamURL param
+			window.history.replaceState(null, null, "/");
+		}
 	}
 
 	// Show appropriate stream type
