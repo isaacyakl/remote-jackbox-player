@@ -130,8 +130,8 @@ formReady(() => {
 		}
 		// Else it is empty
 		else {
-			// Remove the streamURL param
-			window.history.replaceState(null, null, "/");
+			playerURL.searchParams.delete("streamURL"); // Delete streamURL param from the player URL
+			window.history.replaceState(null, null, "/"); // Remove the streamURL param
 		}
 	}
 
