@@ -69,7 +69,7 @@ formReady(() => {
 		}
 	}
 
-	// Function for setting up scroll view mode
+	// Function for setting up scroll view
 	function setupScrollView() {
 		streamFrame.classList.remove("lg:w-1/2");
 		streamFrame.classList.remove("w-1/2");
@@ -342,18 +342,18 @@ formReady(() => {
 
 	// Add event listener for the split view button
 	document.getElementById("splitViewButton").addEventListener("click", () => {
-		setupSplitView(); // Setup split view mode
+		setupSplitView(); // Setup split view
 	});
 
 	// Add event listener for the swap view button
 	document.getElementById("swapViewButton").addEventListener("click", () => {
-		setupSwapView(); // Setup swap view mode
+		setupSwapView(); // Setup swap view
 		swapView(); // Swap view
 	});
 
 	// Add event listener for the scroll view button
 	document.getElementById("scrollViewButton").addEventListener("click", () => {
-		setupScrollView(); // Setup scroll view mode
+		setupScrollView(); // Setup scroll view
 	});
 
 	// Add event listener for URL input field
