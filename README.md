@@ -14,7 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Clicking instructions symbol always switches to stream frame
 -  Place share button with controls?
 -  Change swap views icon?
 -  Shrink/grow stream URL on focus

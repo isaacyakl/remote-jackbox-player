@@ -342,18 +342,18 @@ formReady(() => {
 
 	// Add event listener for the split view button
 	document.getElementById("splitViewButton").addEventListener("click", () => {
-		setupSplitView();
+		setupSplitView(); // Setup split view mode
 	});
 
 	// Add event listener for the swap view button
 	document.getElementById("swapViewButton").addEventListener("click", () => {
-		setupSwapView();
-		swapView();
+		setupSwapView(); // Setup swap view mode
+		swapView(); // Swap view
 	});
 
 	// Add event listener for the scroll view button
 	document.getElementById("scrollViewButton").addEventListener("click", () => {
-		setupScrollView();
+		setupScrollView(); // Setup scroll view mode
 	});
 
 	// Add event listener for URL input field
@@ -384,6 +384,7 @@ formReady(() => {
 	document.getElementById("instructionsButton").addEventListener("click", () => {
 		// If the instructions are hidden
 		if (Array.from(instructionsElement.classList).includes("hidden")) {
+			streamFrame.scrollIntoView(true); // Bring the stream frame into view
 			showStreamFrameElement("instructions"); // Show instructions element
 		} else {
 			updateStreamFrame(); // Update the stream frame
