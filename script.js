@@ -22,38 +22,37 @@ formReady(() => {
 	let twitchChannelId = ""; // Variable to hold Twitch channel id
 	let mixerChannelName = ""; // Variable to hold Mixer channel name
 
+	// Function for setting up split view
 	function setupSplitView() {
 		streamFrame.classList.remove("lg:w-1/2");
-
-		streamFrame.classList.add("static");
-		streamFrame.classList.add("w-1/2");
 		streamFrame.classList.remove("absolute");
 		streamFrame.classList.remove("w-screen");
+		streamFrame.classList.add("static");
+		streamFrame.classList.add("w-1/2");
 
 		gameElement.classList.remove("lg:w-1/2");
-
-		gameElement.classList.add("static");
-		gameElement.classList.add("w-1/2");
 		gameElement.classList.remove("absolute");
 		gameElement.classList.remove("w-screen");
+		gameElement.classList.add("static");
+		gameElement.classList.add("w-1/2");
 	}
 
+	// Function for setting up swap view
 	function setupSwapView() {
 		streamFrame.classList.remove("lg:w-1/2");
-
 		streamFrame.classList.remove("static");
 		streamFrame.classList.remove("w-1/2");
 		streamFrame.classList.add("absolute");
 		streamFrame.classList.add("w-screen");
 
 		gameElement.classList.remove("lg:w-1/2");
-
 		gameElement.classList.remove("static");
 		gameElement.classList.remove("w-1/2");
 		gameElement.classList.add("absolute");
 		gameElement.classList.add("w-screen");
 	}
 
+	// Function for swapping which frame is in front
 	function swapView() {
 		if (streamFrame.classList.contains("z-10")) {
 			streamFrame.classList.remove("z-10");

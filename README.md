@@ -14,7 +14,8 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Improve touch screen response for controls
+-  Clicking swap button always goes to the view that is not in front
+-  Clicking instructions symbol always switches to stream frame
 -  Place share button with controls?
 -  Change swap views icon?
 -  Clear streamURL param if URL bar is empty

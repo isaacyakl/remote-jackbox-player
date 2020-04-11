@@ -130,19 +130,12 @@
 			class="fixed bg-white rounded-l shadow z-50 p-1 right-0 text-2xl"
 			role="menubar"
 		>
-			<i
-				id="swapViewButton"
-				class="fas fa-clone p-1 hover:bg-teal-300 hover:shadow-inner rounded"
-				role="button"
-				title="Swap Views"
-			></i
+			<button id="swapViewButton" title="Swap Views" class="px-2 py-1 rounded">
+				<i class="fas fa-clone"></i></button
 			><br />
-			<i
-				id="splitViewButton"
-				class="fas fa-columns p-1 hover:bg-teal-300 hover:shadow-inner rounded"
-				role="button"
-				title="Split View"
-			></i>
+			<button id="splitViewButton" title="Split View" class="px-2 py-1 rounded">
+				<i class="fas fa-columns"></i>
+			</button>
 		</div>
 		<!-- Stream URL Bar -->
 		<div
@@ -150,12 +143,9 @@
 			class="fixed bg-white rounded-tr shadow z-40 p-1 mb-10 bottom-0 truncate text-2xl"
 			role="navigation"
 		>
-			<i
-				id="instructionsButton"
-				class="fas fa-question p-1 mr-1 hover:bg-teal-300 hover:shadow-inner rounded"
-				role="button"
-				title="Read Instructions"
-			></i>
+			<button id="instructionsButton" title="Read Instructions" class="px-2 py-1 rounded">
+				<i class="fas fa-question"></i>
+			</button>
 			<input
 				type="url"
 				name="streamURL"
@@ -174,13 +164,10 @@
 			class="fixed bg-white rounded-l shadow z-50 p-1 mb-10 bottom-0 right-0 text-2xl"
 			role="menubar"
 		>
-			<i
-				id="shareButton"
-				class="fas fa-share p-1 hover:bg-teal-300 hover:shadow-inner rounded"
-				role="button"
-				title="Share this stream view"
-			></i
-			><span id="shareText" class="p-1 font-semibold hidden" role="alert">URL copied!</span>
+			<button id="shareButton" title="Share this stream view" class="px-2 py-1 rounded">
+				<i class="fas fa-share"></i>
+			</button>
+			<span id="shareText" class="rounded hidden" role="alert">URL copied!</span>
 		</div>
 		<script src="script.js"></script>
 	</body>
