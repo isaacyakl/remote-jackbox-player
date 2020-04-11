@@ -20,7 +20,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 -  Shrink/grow stream URL on focus
 -  Add fullscreen button?
 -  Add suggested streams: https://twitch.tv/jackboxgames
--  Add row split view?
 -  Add stream title to player title for bookmarking benefits
 -  Add warning about losing game progress when exiting/reloading page
 -  Maximize browser support/polyfill/evaluate minimum reqs

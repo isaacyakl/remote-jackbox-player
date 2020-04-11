@@ -69,6 +69,24 @@ formReady(() => {
 		}
 	}
 
+	// Function for setting up scroll view mode
+	function setupScrollView() {
+		streamFrame.classList.remove("lg:w-1/2");
+		streamFrame.classList.remove("w-1/2");
+		streamFrame.classList.remove("absolute");
+		streamFrame.classList.add("w-screen");
+		streamFrame.classList.add("h-screen");
+		streamFrame.classList.add("static");
+
+		gameElement.classList.remove("lg:w-1/2");
+		gameElement.classList.remove("w-1/2");
+		gameElement.classList.remove("absolute");
+		gameElement.classList.add("w-screen");
+		gameElement.classList.add("h-screen");
+		gameElement.classList.add("static");
+	}
+
+	// Function for copying a string to clipboard
 	const copyToClipboard = (str) => {
 		const el = document.createElement("textarea"); // Create a <textarea> element
 		el.value = str; // Set its value to the string that you want copied
@@ -331,6 +349,11 @@ formReady(() => {
 	document.getElementById("swapViewButton").addEventListener("click", () => {
 		setupSwapView();
 		swapView();
+	});
+
+	// Add event listener for the scroll view button
+	document.getElementById("scrollViewButton").addEventListener("click", () => {
+		setupScrollView();
 	});
 
 	// Add event listener for URL input field
