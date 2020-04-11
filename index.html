@@ -130,20 +130,20 @@
 			class="fixed bg-white rounded-l shadow z-50 p-1 right-0 text-2xl"
 			role="menubar"
 		>
-			<button id="swapViewButton" title="Swap Views" class="px-2 py-1 rounded">
+			<button id="swapViewButton" title="Swap Views" class="px-2 py-1 rounded-tl">
 				<i class="fas fa-clone"></i></button
 			><br />
-			<button id="splitViewButton" title="Split View" class="px-2 py-1 rounded">
+			<button id="splitViewButton" title="Split View" class="px-2 py-1 rounded-bl">
 				<i class="fas fa-columns"></i>
 			</button>
 		</div>
 		<!-- Stream URL Bar -->
 		<div
 			id="streamURLBar"
-			class="fixed bg-white rounded-tr shadow z-40 p-1 mb-10 bottom-0 truncate text-2xl"
+			class="fixed bg-white rounded-r shadow z-40 p-1 mb-10 bottom-0 truncate text-2xl"
 			role="navigation"
 		>
-			<button id="instructionsButton" title="Read Instructions" class="px-2 py-1 rounded">
+			<button id="instructionsButton" title="Read Instructions" class="px-2 py-1">
 				<i class="fas fa-question"></i>
 			</button>
 			<input
@@ -152,7 +152,7 @@
 				id="streamURL"
 				placeholder="Paste a stream URL here"
 				pattern="https://.*"
-				class="pl-1 rounded bg-teal-100 hover:bg-teal-200 hover:shadow-inner focus:bg-teal-200 overflow-hidden"
+				class="pl-1 py-1 rounded-r bg-teal-100 hover:bg-teal-200 hover:shadow-inner focus:bg-teal-200 overflow-hidden"
 				value=""
 				title="Enter a stream URL"
 				required
@@ -164,7 +164,7 @@
 			class="fixed bg-white rounded-l shadow z-50 p-1 mb-10 bottom-0 right-0 text-2xl"
 			role="menubar"
 		>
-			<button id="shareButton" title="Share this stream view" class="px-2 py-1 rounded">
+			<button id="shareButton" title="Share this stream view" class="px-2 py-1 rounded-l">
 				<i class="fas fa-share"></i>
 			</button>
 			<span id="shareText" class="rounded hidden" role="alert">URL copied!</span>
