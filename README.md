@@ -14,7 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Clear stream URL bar if it has "https:/" in it from backspacing
 -  Clear streamURL param if URL bar is empty
 -  Clicking swap button always goes to the view that is not in front
 -  Clicking instructions symbol always switches to stream frame
@@ -22,6 +21,7 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 -  Change swap views icon?
 -  Shrink/grow stream URL on focus
 -  Add fullscreen button?
+-  Add suggested streams: https://twitch.tv/jackboxgames
 -  Add row split view?
 -  Add stream title to player title for bookmarking benefits
 -  Add warning about losing game progress when exiting/reloading page

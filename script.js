@@ -199,7 +199,20 @@ formReady(() => {
 				streamURLElement.value = streamURLElement.value
 					.toString()
 					.replace(/http:\/\//, "https://");
-			} // Else if it does not start with "https://"
+			}
+			// Else if the value starts with a partial protocol (probably from backspacing)
+			else if (
+				streamURLElement.value.toString().startsWith("https:/") &&
+				!streamURLElement.value.toString().startsWith("http://") &&
+				!streamURLElement.value.toString().startsWith("https://")
+			) {
+				// Remove "https:/"
+				streamURLElement.value = "";
+
+				// Insert "https://"
+				streamURLElement.value = "https://";
+			}
+			// Else if it does not start with "https://"
 			else if (!streamURLElement.value.toString().startsWith("https://")) {
 				// Add https
 				streamURLElement.value = "https://" + streamURLElement.value;
