@@ -14,8 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Place share button with controls?
--  Change swap views icon?
 -  Shrink/grow stream URL on focus
 -  Add fullscreen button?
 -  Add suggested streams: https://twitch.tv/jackboxgames
