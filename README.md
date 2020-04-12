@@ -14,14 +14,26 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
+-  Add no script warning
+-  Add share button animation
 -  Update stream frame to instructions when stream URL input is "https://" or ""
--  Add fullscreen button?
 -  Add stream title to player title for bookmarking benefits
+-  Make page load with stream URL input in focus
+-  Disable touch input when stream URL input is focused
+-  Refresh stream frame when enter is hit in stream URL input
+-  Reload game view when stream view changes
+-  Reload button for stream view
 -  Add warning about losing game progress when exiting/reloading page
+-  Use button groups to reduce screen cover: swap reveal controls, instructions and reveal controls
+-  Add "Find random stream" feature
+-  Add controls tutorial
 -  Add suggested streams: https://twitch.tv/jackboxgames
--  Maximize browser support/polyfill/evaluate minimum reqs
--  Add left-hand control orientation
+-  Add left-hand / right-hand control orientation option
+-  Add full screen button? https://developers.google.com/web/fundamentals/native-hardware/fullscreen
+-  Add swipe gestures in swap and row views?
 -  Add support for Discord Streaming, YouTube Gaming, and Facebook Gaming
--  Add "find a room" and "auto-lobby" features
+-  Enforce max height of streamURL bar
+-  Add room/stream searching feature
+-  Maximize browser support/polyfill/evaluate minimum reqs
 -  Block inception by keeping user from inputting URL of the Remote Jackbox Player
 -  Frame width adjustment in Split View
