@@ -4,6 +4,10 @@
 
 @tailwind utilities;
 
+#layoutControls {
+	top: 40%;
+}
+
 #instructions {
 	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#38b2ac+0,319795+20,319795+80,38b2ac+100 */
 	background: #319795; /* Old browsers */
@@ -54,10 +58,6 @@
 		#38b2ac 100%
 	); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#38b2ac', endColorstr='#38b2ac',GradientType=0 ); /* IE6-8 */
-}
-
-#layoutControls {
-	top: 40%;
 }
 
 #mixerStream {

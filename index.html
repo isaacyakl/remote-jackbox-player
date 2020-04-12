@@ -146,19 +146,19 @@
 		<!-- Stream URL Bar -->
 		<div
 			id="streamURLBar"
-			class="fixed bg-white rounded-r shadow z-40 p-1 mb-10 bottom-0 truncate text-2xl"
+			class="fixed bg-white rounded-r shadow z-40 p-1 bottom-0 text-2xl mb-10"
 			role="navigation"
 		>
 			<button id="instructionsButton" title="Read instructions" class="px-2 py-1">
 				<i class="fas fa-question w-6"></i>
 			</button>
 			<input
+				id="streamURL"
 				type="url"
 				name="streamURL"
-				id="streamURL"
 				placeholder="Paste a stream URL here"
 				pattern="https://.*"
-				class="pl-1 py-1 rounded-r bg-teal-100 hover:bg-teal-200 hover:shadow-inner focus:bg-teal-200 overflow-hidden"
+				class="py-1 pl-1 rounded-r max-w-full bg-teal-100 border border-solid border-gray-400 transition-all duration-1000 ease-in-out hover:bg-teal-200 hover:shadow-inner focus:bg-teal-200"
 				value=""
 				title="Enter a stream URL"
 				required

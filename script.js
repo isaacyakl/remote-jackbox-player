@@ -340,6 +340,31 @@ formReady(() => {
 		}
 	}
 
+	// Function for updating the width of the stream URL input
+	function updateStreamURLElementWidth(state) {
+		// Variable for new width
+		let newStreamURLElementWidth = window.innerWidth; // Grab the width of the window
+
+		// If the window is a large window
+		if (newStreamURLElementWidth > 1024) {
+			// If the stream URL input is not in focus
+			if (state == "blur") {
+				newStreamURLElementWidth = Math.floor(newStreamURLElementWidth * 0.27).toString(); // Calc blur width
+			}
+			// Else if stream URL input is in focus
+			else if (state == "focus") {
+				newStreamURLElementWidth = Math.floor(newStreamURLElementWidth * 0.87).toString(); // Calc focus width
+			}
+		}
+		// Else the window is medium or smaller
+		else {
+			newStreamURLElementWidth = Math.floor(newStreamURLElementWidth * 0.7).toString(); // Calc width constant width
+		}
+
+		// Update width of stream URL input
+		streamURLElement.style.width = newStreamURLElementWidth + "px";
+	}
+
 	// Add event listener for the split view button
 	document.getElementById("splitViewButton").addEventListener("click", () => {
 		setupSplitView(); // Setup split view
@@ -356,16 +381,27 @@ formReady(() => {
 		setupScrollView(); // Setup scroll view
 	});
 
-	// Add event listener for URL input field
+	// Add event listener for URL input field input
 	streamURLElement.addEventListener("input", () => {
 		updateStreamFrame(); // Update the stream frame
 		updateWindowURL(); // Update the player URL
 	});
 
-	// Add event listener for URL input field
+	// Add event listener for URL input field focus
 	streamURLElement.addEventListener("focus", () => {
 		updateStreamFrame(); // Update the stream frame
 		updateWindowURL(); // Update the player URL
+		updateStreamURLElementWidth("focus"); // Update stream URL input width
+	});
+
+	// Add event listener for URL input field blur
+	streamURLElement.addEventListener("blur", () => {
+		updateStreamURLElementWidth("blur"); // Update stream URL input width
+	});
+
+	// Add event listener for when the viewport is resized
+	window.addEventListener("resize", () => {
+		updateStreamURLElementWidth("blur"); // Update stream URL input width
 	});
 
 	// Add event listener to update the stream frame and URL input if the user presses the "Back" or "Forward" buttons
@@ -408,4 +444,6 @@ formReady(() => {
 		// Show the stream
 		updateStreamFrame();
 	}
+
+	updateStreamURLElementWidth("blur"); // Update stream URL input width
 });

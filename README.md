@@ -14,14 +14,14 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Shrink/grow stream URL on focus
+-  Update stream frame to instructions when stream URL input is "https://" or ""
 -  Add fullscreen button?
 -  Add stream title to player title for bookmarking benefits
 -  Add warning about losing game progress when exiting/reloading page
 -  Add suggested streams: https://twitch.tv/jackboxgames
 -  Maximize browser support/polyfill/evaluate minimum reqs
 -  Add left-hand control orientation
--  Add support for YouTube Gaming and Facebook Gaming
+-  Add support for Discord Streaming, YouTube Gaming, and Facebook Gaming
 -  Add "find a room" and "auto-lobby" features
 -  Block inception by keeping user from inputting URL of the Remote Jackbox Player
 -  Frame width adjustment in Split View
