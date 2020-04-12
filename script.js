@@ -223,22 +223,18 @@ formReady(() => {
 					.toString()
 					.replace(/http:\/\//, "https://");
 			}
-			// Else if the value starts with a partial protocol (probably from backspacing)
-			else if (
-				streamURLElement.value.toString().startsWith("https:/") &&
-				!streamURLElement.value.toString().startsWith("http://") &&
-				!streamURLElement.value.toString().startsWith("https://")
-			) {
-				// Remove "https:/"
-				streamURLElement.value = "";
-
-				// Insert "https://"
-				streamURLElement.value = "https://";
-			}
 			// Else if it does not start with "https://"
 			else if (!streamURLElement.value.toString().startsWith("https://")) {
+				// Clear input
+				streamURLElement.value = "";
+
 				// Add https
-				streamURLElement.value = "https://" + streamURLElement.value;
+				streamURLElement.value = "https://";
+			}
+			// Else if the stream URL is only "https://"
+			else if (streamURLElement.value == "https://") {
+				// Show instructions
+				document.getElementById("instructionsButton").click();
 			}
 
 			/////////////////////////////
@@ -246,7 +242,7 @@ formReady(() => {
 			/////////////////////////////
 
 			// If the stream URL is for Twitch
-			if (streamURLElement.value.toString().includes("twitch.tv")) {
+			else if (streamURLElement.value.toString().includes("twitch.tv")) {
 				// If Twitch channel id is blank or has changed
 				if (
 					twitchChannelId === "" ||
@@ -338,6 +334,11 @@ formReady(() => {
 				}
 			}
 		}
+		// Else switch to instructions
+		else {
+			// Click the instructions button
+			document.getElementById("instructionsButton").click();
+		}
 	}
 
 	// Function for updating the width of the stream URL input
@@ -396,6 +397,8 @@ formReady(() => {
 
 	// Add event listener for URL input field blur
 	streamURLElement.addEventListener("blur", () => {
+		updateStreamFrame(); // Update the stream frame
+		updateWindowURL(); // Update the player URL
 		updateStreamURLElementWidth("blur"); // Update stream URL input width
 	});
 
