@@ -17,8 +17,9 @@ formReady(() => {
 	let streamURLElement = document.getElementById("streamURL");
 
 	// Data variables
-	let playerURL = new URL(document.location.href.toString()); // Grab current URL for the player URL used for link sharing
-	let streamURL = getStreamURLParam(); // Get stream URL from player URL param
+	let documentTitle = "Remote Jackbox Player"; // Variable holding the official app title
+	let playerURL = null; // Variable for the player URL used for link sharing
+	let streamURL = "";
 	let twitchChannelId = ""; // Variable to hold Twitch channel id
 	let mixerChannelName = ""; // Variable to hold Mixer channel name
 
@@ -118,20 +119,42 @@ formReady(() => {
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
 	}
 
-	// Function for navigating the window URL to the player URL
-	function updateWindowURL() {
-		// Update the streamURL variable with the entered stream URL
-		streamURL = streamURLElement.value;
+	// Function for updating the player's state based on new user input
+	function updatePlayer() {
+		// If the stream URL input is different than the last saved one
+		if (streamURLElement.value != streamURL) {
+			// Update the streamURL variable with the entered stream URL
+			streamURL = streamURLElement.value;
 
-		// If there is a stream URL entered
+			// If there is a stream URL entered
+			if (streamURL != "") {
+				document.title = `${documentTitle} - ${streamURL}`; // Update document title
+				playerURL.searchParams.set("streamURL", streamURLElement.value); // Add stream URL as a param to the player URL
+				window.history.pushState(null, null, "?streamURL=" + encodeURIComponent(streamURL)); // Add the streamURL to the window URL and log in history
+			}
+			// Else it is empty
+			else {
+				document.title = `${documentTitle}`; // Update document title
+				playerURL.searchParams.delete("streamURL"); // Delete streamURL param from the player URL
+				window.history.pushState(null, null, "/"); // Remove the streamURL param and log in history
+			}
+		}
+	}
+
+	// Function for initializing the player based on a new URL
+	function initializePlayer() {
+		playerURL = new URL(document.location.href.toString()); // Grab current URL
+		streamURL = getStreamURLParam(); // Get stream URL from player URL param
+
+		// If stream URL param of the player URL is not blank
 		if (streamURL != "") {
-			playerURL.searchParams.set("streamURL", streamURLElement.value); // Add stream URL as a param to the player URL
-			window.history.pushState(null, null, "?streamURL=" + encodeURIComponent(streamURL)); // Add the streamURL to the window URL
+			streamURLElement.value = streamURL; // Set the stream URL input element to the stream URL
+			document.title = `${documentTitle} - ${streamURL}`; // Update document title
+			updateStreamFrame(); // Show the stream
 		}
 		// Else it is empty
 		else {
-			playerURL.searchParams.delete("streamURL"); // Delete streamURL param from the player URL
-			window.history.pushState(null, null, "/"); // Remove the streamURL param
+			document.title = `${documentTitle}`; // Update document title
 		}
 	}
 
@@ -384,22 +407,22 @@ formReady(() => {
 
 	// Add event listener for URL input field input
 	streamURLElement.addEventListener("input", () => {
+		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
-		updateWindowURL(); // Update the player URL
 	});
 
 	// Add event listener for URL input field focus
 	streamURLElement.addEventListener("focus", () => {
-		updateStreamFrame(); // Update the stream frame
-		updateWindowURL(); // Update the player URL
 		updateStreamURLElementWidth("focus"); // Update stream URL input width
+		updatePlayer(); // Update the player URL based on user input
+		updateStreamFrame(); // Update the stream frame
 	});
 
 	// Add event listener for URL input field blur
 	streamURLElement.addEventListener("blur", () => {
-		updateStreamFrame(); // Update the stream frame
-		updateWindowURL(); // Update the player URL
 		updateStreamURLElementWidth("blur"); // Update stream URL input width
+		updatePlayer(); // Update the player URL based on user input
+		updateStreamFrame(); // Update the stream frame
 	});
 
 	// Add event listener for when the viewport is resized
@@ -409,9 +432,7 @@ formReady(() => {
 
 	// Add event listener to update the stream frame and URL input if the user presses the "Back" or "Forward" buttons
 	window.addEventListener("popstate", () => {
-		playerURL = new URL(document.location.toString()); // Update playerURL
-		streamURL = getStreamURLParam(); // Extract streamURL
-		streamURLElement.value = streamURL; // Set the stream URL input to the extracted stream URL
+		initializePlayer(); // Initialize the player based on the stream URL if present
 		updateStreamFrame(); // Update the stream frame
 	});
 
@@ -434,19 +455,11 @@ formReady(() => {
 			streamFrame.scrollIntoView(true); // Bring the stream frame into view
 			showStreamFrameElement("instructions"); // Show instructions element
 		} else {
+			updatePlayer(); // Update the player URL based on user input
 			updateStreamFrame(); // Update the stream frame
-			updateWindowURL(); // Update the player URL
 		}
 	});
 
-	// If stream URL param of the player URL is not blank
-	if (streamURL != "") {
-		// Set the stream URL input element to the stream URL
-		streamURLElement.value = streamURL;
-
-		// Show the stream
-		updateStreamFrame();
-	}
-
+	initializePlayer(); // Update the player based on the stream URL if present
 	updateStreamURLElementWidth("blur"); // Update stream URL input width
 });

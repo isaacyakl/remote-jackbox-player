@@ -14,7 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Add stream title to player title for bookmarking benefits
 -  Make page load with stream URL input in focus
 -  Disable touch input when stream URL input is focused
 -  Refresh stream frame when enter is hit in stream URL input
