@@ -462,4 +462,5 @@ formReady(() => {
 
 	initializePlayer(); // Update the player based on the stream URL if present
 	updateStreamURLElementWidth("blur"); // Update stream URL input width
+	streamURLElement.focus(); // Focus on the stream URL input
 });
