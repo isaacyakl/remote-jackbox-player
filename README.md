@@ -14,11 +14,10 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Refresh stream frame when enter is hit in stream URL input
--  Disable touch input when stream URL input is focused
 -  Reload game view when stream view changes
 -  Reload button for stream view
 -  Add warning about losing game progress when exiting/reloading page
+-  Disable touch input when stream URL input is focused
 -  Use button groups to reduce screen cover: swap reveal controls, instructions and reveal controls
 -  Add "Find random stream" feature
 -  Add controls tutorial

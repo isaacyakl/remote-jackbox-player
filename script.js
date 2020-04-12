@@ -425,6 +425,15 @@ formReady(() => {
 		updateStreamFrame(); // Update the stream frame
 	});
 
+	// Add event listener for submission of stream URL form
+	document.getElementById("streamURLForm").addEventListener("submit", function (e) {
+		updateStreamURLElementWidth("blur"); // Update stream URL input width
+		updatePlayer(); // Update the player URL based on user input
+		updateStreamFrame(); // Update the stream frame
+		streamURLElement.blur(); // Remove focus from stream URL input
+		e.preventDefault(); // Prevent form submission
+	});
+
 	// Add event listener for when the viewport is resized
 	window.addEventListener("resize", () => {
 		updateStreamURLElementWidth("blur"); // Update stream URL input width
