@@ -14,8 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Add no script warning
--  Add share button animation
 -  Update stream frame to instructions when stream URL input is "https://" or ""
 -  Add stream title to player title for bookmarking benefits
 -  Make page load with stream URL input in focus
@@ -28,6 +26,7 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 -  Add "Find random stream" feature
 -  Add controls tutorial
 -  Add suggested streams: https://twitch.tv/jackboxgames
+-  Add share button animation
 -  Add left-hand / right-hand control orientation option
 -  Add full screen button? https://developers.google.com/web/fundamentals/native-hardware/fullscreen
 -  Add swipe gestures in swap and row views?
