@@ -13,7 +13,7 @@ formReady(() => {
 	let mixerStreamElement = document.getElementById("mixerStream");
 	let mixerChatElement = document.getElementById("mixerChat");
 	let instructionsElement = document.getElementById("instructions");
-	let gameElement = document.getElementById("game");
+	let gameFrame = document.getElementById("gameFrame");
 	let streamURLElement = document.getElementById("streamURL");
 
 	// Data variables
@@ -31,11 +31,11 @@ formReady(() => {
 		streamFrame.classList.add("static");
 		streamFrame.classList.add("w-1/2");
 
-		gameElement.classList.remove("lg:w-1/2");
-		gameElement.classList.remove("absolute");
-		gameElement.classList.remove("w-screen");
-		gameElement.classList.add("static");
-		gameElement.classList.add("w-1/2");
+		gameFrame.classList.remove("lg:w-1/2");
+		gameFrame.classList.remove("absolute");
+		gameFrame.classList.remove("w-screen");
+		gameFrame.classList.add("static");
+		gameFrame.classList.add("w-1/2");
 	}
 
 	// Function for setting up swap view
@@ -46,11 +46,11 @@ formReady(() => {
 		streamFrame.classList.add("absolute");
 		streamFrame.classList.add("w-screen");
 
-		gameElement.classList.remove("lg:w-1/2");
-		gameElement.classList.remove("static");
-		gameElement.classList.remove("w-1/2");
-		gameElement.classList.add("absolute");
-		gameElement.classList.add("w-screen");
+		gameFrame.classList.remove("lg:w-1/2");
+		gameFrame.classList.remove("static");
+		gameFrame.classList.remove("w-1/2");
+		gameFrame.classList.add("absolute");
+		gameFrame.classList.add("w-screen");
 	}
 
 	// Function for swapping which frame is in front
@@ -59,14 +59,14 @@ formReady(() => {
 			streamFrame.classList.remove("z-10");
 			streamFrame.classList.add("z-20");
 
-			gameElement.classList.remove("z-20");
-			gameElement.classList.add("z-10");
+			gameFrame.classList.remove("z-20");
+			gameFrame.classList.add("z-10");
 		} else {
 			streamFrame.classList.remove("z-20");
 			streamFrame.classList.add("z-10");
 
-			gameElement.classList.remove("z-10");
-			gameElement.classList.add("z-20");
+			gameFrame.classList.remove("z-10");
+			gameFrame.classList.add("z-20");
 		}
 	}
 
@@ -79,12 +79,12 @@ formReady(() => {
 		streamFrame.classList.add("h-screen");
 		streamFrame.classList.add("static");
 
-		gameElement.classList.remove("lg:w-1/2");
-		gameElement.classList.remove("w-1/2");
-		gameElement.classList.remove("absolute");
-		gameElement.classList.add("w-screen");
-		gameElement.classList.add("h-screen");
-		gameElement.classList.add("static");
+		gameFrame.classList.remove("lg:w-1/2");
+		gameFrame.classList.remove("w-1/2");
+		gameFrame.classList.remove("absolute");
+		gameFrame.classList.add("w-screen");
+		gameFrame.classList.add("h-screen");
+		gameFrame.classList.add("static");
 	}
 
 	// Function for copying a string to clipboard
@@ -123,6 +123,10 @@ formReady(() => {
 	function updatePlayer() {
 		// If the stream URL input is different than the last saved one
 		if (streamURLElement.value != streamURL) {
+			// Reload game frame
+			gameFrame.src = ""; // Clear src of game frame
+			gameFrame.src = "https://jackbox.tv"; // Set src back to Jackbox.tv
+
 			// Update the streamURL variable with the entered stream URL
 			streamURL = streamURLElement.value;
 

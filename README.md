@@ -14,7 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Reload game view when stream view changes
 -  Reload button for stream view
 -  Add warning about losing game progress when exiting/reloading page
 -  Disable touch input when stream URL input is focused
