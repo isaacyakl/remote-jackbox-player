@@ -472,6 +472,17 @@ formReady(() => {
 			updateStreamFrame(); // Update the stream frame
 		}
 	});
+	// Add event listener to confirm session loss when reloading
+	window.addEventListener("beforeunload", (e) => {
+		// Prompt always shown in Mozilla Firefox
+		// Prompt only show in Chrome if user interacted with the page
+
+		// Cancel the default event
+		e.preventDefault();
+
+		// Chrome requires returnValue to be set
+		e.returnValue = "";
+	});
 
 	initializePlayer(); // Update the player based on the stream URL if present
 	updateStreamURLElementWidth("blur"); // Update stream URL input width

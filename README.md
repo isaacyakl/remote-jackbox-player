@@ -14,10 +14,9 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Reload button for stream view
--  Add warning about losing game progress when exiting/reloading page
 -  Disable touch input when stream URL input is focused
 -  Use button groups to reduce screen cover: swap reveal controls, instructions and reveal controls
+-  Reload button for stream view
 -  Add "Find random stream" feature
 -  Add controls tutorial
 -  Add suggested streams: https://twitch.tv/jackboxgames
