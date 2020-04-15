@@ -14,15 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
-x  Add swipe view
-X  Add reload button for stream frame
-X  Add reload button for game frame
-X  Animate menu and stream bar
-X  Stream Frame Menu (When the menu is open): Read how-to, Use swap view, Use split view, Use scroll view, Use swipe view
-X  Stream URL Bar: Reload, URL Bar, Random Stream, Share Stream
-X  Controls: Swap (When swap view is active), Reload (Current Frame)
-X  Add share button animation
-
 -  Start with titles next to buttons then disappear after menu hides unless menu is activated or button hovered over
 -  If screen is short height (landscape on mobile when soft keyboard is out) bring search bar to bottom on focus
 -  Add "Find random stream" feature

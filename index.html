@@ -13,18 +13,28 @@
 	</head>
 	<body>
 		<noscript>
-			<h1 class="text-center text-3xl font-bold pt-4 transition duration-500 ease-in-out transform hover:scale-95">
+			<h1
+				class="text-center text-3xl font-bold pt-4 transition duration-500 ease-in-out transform hover:scale-95"
+			>
 				Uhhhhh...
 			</h1>
 			<p class="text-center m-4">
-				...yeah you're gonna need JavaScript to enjoy this. Please <a href="https://www.whatismybrowser.com/guides/how-to-enable-javascript/" target="_blank" rel="noopener noreferrer" class="underline text-teal-600">enable JavaScript</a> so you don't miss out! 😉
+				...yeah you're gonna need JavaScript to enjoy this. Please
+				<a
+					href="https://www.whatismybrowser.com/guides/how-to-enable-javascript/"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="underline text-teal-600"
+					>enable JavaScript</a
+				>
+				so you don't miss out! 😉
 			</p>
 		</noscript>
-		<!-- Viewer -->
-		<main id="viewer" class="flex flex-wrap">
-			<!-- Stream/Instructions Frame -->
-			<div id="streamFrame" class="z-20 w-screen h-screen lg:w-1/2 static">
-				<div id="instructions" class="text-lg w-full h-full text-white p-4 overflow-y-auto">
+		<!-- Player -->
+		<main id="player" class="flex w-screen h-screen lg:flex-row">
+			<!-- Stream/How-To Pane -->
+			<div id="streamPane" class="relative w-full h-full lg:w-1/2">
+				<div id="howTo" class="text-lg w-full h-full text-white p-4 pt-16 overflow-y-auto">
 					<h1
 						class="text-center text-3xl font-bold transition duration-500 ease-in-out transform hover:scale-95"
 					>
@@ -75,9 +85,7 @@
 					<p class="text-center mb-4">
 						<i class="fas fa-share-alt mr-2"></i> Share the current stream view
 					</p>
-					<p class="text-center mb-4">
-						<i class="fas fa-question mr-2"></i> Show instructions
-					</p>
+					<p class="text-center mb-4"><i class="fas fa-question mr-2"></i> Show how-to</p>
 					<h2
 						class="text-center font-bold mb-4 mt-6 p-1 shadow-inner rounded text-black bg-teal-200"
 					>
@@ -104,7 +112,7 @@
 							><i
 								class="fab fa-steam-symbol transition duration-300 ease-in-out transform hover:scale-125"
 							></i
-						></enable>
+						></a>
 					</p>
 					<p class="text-center mt-10">
 						<a
@@ -127,64 +135,141 @@
 				<div id="twitchStream" class="w-full h-full hidden"></div>
 				<iframe id="mixerStream" class="w-full hidden"></iframe>
 				<iframe id="mixerChat" class="w-full hidden"></iframe>
+				<!-- Stream URL Bar -->
+				<div
+					id="streamURLBar"
+					class="absolute flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out bg-white rounded-r shadow-lg z-50 p-1 top-0 left-0 text-2xl overflow-hidden w-0"
+					role="navigation"
+				>
+					<form id="streamURLForm" class="w-full mx-1">
+						<input
+							id="streamURL"
+							type="url"
+							name="streamURL"
+							placeholder="Paste a stream URL here"
+							pattern="https://.*"
+							class="flex-grow text-center transition-all duration-1000 ease-in-out px-1 h-10 rounded-r bg-teal-200 hover:bg-teal-300 hover:shadow-inner focus:bg-teal-300 w-full"
+							value=""
+							title="Enter a stream URL"
+							required
+						/>
+					</form>
+
+					<button
+						id="shareButton"
+						title="Share this stream view"
+						class="flex-none text-center align-middle w-10 h-10 rounded-r"
+					>
+						<i class="fas fa-share-alt"></i>
+					</button>
+					<span
+						id="shareText"
+						class="flex-none text-center align-middle transition-all duration-1000 ease-in-out w-0 h-10 rounded shadow-inner bg-yellow-300 overflow-hidden"
+						role="alert"
+						>URL copied!</span
+					>
+				</div>
+				<!-- Menu -->
+				<div
+					id="menu"
+					class="absolute bg-white rounded-r shadow-lg z-50 p-1 bottom-0 left-0 text-2xl mb-16"
+				>
+					<div
+						id="menuItems"
+						class="flex flex-col transition-all duration-1000 ease-in-out overflow-hidden h-0"
+					>
+						<button
+							id="howToButton"
+							title="Read how-to"
+							class="text-center align-middle w-10 h-10 rounded-tr"
+						>
+							<i class="fas fa-question"></i>
+						</button>
+						<button
+							id="setupSwapViewButton"
+							title="Used swap view"
+							class="text-center align-middle w-10 h-10"
+						>
+							<i class="fas fa-exchange-alt"></i>
+						</button>
+						<button
+							id="setupSplitViewButton"
+							title="Use split view"
+							class="text-center align-middle w-10 h-10"
+						>
+							<i class="fas fa-columns"></i>
+						</button>
+						<button
+							id="setupScrollViewButton"
+							title="Use scroll view"
+							class="text-center align-middle w-10 h-10"
+						>
+							<i class="fas fa-arrows-alt-v"></i>
+						</button>
+						<button
+							id="setupSwipeViewButton"
+							title="Use swipe view"
+							class="text-center align-middle w-10 h-10"
+						>
+							<i class="fas fa-arrows-alt-h"></i>
+						</button>
+					</div>
+					<button
+						id="menuButton"
+						title="Close menu"
+						class="text-center align-middle w-10 h-10 rounded-br bg-teal-300 shadow-inner"
+					>
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+				<!-- Stream Controls -->
+				<div
+					id="streamControls"
+					class="controls absolute bg-white rounded-l shadow-lg z-50 p-1 right-0 text-2xl w-12"
+					role="menubar"
+				>
+					<button
+						title="Swap view"
+						class="swapViewButton text-center align-middle w-10 h-10 rounded-l lg:hidden"
+					>
+						<i class="fas fa-exchange-alt"></i>
+					</button>
+					<button
+						id="reloadStreamButton"
+						title="Reload stream"
+						class="flex-none text-center align-middle w-10 h-10"
+					>
+						<i class="fas fa-redo"></i>
+					</button>
+				</div>
 			</div>
-			<!-- Game Frame -->
-			<iframe
-				id="gameFrame"
-				class="z-10 w-screen h-screen lg:w-1/2 static"
-				src="https://jackbox.tv/"
-			></iframe>
+			<!-- Game Pane -->
+			<div id="gamePane" class="hidden relative w-full h-full lg:w-1/2 lg:block">
+				<!-- Game Frame -->
+				<iframe id="gameFrame" class="z-10 w-full h-full" src="https://jackbox.tv/"></iframe>
+				<!-- Game Controls -->
+				<div
+					id="gameControls"
+					class="controls absolute bg-white rounded-l shadow-lg z-50 p-1 right-0 text-2xl w-12"
+					role="menubar"
+				>
+					<button
+						title="Swap view"
+						class="swapViewButton text-center align-middle w-10 h-10 rounded-l lg:hidden"
+					>
+						<i class="fas fa-exchange-alt"></i>
+					</button>
+					<button
+						id="reloadGameButton"
+						title="Reload game"
+						class="flex-none text-center align-middle w-10 h-10"
+					>
+						<i class="fas fa-redo"></i>
+					</button>
+				</div>
+			</div>
 		</main>
-		<!-- Controls -->
-		<div
-			id="layoutControls"
-			class="fixed bg-white rounded-l shadow z-50 p-1 right-0 text-2xl"
-			role="menubar"
-		>
-			<button id="swapViewButton" title="Swap view" class="px-2 py-1 rounded-tl">
-				<i class="fas fa-exchange-alt"></i></button
-			><br />
-			<button id="splitViewButton" title="Split view" class="px-2 py-1">
-				<i class="fas fa-columns"></i></button
-			><br />
-			<button id="scrollViewButton" title="Scroll view" class="px-2 py-1 rounded-bl">
-				<i class="fas fa-arrows-alt-v w-6"></i>
-			</button>
-		</div>
-		<!-- Stream URL Bar -->
-		<div
-			id="streamURLBar"
-			class="fixed bg-white rounded-r shadow z-40 p-1 bottom-0 left-0 text-2xl mb-12"
-			role="navigation"
-		>
-			<button id="instructionsButton" title="Read instructions" class="px-2 py-1">
-				<i class="fas fa-question w-6"></i>
-			</button>
-			<form id="streamURLForm" class="inline">
-				<input
-					id="streamURL"
-					type="url"
-					name="streamURL"
-					placeholder="Paste a stream URL here"
-					pattern="https://.*"
-					class="py-1 pl-1 rounded-r max-w-full bg-teal-200 transition-all duration-1000 ease-in-out hover:bg-teal-300 hover:shadow-inner focus:bg-teal-300"
-					value=""
-					title="Enter a stream URL"
-					required
-				/>
-			</form>
-		</div>
-		<!-- Share Control -->
-		<div
-			id="shareControl"
-			class="fixed bg-white rounded-l shadow z-50 p-1 bottom-0 right-0 text-2xl mb-12"
-			role="menubar"
-		>
-			<button id="shareButton" title="Share this stream view" class="px-2 py-1 rounded-l">
-				<i class="fas fa-share-alt w-6"></i>
-			</button>
-			<span id="shareText" class="rounded hidden" role="alert">URL copied!</span>
-		</div>
+
 		<script src="script.js"></script>
 	</body>
 </html>

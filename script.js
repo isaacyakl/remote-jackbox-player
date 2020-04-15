@@ -7,84 +7,129 @@ let formReady = (callback) => {
 // Execute form code when DOM is ready
 formReady(() => {
 	// Element variables
-	let streamFrame = document.getElementById("streamFrame");
-	let unknownStreamElement = document.getElementById("unknownStream");
-	let twitchStreamElement = document.getElementById("twitchStream");
-	let mixerStreamElement = document.getElementById("mixerStream");
-	let mixerChatElement = document.getElementById("mixerChat");
-	let instructionsElement = document.getElementById("instructions");
-	let gameFrame = document.getElementById("gameFrame");
-	let streamURLElement = document.getElementById("streamURL");
+	let playerElement = document.getElementById("player"); // Main container
+	let streamPaneElement = document.getElementById("streamPane"); // Stream pane for all stream related elements
+	let unknownStreamElement = document.getElementById("unknownStream"); // Unknown stream iframe
+	let twitchStreamElement = document.getElementById("twitchStream"); // Twitch stream div
+	let mixerStreamElement = document.getElementById("mixerStream"); // Mixer stream div
+	let mixerChatElement = document.getElementById("mixerChat"); // Mixer chat div
+	let howToElement = document.getElementById("howTo"); // How-To div
+	let gamePaneElement = document.getElementById("gamePane"); // Game pane for all game related elements
+	let gameFrameElement = document.getElementById("gameFrame"); // Game iframe
+	let streamURLBarElement = document.getElementById("streamURLBar"); // Stream url input
+	let streamURLElement = document.getElementById("streamURL"); // Stream url input
+	let menuItemsElement = document.getElementById("menuItems"); // Menu div
+	let menuButtonElement = document.getElementById("menuButton"); // Menu button
+	let swapViewButtonElements = document.querySelectorAll(".swapViewButton"); // Swap view buttons
 
 	// Data variables
+	let activeView = "default"; // Variable for active view
 	let documentTitle = "Remote Jackbox Player"; // Variable holding the official app title
 	let playerURL = null; // Variable for the player URL used for link sharing
-	let streamURL = "";
+	let streamURL = ""; // Variable to hold the stream URL value
 	let twitchChannelId = ""; // Variable to hold Twitch channel id
 	let mixerChannelName = ""; // Variable to hold Mixer channel name
 
+	const defaultStreamURL = ""; // Default stream URL
+	const defaultGameURL = "https://jackbox.tv"; // Default game URL
+	const defaultPlayerClasses = playerElement.getAttribute("class"); // Default classes for #player from index.html
+	const defaultStreamPaneClasses = streamPaneElement.getAttribute("class"); // Default classes for #streamPane from index.html
+	const defaultGamePaneClasses = gamePaneElement.getAttribute("class"); // Default classes for #gamePane from index.html
+	const defaultSwapViewButtons = swapViewButtonElements.item(0).getAttribute("class"); // Default classes for .swapViewButton's from index.html
+
+	// Function for setting up default view
+	function setupDefaultView() {
+		activeView = "default"; // Set active view variable
+		playerElement.setAttribute("class", defaultPlayerClasses); // Revert to default player configuration
+		streamPaneElement.setAttribute("class", defaultStreamPaneClasses); // Revert to default stream pane configuration
+		gamePaneElement.setAttribute("class", defaultGamePaneClasses); // Revert to default game pane configuration
+
+		// For each swap view button
+		swapViewButtonElements.forEach((e) => {
+			// Revert swap view button configurations
+			e.setAttribute("class", defaultSwapViewButtons);
+		});
+	}
+
+	// Function for updating visible controls based on active view
+	function updateControls() {
+		// If active view is swap
+		if (activeView == "swap") {
+			// For each swap view button
+			swapViewButtonElements.forEach((e) => {
+				// Show swap view button
+				e.classList.remove("lg:hidden");
+				e.classList.remove("hidden");
+			});
+		}
+		// Not swap view
+		else {
+			// For each swap view button
+			swapViewButtonElements.forEach((e) => {
+				// Hide swap view button
+				e.classList.remove("lg:hidden");
+				e.classList.add("hidden");
+			});
+		}
+	}
+
 	// Function for setting up split view
 	function setupSplitView() {
-		streamFrame.classList.remove("lg:w-1/2");
-		streamFrame.classList.remove("absolute");
-		streamFrame.classList.remove("w-screen");
-		streamFrame.classList.add("static");
-		streamFrame.classList.add("w-1/2");
-
-		gameFrame.classList.remove("lg:w-1/2");
-		gameFrame.classList.remove("absolute");
-		gameFrame.classList.remove("w-screen");
-		gameFrame.classList.add("static");
-		gameFrame.classList.add("w-1/2");
+		activeView = "split"; // Set active view variable
+		updateControls(); // Hide controls
+		playerElement.setAttribute("class", "flex flex-row w-screen h-screen"); // Configure player to fill the screen with flex rows
+		streamPaneElement.setAttribute("class", "relative w-1/2"); // Configure stream pane to take 50% of the screen
+		gamePaneElement.setAttribute("class", "relative w-1/2"); // Configure game pane to take 50% of the screen
 	}
 
 	// Function for setting up swap view
 	function setupSwapView() {
-		streamFrame.classList.remove("lg:w-1/2");
-		streamFrame.classList.remove("static");
-		streamFrame.classList.remove("w-1/2");
-		streamFrame.classList.add("absolute");
-		streamFrame.classList.add("w-screen");
+		activeView = "swap"; // Set active view variable
+		updateControls(); // Show controls
+		playerElement.setAttribute("class", "w-screen h-screen"); // Configure player to fill the screen
 
-		gameFrame.classList.remove("lg:w-1/2");
-		gameFrame.classList.remove("static");
-		gameFrame.classList.remove("w-1/2");
-		gameFrame.classList.add("absolute");
-		gameFrame.classList.add("w-screen");
+		// If the stream pane is hidden
+		if (streamPaneElement.classList.contains("hidden")) {
+			streamPaneElement.setAttribute("class", "relative hidden w-full h-full"); // Configure the stream pane to fill the screen and keep it hidden
+			gamePaneElement.setAttribute("class", "relative w-full h-full"); // Configure the game pane to fill the screen
+		}
+		// Else hide the game pane
+		else {
+			streamPaneElement.setAttribute("class", "relative w-full h-full"); // Configure the stream pane to fill the screen
+			gamePaneElement.setAttribute("class", "relative hidden w-full h-full"); // Configure the game pane to fill the screen and hide it
+		}
 	}
 
 	// Function for swapping which frame is in front
 	function swapView() {
-		if (streamFrame.classList.contains("z-10")) {
-			streamFrame.classList.remove("z-10");
-			streamFrame.classList.add("z-20");
-
-			gameFrame.classList.remove("z-20");
-			gameFrame.classList.add("z-10");
-		} else {
-			streamFrame.classList.remove("z-20");
-			streamFrame.classList.add("z-10");
-
-			gameFrame.classList.remove("z-10");
-			gameFrame.classList.add("z-20");
+		// If the stream pane is hidden
+		if (streamPaneElement.classList.contains("hidden")) {
+			gamePaneElement.classList.add("hidden"); // Hide game pane
+			streamPaneElement.classList.remove("hidden"); // Show stream pane
+		}
+		// Else assume game pane is hidden
+		else {
+			streamPaneElement.classList.add("hidden"); // Hide stream pane
+			gamePaneElement.classList.remove("hidden"); // Show game pane
 		}
 	}
 
 	// Function for setting up scroll view
 	function setupScrollView() {
-		streamFrame.classList.remove("lg:w-1/2");
-		streamFrame.classList.remove("w-1/2");
-		streamFrame.classList.remove("absolute");
-		streamFrame.classList.add("w-screen");
-		streamFrame.classList.add("h-screen");
-		streamFrame.classList.add("static");
+		activeView = "scroll"; // Set active view variable
+		updateControls(); // Hide controls
+		playerElement.setAttribute("class", ""); // Configure player to be static
+		streamPaneElement.setAttribute("class", "relative w-full h-screen"); // Configure stream pane to fill the screen
+		gamePaneElement.setAttribute("class", "relative w-full h-screen"); // Configure game pane to fill the screen
+	}
 
-		gameFrame.classList.remove("lg:w-1/2");
-		gameFrame.classList.remove("w-1/2");
-		gameFrame.classList.remove("absolute");
-		gameFrame.classList.add("w-screen");
-		gameFrame.classList.add("h-screen");
-		gameFrame.classList.add("static");
+	// Function for setting up swipe view
+	function setupSwipeView() {
+		activeView = "swipe"; // Set active view variable
+		updateControls(); // Hide controls
+		playerElement.setAttribute("class", "flex flex-no-wrap w-screen h-screen overflow-x-auto"); // Configure player to fill the screen with flex no wrapping and scrolling on the x axis
+		streamPaneElement.setAttribute("class", "relative flex-none w-full h-full"); // Configure the stream pane to fill a screen's worth of content without wrapping
+		gamePaneElement.setAttribute("class", "relative flex-none w-full h-full"); // Configure the game pane to fill a screen's worth of content without wrapping
 	}
 
 	// Function for copying a string to clipboard
@@ -123,9 +168,9 @@ formReady(() => {
 	function updatePlayer() {
 		// If the stream URL input is different than the last saved one
 		if (streamURLElement.value != streamURL) {
-			// Reload game frame
-			gameFrame.src = ""; // Clear src of game frame
-			gameFrame.src = "https://jackbox.tv"; // Set src back to Jackbox.tv
+			// Reload gameFrame frame
+			gameFrameElement.src = ""; // Clear src of gameFrame frame
+			gameFrameElement.src = defaultGameURL; // Set src back to default game URL
 
 			// Update the streamURL variable with the entered stream URL
 			streamURL = streamURLElement.value;
@@ -170,9 +215,9 @@ formReady(() => {
 			unknownStreamElement.src = ""; // Clear unknown stream element
 		}
 
-		// Hide instructions
-		function hideInstructions() {
-			instructionsElement.classList.add("hidden"); // Hide instructions
+		// Hide how-to
+		function hideHowTo() {
+			howToElement.classList.add("hidden"); // Hide how-to
 		}
 
 		// Hide Twitch Stream Element
@@ -196,14 +241,14 @@ formReady(() => {
 			// Display Twitch stream element
 			twitchStreamElement.classList.remove("hidden");
 
-			hideInstructions(); // Hide instructions
+			hideHowTo(); // Hide how-to
 			hideUnknownStream(); // Hide unknown stream
 			hideMixerStream(); // Hide Mixer stream
 		}
-		// If type equals instructions
-		else if (type == "instructions") {
-			// Display instructions element
-			instructionsElement.classList.remove("hidden");
+		// If type equals how-to
+		else if (type == "howTo") {
+			// Display how-to element
+			howToElement.classList.remove("hidden");
 
 			hideUnknownStream(); // Hide unknown stream
 			hideTwitchStream(); // Hide twitch
@@ -217,7 +262,7 @@ formReady(() => {
 			// Display Mixer chat element
 			mixerChatElement.classList.remove("hidden");
 
-			hideInstructions(); // Hide instructions
+			hideHowTo(); // Hide how-to
 			hideUnknownStream(); // Hide unknown stream
 			hideTwitchStream(); // Hide Twitch stream
 		}
@@ -226,7 +271,7 @@ formReady(() => {
 			// Display unknown stream element
 			unknownStreamElement.classList.remove("hidden");
 
-			hideInstructions(); // Hide instructions
+			hideHowTo(); // Hide how-to
 			hideTwitchStream(); // Hide Twitch stream
 			hideMixerStream(); // Hide Mixer stream
 		}
@@ -260,8 +305,8 @@ formReady(() => {
 			}
 			// Else if the stream URL is only "https://"
 			else if (streamURLElement.value == "https://") {
-				// Show instructions
-				document.getElementById("instructionsButton").click();
+				// Show how-to
+				document.getElementById("howToButton").click();
 			}
 
 			/////////////////////////////
@@ -361,118 +406,178 @@ formReady(() => {
 				}
 			}
 		}
-		// Else switch to instructions
+		// Else switch to how-to
 		else {
-			// Click the instructions button
-			document.getElementById("instructionsButton").click();
+			// Click the how-to button
+			document.getElementById("howToButton").click();
 		}
 	}
 
-	// Function for updating the width of the stream URL input
-	function updateStreamURLElementWidth(state) {
-		// Variable for new width
-		let newStreamURLElementWidth = window.innerWidth; // Grab the width of the window
-
-		// If the window is a large window
-		if (newStreamURLElementWidth > 1024) {
-			// If the stream URL input is not in focus
-			if (state == "blur") {
-				newStreamURLElementWidth = Math.floor(newStreamURLElementWidth * 0.27).toString(); // Calc blur width
-			}
-			// Else if stream URL input is in focus
-			else if (state == "focus") {
-				newStreamURLElementWidth = Math.floor(newStreamURLElementWidth * 0.87).toString(); // Calc focus width
-			}
+	// Function for updating the state of the stream URL bar
+	function updateStreamURLBarElementState(state) {
+		// If the requested stream URL bar state is close
+		if (state == "close") {
+			// Set in active styling
+			streamURLBarElement.classList.add("w-0");
+			streamURLBarElement.classList.remove("w-full");
+			streamURLBarElement.classList.remove("p-1");
 		}
-		// Else the window is medium or smaller
-		else {
-			newStreamURLElementWidth = Math.floor(newStreamURLElementWidth * 0.7).toString(); // Calc width constant width
+		// Else if the requested stream URL bar state is open
+		else if (state == "open") {
+			// Set active styling
+			streamURLBarElement.classList.add("p-1");
+			streamURLBarElement.classList.add("w-full");
+			streamURLBarElement.classList.remove("w-0");
 		}
-
-		// Update width of stream URL input
-		streamURLElement.style.width = newStreamURLElementWidth + "px";
 	}
 
-	// Add event listener for the split view button
-	document.getElementById("splitViewButton").addEventListener("click", () => {
+	// Function for updating the state of the menu
+	function updateMenuElementState(state) {
+		const closedMenuIcon = `<i class="fas fa-times" aria-hidden="true"></i>`;
+		const menuIcon = `<i class="fas fa-bars" aria-hidden="true"></i>`;
+
+		// If the request state is open
+		if (state == "open") {
+			menuButtonElement.innerHTML = closedMenuIcon; // Change the icon to the close button
+			menuItemsElement.classList.remove("h-0");
+			menuItemsElement.style.height = menuItemsElement.childElementCount * 2.5 + "rem"; // Expand the menu 2.5 rem per button
+			menuButtonElement.title = "Close menu"; // Set title
+
+			// Set active styling
+			menuButtonElement.classList.remove("bg-white");
+			menuButtonElement.classList.remove("rounded-r");
+			menuButtonElement.classList.add("rounded-br");
+			menuButtonElement.classList.add("bg-teal-300");
+			menuButtonElement.classList.add("shadow-inner");
+		}
+		// Else if the request state is close
+		else if (state == "close") {
+			menuButtonElement.innerHTML = menuIcon; // Change the icon to the menu button
+			menuItemsElement.classList.remove("h-0");
+			menuItemsElement.style.height = "0rem"; // Close the menu
+			menuButtonElement.title = "Open menu"; // Set title
+
+			// Set inactive styling
+			menuButtonElement.classList.remove("bg-teal-300");
+			menuButtonElement.classList.remove("shadow-inner");
+			menuButtonElement.classList.remove("rounded-br");
+			menuButtonElement.classList.add("bg-white");
+			menuButtonElement.classList.add("rounded-r");
+		}
+	}
+
+	// Function for initializing the UI
+	function initializeUI() {
+		updateStreamURLBarElementState("close");
+		updateMenuElementState("close");
+	}
+
+	// Function for peeking UI
+	function peekUI() {
+		updateMenuElementState("open"); // Open menu
+		updateStreamURLBarElementState("open"); // Open stream URL bar
+		streamURLElement.focus(); // Focus the stream URL input
+
+		// A stream URL is included already
+		if (streamURL != "") {
+			// Hide UI
+			setTimeout(() => {
+				streamURLElement.blur(); // Blur the stream URL input
+				updateMenuElementState("close"); // Close menu
+				updateStreamURLBarElementState("close"); // Close stream URL bar
+			}, 3000);
+		}
+	}
+
+	// Add event listener to the setup split view button
+	document.getElementById("setupSplitViewButton").addEventListener("click", () => {
 		setupSplitView(); // Setup split view
 	});
 
-	// Add event listener for the swap view button
-	document.getElementById("swapViewButton").addEventListener("click", () => {
-		setupSwapView(); // Setup swap view
-		swapView(); // Swap view
+	// Add event listeners to the swap view buttons
+	swapViewButtonElements.forEach((e) => {
+		e.addEventListener("click", () => {
+			swapView(); // Swap view
+		});
 	});
 
-	// Add event listener for the scroll view button
-	document.getElementById("scrollViewButton").addEventListener("click", () => {
+	// Add event listener to the setup swap view setup button
+	document.getElementById("setupSwapViewButton").addEventListener("click", () => {
+		setupSwapView(); // Setup swap view
+	});
+
+	// Add event listener to the setup scroll view button
+	document.getElementById("setupScrollViewButton").addEventListener("click", () => {
 		setupScrollView(); // Setup scroll view
 	});
 
-	// Add event listener for URL input field input
+	// Add event listener to the setup swipe view button
+	document.getElementById("setupSwipeViewButton").addEventListener("click", () => {
+		setupSwipeView(); // Setup swipe view
+	});
+
+	// Add event listener for when the URL input field receives input
 	streamURLElement.addEventListener("input", () => {
 		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
 	});
 
-	// Add event listener for URL input field focus
+	// Add event listener for when the URL input field receives focus
 	streamURLElement.addEventListener("focus", () => {
-		updateStreamURLElementWidth("focus"); // Update stream URL input width
 		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
 	});
 
-	// Add event listener for URL input field blur
+	// Add event listener for when the URL input field blurs
 	streamURLElement.addEventListener("blur", () => {
-		updateStreamURLElementWidth("blur"); // Update stream URL input width
 		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
 	});
 
-	// Add event listener for submission of stream URL form
+	// Add event listener for when the stream URL form is submitted
 	document.getElementById("streamURLForm").addEventListener("submit", function (e) {
-		updateStreamURLElementWidth("blur"); // Update stream URL input width
 		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
-		streamURLElement.blur(); // Remove focus from stream URL input
 		e.preventDefault(); // Prevent form submission
 	});
 
 	// Add event listener for when the viewport is resized
-	window.addEventListener("resize", () => {
-		updateStreamURLElementWidth("blur"); // Update stream URL input width
-	});
+	window.addEventListener("resize", () => {});
 
-	// Add event listener to update the stream frame and URL input if the user presses the "Back" or "Forward" buttons
+	// Add event listener for when history is traversed in order to update the stream frame and URL input
 	window.addEventListener("popstate", () => {
 		initializePlayer(); // Initialize the player based on the stream URL if present
 		updateStreamFrame(); // Update the stream frame
 	});
 
-	// Add event listener for share button
+	// Add event listener to the share button
 	document.getElementById("shareButton").addEventListener("click", () => {
 		// Copy URL to clipboard
 		copyToClipboard(playerURL.toString());
 
 		// Let the user know the link was copied to the clipboard
-		document.getElementById("shareText").classList.remove("hidden");
+		document.getElementById("shareText").classList.add("ml-1"); // Add margin on left and right
+		document.getElementById("shareText").classList.add("px-1"); // Add padding on left and right
+		document.getElementById("shareText").classList.add("w-40"); // Expand share text
 		setTimeout(() => {
-			document.getElementById("shareText").classList.add("hidden");
-		}, 3500);
+			document.getElementById("shareText").classList.remove("ml-1"); // Remove margin on left and right
+			document.getElementById("shareText").classList.remove("px-1"); // Remove padding on left and right
+			document.getElementById("shareText").classList.remove("w-40"); // Collapse share text
+		}, 3000);
 	});
 
-	// Add event listener for instructions button
-	document.getElementById("instructionsButton").addEventListener("click", () => {
-		// If the instructions are hidden
-		if (Array.from(instructionsElement.classList).includes("hidden")) {
-			streamFrame.scrollIntoView(true); // Bring the stream frame into view
-			showStreamFrameElement("instructions"); // Show instructions element
+	// Add event listener to the how-to button
+	document.getElementById("howToButton").addEventListener("click", () => {
+		// If the how-to are hidden
+		if (Array.from(howToElement.classList).includes("hidden")) {
+			streamPaneElement.scrollIntoView(true); // Bring the stream frame into view
+			showStreamFrameElement("howTo"); // Show how-to element
 		} else {
 			updatePlayer(); // Update the player URL based on user input
 			updateStreamFrame(); // Update the stream frame
 		}
 	});
-	// Add event listener to confirm session loss when reloading
+	// Add event listener for when the page is reloaded in order to confirm that session will be lost
 	window.addEventListener("beforeunload", (e) => {
 		// Prompt always shown in Mozilla Firefox
 		// Prompt only show in Chrome if user interacted with the page
@@ -484,7 +589,36 @@ formReady(() => {
 		e.returnValue = "";
 	});
 
+	// Add event listener to the stream reload button
+	document.getElementById("reloadStreamButton").addEventListener("click", () => {
+		let currentStreamURL = streamURLElement.value; // Grab current stream URL
+		streamURLElement.value = ""; // Clear stream URL
+		updateStreamFrame(); // Update stream frame
+		streamURLElement.value = currentStreamURL; // Replace stream URL
+		updateStreamFrame(); // Update stream frame
+	});
+
+	// Add event listener to the game reload button
+	document.getElementById("reloadGameButton").addEventListener("click", () => {
+		gameFrameElement.src = ""; // Clear game src
+		gameFrameElement.src = defaultGameURL; // Replace default game URL
+	});
+
+	// Add event listener for menu button
+	menuButtonElement.addEventListener("click", () => {
+		// If the menu is closed
+		if (menuButtonElement.title.includes("Open")) {
+			updateMenuElementState("open"); // Open the menu
+			updateStreamURLBarElementState("open"); // Open the stream URL bar
+		}
+		// Else if the menu is open
+		else if (menuButtonElement.title.includes("Close")) {
+			updateMenuElementState("close"); // Close the menu
+			updateStreamURLBarElementState("close"); // Close the stream URL bar
+		}
+	});
+
 	initializePlayer(); // Update the player based on the stream URL if present
-	updateStreamURLElementWidth("blur"); // Update stream URL input width
-	streamURLElement.focus(); // Focus on the stream URL input
+	initializeUI(); // Configure the UI
+	peekUI(); // Show UI for a bit
 });

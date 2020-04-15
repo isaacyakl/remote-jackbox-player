@@ -13946,11 +13946,11 @@ video {
   transition-duration: 1000ms;
 }
 
-#layoutControls {
-  top: 40%;
+.controls {
+  top: 45%;
 }
 
-#instructions {
+#howTo {
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#38b2ac+0,319795+20,319795+80,38b2ac+100 */
   background: #319795; /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
