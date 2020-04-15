@@ -600,8 +600,15 @@ formReady(() => {
 
 	// Add event listener to the game reload button
 	document.getElementById("reloadGameButton").addEventListener("click", () => {
-		gameFrameElement.src = ""; // Clear game src
-		gameFrameElement.src = defaultGameURL; // Replace default game URL
+		let result = false; // Result for user prompt
+		result = window.confirm("Reload the game?\nYou will lose your spot in the lobby."); // Check if the user really wants to reload their game
+
+		// If results are true
+		if (result === true) {
+			// Reload game frame
+			gameFrameElement.src = ""; // Clear game src
+			gameFrameElement.src = defaultGameURL; // Replace default game URL
+		}
 	});
 
 	// Add event listener for menu button
