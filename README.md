@@ -14,19 +14,25 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Disable touch input when stream URL input is focused
--  Use button groups to reduce screen cover: swap reveal controls, instructions and reveal controls
--  Reload button for stream view
+x  Add swipe view
+X  Add reload button for stream frame
+X  Add reload button for game frame
+X  Animate menu and stream bar
+X  Stream Frame Menu (When the menu is open): Read how-to, Use swap view, Use split view, Use scroll view, Use swipe view
+X  Stream URL Bar: Reload, URL Bar, Random Stream, Share Stream
+X  Controls: Swap (When swap view is active), Reload (Current Frame)
+X  Add share button animation
+
+-  Start with titles next to buttons then disappear after menu hides unless menu is activated or button hovered over
+-  If screen is short height (landscape on mobile when soft keyboard is out) bring search bar to bottom on focus
 -  Add "Find random stream" feature
--  Add controls tutorial
+-  Utilize web workers for frames for better performance
 -  Add suggested streams: https://twitch.tv/jackboxgames
--  Add share button animation
--  Add left-hand / right-hand control orientation option
--  Add full screen button? https://developers.google.com/web/fundamentals/native-hardware/fullscreen
--  Add swipe gestures in swap and row views?
 -  Add support for Discord Streaming, YouTube Gaming, and Facebook Gaming
--  Enforce max height of streamURL bar
+-  Add login with Twitch/Mixer and random from following channels playing a Jackbox game
+-  Add left-hand / right-hand control orientation option
 -  Add room/stream searching feature
 -  Maximize browser support/polyfill/evaluate minimum reqs
 -  Block inception by keeping user from inputting URL of the Remote Jackbox Player
--  Frame width adjustment in Split View
+-  Add frame width adjustment in Split View
+-  Disable touch input when stream URL input is focused
