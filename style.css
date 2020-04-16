@@ -13950,6 +13950,10 @@ video {
   top: 45%;
 }
 
+.buttonTitleText {
+  background: rgba(56, 178, 172, 0.7);
+}
+
 #howTo {
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#38b2ac+0,319795+20,319795+80,38b2ac+100 */
   background: #319795; /* Old browsers */

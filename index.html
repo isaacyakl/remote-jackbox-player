@@ -56,8 +56,8 @@
 						How to play
 					</h2>
 					<p class="text-center mb-4">
-						<i class="fas fa-reply transform -rotate-90 mr-2"></i>
-						Paste a stream URL in the field below.
+						<i class="fas fa-share transform -rotate-90 mr-2"></i>
+						Paste a stream URL in the field above.
 					</p>
 					<p class="text-center mb-4">
 						<i class="fas fa-search mr-2"></i> Find or ask for the 4-letter room code.
@@ -138,10 +138,10 @@
 				<!-- Stream URL Bar -->
 				<div
 					id="streamURLBar"
-					class="absolute flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out bg-white rounded-r shadow-lg z-50 p-1 top-0 left-0 text-2xl overflow-hidden w-0"
+					class="absolute flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out rounded-r shadow-lg z-50 top-0 left-0 text-2xl overflow-hidden w-0"
 					role="navigation"
 				>
-					<form id="streamURLForm" class="w-full mr-1">
+					<form id="streamURLForm" class="w-full">
 						<input
 							id="streamURL"
 							type="url"
@@ -158,13 +158,13 @@
 					<button
 						id="shareButton"
 						title="Share this stream view"
-						class="flex-none text-center align-middle w-10 h-10 rounded-r"
+						class="bg-white flex-none text-center align-middle w-10 h-10 rounded-r"
 					>
 						<i class="fas fa-share-alt"></i>
 					</button>
 					<span
 						id="shareText"
-						class="flex-none text-center align-middle transition-all duration-1000 ease-in-out w-0 h-10 rounded shadow-inner bg-yellow-300 overflow-hidden"
+						class="flex-none text-center align-middle transition-all duration-1000 ease-in-out w-0 h-10 rounded-r shadow-inner bg-green-300 overflow-hidden"
 						role="alert"
 						>URL copied!</span
 					>
@@ -172,52 +172,72 @@
 				<!-- Menu -->
 				<div
 					id="menu"
-					class="absolute bg-white rounded-r shadow-lg z-50 p-1 bottom-0 left-0 text-2xl mb-16"
+					class="absolute z-50 w-56 bottom-0 left-0 text-2xl mb-16 overflow-hidden"
 				>
 					<div
 						id="menuItems"
-						class="flex flex-col transition-all duration-1000 ease-in-out overflow-hidden h-0"
+						class="flex flex-row flex-wrap transition-all duration-1000 ease-in-out overflow-hidden h-0"
 					>
 						<button
 							id="howToButton"
 							title="Read how-to"
-							class="text-center align-middle w-10 h-10 rounded-tr"
+							class="bg-white text-center align-middle w-10 h-10 shadow-lg rounded-tr"
 						>
 							<i class="fas fa-question"></i>
 						</button>
+						<span
+							class="buttonTitleText relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-white shadow-inner text-x1 h-8 mt-1"
+							>Read how-to</span
+						>
 						<button
 							id="setupSwapViewButton"
 							title="Used swap view"
-							class="text-center align-middle w-10 h-10"
+							class="bg-white text-center align-middle w-10 h-10 shadow-lg"
 						>
 							<i class="fas fa-exchange-alt"></i>
 						</button>
+						<span
+							class="buttonTitleText relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-white shadow-inner text-x1 h-8 mt-1"
+							>Use swap view</span
+						>
 						<button
 							id="setupSplitViewButton"
 							title="Use split view"
-							class="text-center align-middle w-10 h-10"
+							class="bg-white text-center align-middle w-10 h-10 shadow-lg"
 						>
 							<i class="fas fa-columns"></i>
 						</button>
+						<span
+							class="buttonTitleText relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-white shadow-inner text-x1 h-8 mt-1"
+							>Use split view</span
+						>
 						<button
 							id="setupScrollViewButton"
 							title="Use scroll view"
-							class="text-center align-middle w-10 h-10"
+							class="bg-white text-center align-middle w-10 h-10 shadow-lg"
 						>
 							<i class="fas fa-arrows-alt-v"></i>
 						</button>
+						<span
+							class="buttonTitleText relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-white shadow-inner text-x1 h-8 mt-1"
+							>Use scroll view</span
+						>
 						<button
 							id="setupSwipeViewButton"
 							title="Use swipe view"
-							class="text-center align-middle w-10 h-10"
+							class="bg-white text-center align-middle w-10 h-10 shadow-lg"
 						>
 							<i class="fas fa-arrows-alt-h"></i>
 						</button>
+						<span
+							class="buttonTitleText relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-white shadow-inner text-x1 h-8 mt-1"
+							>Use swipe view</span
+						>
 					</div>
 					<button
 						id="menuButton"
 						title="Close menu"
-						class="text-center align-middle w-10 h-10 rounded-br bg-teal-300 shadow-inner"
+						class="bg-white text-center w-10 h-10 rounded-br bg-teal-300 shadow-inner shadow-lg"
 					>
 						<i class="fas fa-times"></i>
 					</button>
@@ -225,19 +245,19 @@
 				<!-- Stream Controls -->
 				<div
 					id="streamControls"
-					class="controls absolute bg-white rounded-l shadow-lg z-50 p-1 right-0 text-2xl w-12"
+					class="controls absolute rounded-l shadow-lg z-50 right-0 text-2xl w-10"
 					role="menubar"
 				>
 					<button
 						title="Swap view"
-						class="swapViewButton text-center align-middle w-10 h-10 rounded-l lg:hidden"
+						class="swapViewButton bg-white text-center align-middle w-10 h-10 rounded-tl lg:hidden"
 					>
 						<i class="fas fa-exchange-alt"></i>
 					</button>
 					<button
 						id="reloadStreamButton"
 						title="Reload stream"
-						class="flex-none text-center align-middle w-10 h-10"
+						class="bg-white flex-none text-center w-10 h-10 rounded-bl lg:rounded-l"
 					>
 						<i class="fas fa-redo"></i>
 					</button>
@@ -250,19 +270,19 @@
 				<!-- Game Controls -->
 				<div
 					id="gameControls"
-					class="controls absolute bg-white rounded-l shadow-lg z-50 p-1 right-0 text-2xl w-12"
+					class="controls absolute rounded-l shadow-lg z-50 right-0 text-2xl w-10"
 					role="menubar"
 				>
 					<button
 						title="Swap view"
-						class="swapViewButton text-center align-middle w-10 h-10 rounded-l lg:hidden"
+						class="swapViewButton bg-white text-center align-middle w-10 h-10 rounded-tl lg:hidden"
 					>
 						<i class="fas fa-exchange-alt"></i>
 					</button>
 					<button
 						id="reloadGameButton"
 						title="Reload game"
-						class="flex-none text-center align-middle w-10 h-10"
+						class="bg-white flex-none text-center w-10 h-10 rounded-bl lg:rounded-l"
 					>
 						<i class="fas fa-redo"></i>
 					</button>

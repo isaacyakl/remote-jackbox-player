@@ -13,11 +13,11 @@ Show support by following me on [Twitter](https://www.twitter.com/isaacyakl) and
 Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-player/issues/new).
 
 ## To-Do
-
 -  Start with titles next to buttons then disappear after menu hides unless menu is activated or button hovered over
 -  If screen is short height (landscape on mobile when soft keyboard is out) bring search bar to bottom on focus
 -  Add "Find random stream" feature
 -  Utilize web workers for frames for better performance
+-  Add support for alternate tlds e.g. Twitch.com
 -  Add suggested streams: https://twitch.tv/jackboxgames
 -  Add support for Discord Streaming, YouTube Gaming, and Facebook Gaming
 -  Add login with Twitch/Mixer and random from following channels playing a Jackbox game

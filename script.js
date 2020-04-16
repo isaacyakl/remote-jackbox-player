@@ -29,6 +29,7 @@ formReady(() => {
 	let streamURL = ""; // Variable to hold the stream URL value
 	let twitchChannelId = ""; // Variable to hold Twitch channel id
 	let mixerChannelName = ""; // Variable to hold Mixer channel name
+	let peekUITimeoutID; // Variable to hold the timeout used in peekUI()
 
 	const defaultStreamURL = ""; // Default stream URL
 	const defaultGameURL = "https://jackbox.tv"; // Default game URL
@@ -61,6 +62,12 @@ formReady(() => {
 				e.classList.remove("lg:hidden");
 				e.classList.remove("hidden");
 			});
+
+			// Update rounding style on reload buttons since swap button is present
+			document.getElementById("reloadStreamButton").classList.remove("lg:rounded-l");
+			document.getElementById("reloadGameButton").classList.remove("lg:rounded-l");
+			document.getElementById("reloadStreamButton").classList.remove("rounded-l");
+			document.getElementById("reloadGameButton").classList.remove("rounded-l");
 		}
 		// Not swap view
 		else {
@@ -70,6 +77,12 @@ formReady(() => {
 				e.classList.remove("lg:hidden");
 				e.classList.add("hidden");
 			});
+
+			// Update rounding style on reload buttons since swap button is absent
+			document.getElementById("reloadStreamButton").classList.remove("lg:rounded-l");
+			document.getElementById("reloadGameButton").classList.remove("lg:rounded-l");
+			document.getElementById("reloadStreamButton").classList.add("rounded-l");
+			document.getElementById("reloadGameButton").classList.add("rounded-l");
 		}
 	}
 
@@ -200,10 +213,12 @@ formReady(() => {
 			streamURLElement.value = streamURL; // Set the stream URL input element to the stream URL
 			document.title = `${documentTitle} - ${streamURL}`; // Update document title
 			updateStreamFrame(); // Show the stream
+			peekUI(); // Briefly show UI
 		}
 		// Else it is empty
 		else {
 			document.title = `${documentTitle}`; // Update document title
+			setUIState("open"); // Open UI
 		}
 	}
 
@@ -253,6 +268,7 @@ formReady(() => {
 			hideUnknownStream(); // Hide unknown stream
 			hideTwitchStream(); // Hide twitch
 			hideMixerStream(); // Hide Mixer stream
+			setUIState("open"); // Show UI
 		}
 		// If type equals mixer
 		else if (type == "mixer") {
@@ -420,12 +436,10 @@ formReady(() => {
 			// Set in active styling
 			streamURLBarElement.classList.add("w-0");
 			streamURLBarElement.classList.remove("w-full");
-			streamURLBarElement.classList.remove("p-1");
 		}
 		// Else if the requested stream URL bar state is open
 		else if (state == "open") {
 			// Set active styling
-			streamURLBarElement.classList.add("p-1");
 			streamURLBarElement.classList.add("w-full");
 			streamURLBarElement.classList.remove("w-0");
 		}
@@ -440,7 +454,7 @@ formReady(() => {
 		if (state == "open") {
 			menuButtonElement.innerHTML = closedMenuIcon; // Change the icon to the close button
 			menuItemsElement.classList.remove("h-0");
-			menuItemsElement.style.height = menuItemsElement.childElementCount * 2.5 + "rem"; // Expand the menu 2.5 rem per button
+			menuItemsElement.style.height = (menuItemsElement.childElementCount / 2) * 2.5 + "rem"; // Expand the menu 2.5 rem per button
 			menuButtonElement.title = "Close menu"; // Set title
 
 			// Set active styling
@@ -466,27 +480,31 @@ formReady(() => {
 		}
 	}
 
-	// Function for initializing the UI
-	function initializeUI() {
-		updateStreamURLBarElementState("close");
-		updateMenuElementState("close");
+	// Function for setting the UI state
+	function setUIState(state) {
+		updateStreamURLBarElementState(state);
+		updateMenuElementState(state);
 	}
 
 	// Function for peeking UI
 	function peekUI() {
-		updateMenuElementState("open"); // Open menu
-		updateStreamURLBarElementState("open"); // Open stream URL bar
-		streamURLElement.focus(); // Focus the stream URL input
+		setUIState("open"); // Open the UI
 
 		// A stream URL is included already
 		if (streamURL != "") {
 			// Hide UI
-			setTimeout(() => {
+			peekUITimeoutID = setTimeout(() => {
 				streamURLElement.blur(); // Blur the stream URL input
-				updateMenuElementState("close"); // Close menu
-				updateStreamURLBarElementState("close"); // Close stream URL bar
+				setUIState("close"); // Close the UI
 			}, 3000);
+		} else {
+			streamURLElement.focus(); // Focus the stream URL input
 		}
+	}
+
+	// Function for stopping peekUI()
+	function stopPeekUI() {
+		clearTimeout(peekUITimeoutID); // Clear peekUI timeout
 	}
 
 	// Add event listener to the setup split view button
@@ -497,6 +515,10 @@ formReady(() => {
 	// Add event listeners to the swap view buttons
 	swapViewButtonElements.forEach((e) => {
 		e.addEventListener("click", () => {
+			// If the active view is not already swap view
+			if (activeView != "swap") {
+				setupSwapView(); // Setup swap view
+			}
 			swapView(); // Swap view
 		});
 	});
@@ -524,6 +546,7 @@ formReady(() => {
 
 	// Add event listener for when the URL input field receives focus
 	streamURLElement.addEventListener("focus", () => {
+		stopPeekUI(); // Stop menus from hiding after peekUI()
 		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
 	});
@@ -532,12 +555,15 @@ formReady(() => {
 	streamURLElement.addEventListener("blur", () => {
 		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
+		setUIState("close"); // Hide UI
 	});
 
 	// Add event listener for when the stream URL form is submitted
 	document.getElementById("streamURLForm").addEventListener("submit", function (e) {
 		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
+		setUIState("close"); // Hide UI
+
 		e.preventDefault(); // Prevent form submission
 	});
 
@@ -552,23 +578,27 @@ formReady(() => {
 
 	// Add event listener to the share button
 	document.getElementById("shareButton").addEventListener("click", () => {
+		setUIState("open"); // Show UI
+		stopPeekUI(); // Stop menus from hiding after peekUI()
+
 		// Copy URL to clipboard
 		copyToClipboard(playerURL.toString());
 
 		// Let the user know the link was copied to the clipboard
-		document.getElementById("shareText").classList.add("ml-1"); // Add margin on left and right
 		document.getElementById("shareText").classList.add("px-1"); // Add padding on left and right
 		document.getElementById("shareText").classList.add("w-40"); // Expand share text
+		document.getElementById("shareButton").classList.remove("rounded-r"); // Remove rounding on right side of share button
 		setTimeout(() => {
-			document.getElementById("shareText").classList.remove("ml-1"); // Remove margin on left and right
 			document.getElementById("shareText").classList.remove("px-1"); // Remove padding on left and right
 			document.getElementById("shareText").classList.remove("w-40"); // Collapse share text
+			document.getElementById("shareButton").classList.add("rounded-r"); // Add rounding on right side of share button
+			setUIState("close"); // Hide UI
 		}, 3000);
 	});
 
 	// Add event listener to the how-to button
 	document.getElementById("howToButton").addEventListener("click", () => {
-		// If the how-to are hidden
+		// If the how-to is hidden
 		if (Array.from(howToElement.classList).includes("hidden")) {
 			streamPaneElement.scrollIntoView(true); // Bring the stream frame into view
 			showStreamFrameElement("howTo"); // Show how-to element
@@ -617,15 +647,20 @@ formReady(() => {
 		if (menuButtonElement.title.includes("Open")) {
 			updateMenuElementState("open"); // Open the menu
 			updateStreamURLBarElementState("open"); // Open the stream URL bar
+			streamURLElement.focus(); // Focus on stream URL input
 		}
 		// Else if the menu is open
 		else if (menuButtonElement.title.includes("Close")) {
 			updateMenuElementState("close"); // Close the menu
 			updateStreamURLBarElementState("close"); // Close the stream URL bar
+			streamURLElement.blur(); // Blur stream URL input
 		}
 	});
 
+	// Add event listener for menu interaction
+	document.getElementById("menu").addEventListener("click", () => {
+		stopPeekUI(); // Stop menus from hiding after peekUI()
+	});
+
 	initializePlayer(); // Update the player based on the stream URL if present
-	initializeUI(); // Configure the UI
-	peekUI(); // Show UI for a bit
 });
