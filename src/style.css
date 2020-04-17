@@ -8,8 +8,12 @@
 	top: 45%;
 }
 
-.buttonTitleText {
-	background: rgba(56, 178, 172, 0.7);
+.titleHelpText {
+	background: rgba(129, 230, 217, 0.9);
+}
+
+.verticalText {
+	writing-mode: vertical-lr;
 }
 
 #howTo {

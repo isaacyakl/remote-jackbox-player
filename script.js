@@ -56,9 +56,9 @@ formReady(() => {
 	function updateControls() {
 		// If active view is swap
 		if (activeView == "swap") {
-			// For each swap view button
-			swapViewButtonElements.forEach((e) => {
-				// Show swap view button
+			// For each control that is hidden on large displays (targeting the swap view buttons)
+			document.querySelectorAll(".control").forEach((e) => {
+				// Show that control
 				e.classList.remove("lg:hidden");
 				e.classList.remove("hidden");
 			});
@@ -71,9 +71,9 @@ formReady(() => {
 		}
 		// Not swap view
 		else {
-			// For each swap view button
-			swapViewButtonElements.forEach((e) => {
-				// Hide swap view button
+			// For each control that is hidden on large displays (targeting the swap view buttons)
+			document.querySelectorAll(".control").forEach((e) => {
+				// Hide that control
 				e.classList.remove("lg:hidden");
 				e.classList.add("hidden");
 			});
@@ -265,10 +265,13 @@ formReady(() => {
 			// Display how-to element
 			howToElement.classList.remove("hidden");
 
+			// Bring the stream frame into view
+			streamPaneElement.scrollIntoView(true);
+
 			hideUnknownStream(); // Hide unknown stream
 			hideTwitchStream(); // Hide twitch
 			hideMixerStream(); // Hide Mixer stream
-			setUIState("open"); // Show UI
+			updateStreamURLBarElementState("open"); // Show stream URL bar
 		}
 		// If type equals mixer
 		else if (type == "mixer") {
@@ -439,6 +442,9 @@ formReady(() => {
 		}
 		// Else if the requested stream URL bar state is open
 		else if (state == "open") {
+			// Increase opacity of stream URL bar
+			setOpacityStreamURLBar("1.0");
+
 			// Set active styling
 			streamURLBarElement.classList.add("w-full");
 			streamURLBarElement.classList.remove("w-0");
@@ -454,7 +460,7 @@ formReady(() => {
 		if (state == "open") {
 			menuButtonElement.innerHTML = closedMenuIcon; // Change the icon to the close button
 			menuItemsElement.classList.remove("h-0");
-			menuItemsElement.style.height = (menuItemsElement.childElementCount / 2) * 2.5 + "rem"; // Expand the menu 2.5 rem per button
+			menuItemsElement.style.height = menuItemsElement.childElementCount * 2.5 + "rem"; // Expand the menu 2.5 rem per button
 			menuButtonElement.title = "Close menu"; // Set title
 
 			// Set active styling
@@ -463,20 +469,38 @@ formReady(() => {
 			menuButtonElement.classList.add("rounded-br");
 			menuButtonElement.classList.add("bg-teal-300");
 			menuButtonElement.classList.add("shadow-inner");
+
+			setTimeout(() => {
+				// For each titleHelpText
+				document.querySelectorAll(".titleHelpText").forEach((e) => {
+					// Show it
+					e.classList.add("opacity-100");
+					e.classList.remove("opacity-0");
+				});
+			}, 500);
 		}
 		// Else if the request state is close
 		else if (state == "close") {
-			menuButtonElement.innerHTML = menuIcon; // Change the icon to the menu button
-			menuItemsElement.classList.remove("h-0");
-			menuItemsElement.style.height = "0rem"; // Close the menu
-			menuButtonElement.title = "Open menu"; // Set title
+			// For each titleHelpText
+			document.querySelectorAll(".titleHelpText").forEach((e) => {
+				// Hide it
+				e.classList.add("opacity-0");
+				e.classList.remove("opacity-100");
+			});
 
-			// Set inactive styling
-			menuButtonElement.classList.remove("bg-teal-300");
-			menuButtonElement.classList.remove("shadow-inner");
-			menuButtonElement.classList.remove("rounded-br");
-			menuButtonElement.classList.add("bg-white");
-			menuButtonElement.classList.add("rounded-r");
+			setTimeout(() => {
+				menuButtonElement.innerHTML = menuIcon; // Change the icon to the menu button
+				menuItemsElement.classList.remove("h-0");
+				menuItemsElement.style.height = "0rem"; // Close the menu
+				menuButtonElement.title = "Open menu"; // Set title
+
+				// Set inactive styling
+				menuButtonElement.classList.remove("bg-teal-300");
+				menuButtonElement.classList.remove("shadow-inner");
+				menuButtonElement.classList.remove("rounded-br");
+				menuButtonElement.classList.add("bg-white");
+				menuButtonElement.classList.add("rounded-r");
+			}, 500);
 		}
 	}
 
@@ -504,7 +528,16 @@ formReady(() => {
 
 	// Function for stopping peekUI()
 	function stopPeekUI() {
-		clearTimeout(peekUITimeoutID); // Clear peekUI timeout
+		// If there is a value in the timeout ID
+		if (peekUITimeoutID != undefined) {
+			clearTimeout(peekUITimeoutID); // Clear peekUI timeout
+			peekUITimeoutID = undefined; // Set it to undefined
+		}
+	}
+
+	// Function for setting opacity of stream URL bar
+	function setOpacityStreamURLBar(amount) {
+		streamURLBarElement.style.opacity = amount; // Set opacity value
 	}
 
 	// Add event listener to the setup split view button
@@ -515,7 +548,7 @@ formReady(() => {
 	// Add event listeners to the swap view buttons
 	swapViewButtonElements.forEach((e) => {
 		e.addEventListener("click", () => {
-			// If the active view is not already swap view
+			// If the active view is not already swap view (this should never happen if the UI controls are setup correctly)
 			if (activeView != "swap") {
 				setupSwapView(); // Setup swap view
 			}
@@ -525,7 +558,14 @@ formReady(() => {
 
 	// Add event listener to the setup swap view setup button
 	document.getElementById("setupSwapViewButton").addEventListener("click", () => {
-		setupSwapView(); // Setup swap view
+		// If the active view is already swap view
+		if (activeView == "swap") {
+			swapView(); // Swap view
+		}
+		// Active view is already swap view
+		else {
+			setupSwapView(); // Setup swap view
+		}
 	});
 
 	// Add event listener to the setup scroll view button
@@ -542,6 +582,7 @@ formReady(() => {
 	streamURLElement.addEventListener("input", () => {
 		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
+		setOpacityStreamURLBar("1.0"); // Increase opacity of stream URL bar
 	});
 
 	// Add event listener for when the URL input field receives focus
@@ -549,13 +590,13 @@ formReady(() => {
 		stopPeekUI(); // Stop menus from hiding after peekUI()
 		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
+		setOpacityStreamURLBar("1.0"); // Increase opacity of stream URL bar
 	});
 
 	// Add event listener for when the URL input field blurs
 	streamURLElement.addEventListener("blur", () => {
 		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
-		setUIState("close"); // Hide UI
 	});
 
 	// Add event listener for when the stream URL form is submitted
@@ -588,10 +629,14 @@ formReady(() => {
 		document.getElementById("shareText").classList.add("px-1"); // Add padding on left and right
 		document.getElementById("shareText").classList.add("w-40"); // Expand share text
 		document.getElementById("shareButton").classList.remove("rounded-r"); // Remove rounding on right side of share button
+		document.getElementById("shareTextDoppelganger").classList.add("px-1"); // Add padding on left and right of doppelganger
+		document.getElementById("shareTextDoppelganger").classList.add("w-40"); // Expand doppelganger
 		setTimeout(() => {
 			document.getElementById("shareText").classList.remove("px-1"); // Remove padding on left and right
 			document.getElementById("shareText").classList.remove("w-40"); // Collapse share text
 			document.getElementById("shareButton").classList.add("rounded-r"); // Add rounding on right side of share button
+			document.getElementById("shareTextDoppelganger").classList.remove("px-1"); // Remove padding on left and right of doppelganger
+			document.getElementById("shareTextDoppelganger").classList.remove("w-40"); // Collapse doppelganger
 			setUIState("close"); // Hide UI
 		}, 3000);
 	});
@@ -600,13 +645,14 @@ formReady(() => {
 	document.getElementById("howToButton").addEventListener("click", () => {
 		// If the how-to is hidden
 		if (Array.from(howToElement.classList).includes("hidden")) {
-			streamPaneElement.scrollIntoView(true); // Bring the stream frame into view
+			updateMenuElementState("close"); // Hide the menu
 			showStreamFrameElement("howTo"); // Show how-to element
 		} else {
 			updatePlayer(); // Update the player URL based on user input
 			updateStreamFrame(); // Update the stream frame
 		}
 	});
+
 	// Add event listener for when the page is reloaded in order to confirm that session will be lost
 	window.addEventListener("beforeunload", (e) => {
 		// Prompt always shown in Mozilla Firefox
@@ -645,21 +691,49 @@ formReady(() => {
 	menuButtonElement.addEventListener("click", () => {
 		// If the menu is closed
 		if (menuButtonElement.title.includes("Open")) {
-			updateMenuElementState("open"); // Open the menu
-			updateStreamURLBarElementState("open"); // Open the stream URL bar
+			setUIState("open"); // Open UI
 			streamURLElement.focus(); // Focus on stream URL input
 		}
 		// Else if the menu is open
 		else if (menuButtonElement.title.includes("Close")) {
-			updateMenuElementState("close"); // Close the menu
-			updateStreamURLBarElementState("close"); // Close the stream URL bar
+			setUIState("close"); // Close UI
 			streamURLElement.blur(); // Blur stream URL input
 		}
 	});
 
-	// Add event listener for menu interaction
-	document.getElementById("menu").addEventListener("click", () => {
+	// Add event listener for close button on stream URL bar
+	document.getElementById("closeStreamURLBarButton").addEventListener("click", () => {
+		updateStreamURLBarElementState("close"); // Close stream URL bar
+	});
+
+	// Add event listener for button title text mouseover
+	document.querySelectorAll(".menuItem").forEach((e) => {
+		e.addEventListener("mouseover", () => {
+			stopPeekUI(); // Stop menus from hiding after peekUI()
+		});
+	});
+
+	// Add event listener for control button mouseover
+	document.querySelectorAll(".control").forEach((e) => {
+		e.addEventListener("mouseover", () => {
+			stopPeekUI(); // Stop menus from hiding after peekUI()
+		});
+	});
+
+	// Add event listener for stream URL bar mouseover
+	streamURLBarElement.addEventListener("mouseover", () => {
 		stopPeekUI(); // Stop menus from hiding after peekUI()
+
+		// Increase opacity of stream URL bar
+		setOpacityStreamURLBar("1.0");
+	});
+
+	// Add event listener for stream URL bar mouseover
+	streamURLBarElement.addEventListener("mouseout", () => {
+		// If stream URL input is not empty
+		if (streamURLElement.value != "") {
+			setOpacityStreamURLBar("0.5"); // Decrease opacity of stream URL bar
+		}
 	});
 
 	initializePlayer(); // Update the player based on the stream URL if present

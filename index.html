@@ -68,33 +68,13 @@
 					<p class="text-center mb-4">
 						<i class="fas fa-gamepad mr-2"></i> Play with your friends!
 					</p>
-					<h2
-						class="text-center font-bold mb-4 mt-6 p-1 shadow-inner rounded text-black bg-teal-200"
-					>
-						Controls
-					</h2>
-					<p class="text-center mb-4">
-						<i class="fas fa-exchange-alt mr-2"></i> Swap view/Use swap view
-					</p>
-					<p class="text-center mb-4">
-						<i class="fas fa-columns mr-2"></i> Use split screen view
-					</p>
-					<p class="text-center mb-4">
-						<i class="fas fa-arrows-alt-v mr-2"></i> Use scroll view
-					</p>
-					<p class="text-center mb-4">
-						<i class="fas fa-share-alt mr-2"></i> Share the current stream view
-					</p>
-					<p class="text-center mb-4"><i class="fas fa-question mr-2"></i> Show how-to</p>
+
 					<h2
 						class="text-center font-bold mb-4 mt-6 p-1 shadow-inner rounded text-black bg-teal-200"
 					>
 						Supported Streaming Platforms
 					</h2>
-					<p class="text-center mb-4">
-						Game owners, stream your game on one of these supported platforms so others can
-						join you.
-					</p>
+
 					<p class="text-center text-2xl mb-4">
 						<a href="https://twitch.tv/search?term=jackbox" target="_blank"
 							><i
@@ -113,6 +93,10 @@
 								class="fab fa-steam-symbol transition duration-300 ease-in-out transform hover:scale-125"
 							></i
 						></a>
+					</p>
+					<p class="text-center mb-4">
+						Game owners, stream your game session using one of these platforms so others can
+						join you.
 					</p>
 					<p class="text-center mt-10">
 						<a
@@ -138,106 +122,143 @@
 				<!-- Stream URL Bar -->
 				<div
 					id="streamURLBar"
-					class="absolute flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out rounded-r shadow-lg z-50 top-0 left-0 text-2xl overflow-hidden w-0"
-					role="navigation"
-				>
-					<form id="streamURLForm" class="w-full">
-						<input
-							id="streamURL"
-							type="url"
-							name="streamURL"
-							placeholder="Paste a stream URL here"
-							pattern="https://.*"
-							class="flex-grow text-center transition-all duration-1000 ease-in-out px-1 h-10 bg-teal-200 hover:bg-teal-300 hover:shadow-inner focus:bg-teal-300 w-full"
-							value=""
-							title="Enter a stream URL"
-							required
-						/>
-					</form>
-
-					<button
-						id="shareButton"
-						title="Share this stream view"
-						class="bg-white flex-none text-center align-middle w-10 h-10 rounded-r"
-					>
-						<i class="fas fa-share-alt"></i>
-					</button>
-					<span
-						id="shareText"
-						class="flex-none text-center align-middle transition-all duration-1000 ease-in-out w-0 h-10 rounded-r shadow-inner bg-green-300 overflow-hidden"
-						role="alert"
-						>URL copied!</span
-					>
-				</div>
-				<!-- Menu -->
-				<div
-					id="menu"
-					class="absolute z-50 w-56 bottom-0 left-0 text-2xl mb-16 overflow-hidden"
+					class="absolute flex flex-col justify-start align-middle transition-all duration-1000 ease-in-out z-50 top-0 left-0 text-2xl overflow-hidden w-0"
 				>
 					<div
-						id="menuItems"
-						class="flex flex-row flex-wrap transition-all duration-1000 ease-in-out overflow-hidden h-0"
+						class="relative flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out rounded-r shadow-lg z-50 top-0 left-0 text-2xl w-full"
+						role="navigation"
 					>
 						<button
-							id="howToButton"
-							title="Read how-to"
-							class="bg-white text-center align-middle w-10 h-10 shadow-lg rounded-tr"
+							id="closeStreamURLBarButton"
+							class="bg-white flex-none text-center align-middle w-10 h-10"
 						>
-							<i class="fas fa-question"></i>
+							<i class="fas fa-eye-slash"></i>
 						</button>
-						<span
-							class="buttonTitleText relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-white shadow-inner text-x1 h-8 mt-1"
-							>Read how-to</span
-						>
+						<form id="streamURLForm" class="w-full">
+							<input
+								id="streamURL"
+								type="url"
+								name="streamURL"
+								placeholder="Paste a stream URL here"
+								pattern="https://.*"
+								class="flex-grow text-center transition-all duration-1000 ease-in-out px-1 h-10 bg-teal-200 hover:bg-teal-300 hover:shadow-inner focus:bg-teal-300 w-full"
+								value=""
+								title="Enter a stream URL"
+								required
+							/>
+						</form>
+
 						<button
-							id="setupSwapViewButton"
-							title="Used swap view"
-							class="bg-white text-center align-middle w-10 h-10 shadow-lg"
+							id="shareButton"
+							title="Share this stream view"
+							class="bg-white flex-none text-center align-middle w-10 h-10 rounded-r"
 						>
-							<i class="fas fa-exchange-alt"></i>
+							<i class="fas fa-share-alt"></i>
 						</button>
 						<span
-							class="buttonTitleText relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-white shadow-inner text-x1 h-8 mt-1"
-							>Use swap view</span
+							id="shareText"
+							class="flex-none text-center align-middle transition-all duration-1000 ease-in-out w-0 h-10 rounded-r shadow-inner bg-green-300 overflow-hidden"
+							role="alert"
+							>URL copied!</span
 						>
-						<button
-							id="setupSplitViewButton"
-							title="Use split view"
-							class="bg-white text-center align-middle w-10 h-10 shadow-lg"
-						>
-							<i class="fas fa-columns"></i>
-						</button>
+					</div>
+					<div
+						class="relative flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out z-50 top-0 left-0 text-2xl w-full"
+						role="navigation"
+					>
 						<span
-							class="buttonTitleText relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-white shadow-inner text-x1 h-8 mt-1"
-							>Use split view</span
+							class="flex-none titleHelpText verticalText w-8 mt-1 ml-1 align-middle opacity-0 transition-all duration-500 ease-in-out shadow-lg py-1 rounded-b rounded-tr text-black shadow-inner text-xl overflow-hidden"
+							>Hide</span
 						>
-						<button
-							id="setupScrollViewButton"
-							title="Use scroll view"
-							class="bg-white text-center align-middle w-10 h-10 shadow-lg"
-						>
-							<i class="fas fa-arrows-alt-v"></i>
-						</button>
 						<span
-							class="buttonTitleText relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-white shadow-inner text-x1 h-8 mt-1"
-							>Use scroll view</span
-						>
-						<button
-							id="setupSwipeViewButton"
-							title="Use swipe view"
-							class="bg-white text-center align-middle w-10 h-10 shadow-lg"
-						>
-							<i class="fas fa-arrows-alt-h"></i>
-						</button>
+							class="flex-grow titleHelpText transition-all duration-500 ease-in-out h-0 overflow-hidden"
+						></span>
 						<span
-							class="buttonTitleText relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-white shadow-inner text-x1 h-8 mt-1"
-							>Use swipe view</span
+							class="flex-none titleHelpText verticalText w-8 mt-1 mr-1 align-middle opacity-0 transition-all duration-500 ease-in-out shadow-lg py-1 rounded-b rounded-tl text-black shadow-inner text-xl overflow-hidden"
+							>Share</span
 						>
+						<span
+							id="shareTextDoppelganger"
+							class="flex-none titleHelpText transition-all duration-1000 ease-in-out w-0 h-0 overflow-hidden"
+						></span>
+					</div>
+				</div>
+				<!-- Menu -->
+				<div id="menu" class="absolute z-50 bottom-0 left-0 text-2xl mb-24 overflow-hidden">
+					<div
+						id="menuItems"
+						class="flex flex-col flex-no-wrap justify-start content-start transition-all duration-500 ease-in-out overflow-hidden h-0"
+					>
+						<div class="menuItem flex flex-row">
+							<button
+								id="howToButton"
+								title="Read how-to"
+								class="flex-none bg-white text-center align-middle w-10 h-10 shadow-lg rounded-tr"
+							>
+								<i class="fas fa-question"></i>
+							</button>
+							<span
+								class="flex-none titleHelpText opacity-0 transition-all duration-500 ease-in-out relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-black shadow-inner text-xl h-8 mt-1 overflow-hidden"
+								>How-To</span
+							>
+						</div>
+						<div class="menuItem flex flex-row">
+							<button
+								id="setupSwapViewButton"
+								title="Used swap view"
+								class="flex-none bg-white text-center align-middle w-10 h-10 shadow-lg"
+							>
+								<i class="fas fa-exchange-alt"></i>
+							</button>
+							<span
+								class="flex-none titleHelpText opacity-0 transition-all duration-500 ease-in-out relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-black shadow-inner text-xl h-8 mt-1 overflow-hidden"
+								>Swap View</span
+							>
+						</div>
+						<div class="menuItem flex flex-row">
+							<button
+								id="setupSplitViewButton"
+								title="Use split view"
+								class="flex-none bg-white text-center align-middle w-10 h-10 shadow-lg"
+							>
+								<i class="fas fa-columns"></i>
+							</button>
+							<span
+								class="flex-none titleHelpText opacity-0 transition-all duration-500 ease-in-out relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-black shadow-inner text-xl h-8 mt-1 overflow-hidden"
+								>Split View</span
+							>
+						</div>
+						<div class="menuItem flex flex-row">
+							<button
+								id="setupScrollViewButton"
+								title="Use scroll view"
+								class="flex-none bg-white text-center align-middle w-10 h-10 shadow-lg"
+							>
+								<i class="fas fa-arrows-alt-v"></i>
+							</button>
+							<span
+								class="flex-none titleHelpText opacity-0 transition-all duration-500 ease-in-out relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-black shadow-inner text-xl h-8 mt-1 overflow-hidden"
+								>Scroll View</span
+							>
+						</div>
+						<div class="menuItem flex flex-row">
+							<button
+								id="setupSwipeViewButton"
+								title="Use swipe view"
+								class="flex-none bg-white text-center align-middle w-10 h-10 shadow-lg"
+							>
+								<i class="fas fa-arrows-alt-h"></i>
+							</button>
+							<span
+								class="flex-none titleHelpText opacity-0 transition-all duration-500 ease-in-out relative ml-1 shadow-lg px-1 rounded-r rounded-tl text-black shadow-inner text-xl h-8 mt-1 overflow-hidden"
+								>Swipe View</span
+							>
+						</div>
 					</div>
 					<button
 						id="menuButton"
 						title="Close menu"
-						class="bg-white text-center w-10 h-10 rounded-br bg-teal-300 shadow-inner shadow-lg"
+						class="control bg-white text-center w-10 h-10 rounded-br bg-teal-300 shadow-inner shadow-lg"
 					>
 						<i class="fas fa-times"></i>
 					</button>
@@ -245,22 +266,32 @@
 				<!-- Stream Controls -->
 				<div
 					id="streamControls"
-					class="controls absolute rounded-l shadow-lg z-50 right-0 text-2xl w-10"
+					class="controls flex flex-col flex-no-wrap justify-end content-end absolute rounded-l shadow-lg z-50 right-0 text-2xl w-10"
 					role="menubar"
 				>
-					<button
-						title="Swap view"
-						class="swapViewButton bg-white text-center align-middle w-10 h-10 rounded-tl lg:hidden"
-					>
-						<i class="fas fa-exchange-alt"></i>
-					</button>
-					<button
-						id="reloadStreamButton"
-						title="Reload stream"
-						class="bg-white flex-none text-center w-10 h-10 rounded-bl lg:rounded-l"
-					>
-						<i class="fas fa-redo"></i>
-					</button>
+					<div class="control flex flex-row justify-end content-end lg:hidden">
+						<span
+							class="flex-none titleHelpText opacity-0 transition-all duration-500 ease-in-out relative mr-1 shadow-lg px-1 rounded-l rounded-tr text-black shadow-inner text-xl h-8 mt-1 overflow-hidden"
+							>Swap Views</span
+						>
+						<button
+							class="flex-none swapViewButton bg-white text-center align-middle w-10 h-10 rounded-tl"
+						>
+							<i class="fas fa-exchange-alt"></i>
+						</button>
+					</div>
+					<div class="control flex flex-row justify-end content-end">
+						<span
+							class="flex-none titleHelpText opacity-0 transition-all duration-500 ease-in-out relative mr-1 shadow-lg px-1 rounded-l rounded-tr text-black shadow-inner text-xl h-8 mt-1 overflow-hidden"
+							>Reload Stream</span
+						>
+						<button
+							id="reloadStreamButton"
+							class="flex-none bg-white text-center w-10 h-10 rounded-bl lg:rounded-l"
+						>
+							<i class="fas fa-redo"></i>
+						</button>
+					</div>
 				</div>
 			</div>
 			<!-- Game Pane -->
@@ -270,22 +301,32 @@
 				<!-- Game Controls -->
 				<div
 					id="gameControls"
-					class="controls absolute rounded-l shadow-lg z-50 right-0 text-2xl w-10"
+					class="controls flex flex-col flex-no-wrap justify-end content-end absolute rounded-l shadow-lg z-50 right-0 text-2xl w-10"
 					role="menubar"
 				>
-					<button
-						title="Swap view"
-						class="swapViewButton bg-white text-center align-middle w-10 h-10 rounded-tl lg:hidden"
-					>
-						<i class="fas fa-exchange-alt"></i>
-					</button>
-					<button
-						id="reloadGameButton"
-						title="Reload game"
-						class="bg-white flex-none text-center w-10 h-10 rounded-bl lg:rounded-l"
-					>
-						<i class="fas fa-redo"></i>
-					</button>
+					<div class="control flex flex-row justify-end content-end lg:hidden">
+						<span
+							class="flex-none titleHelpText opacity-0 transition-all duration-500 ease-in-out relative mr-1 shadow-lg px-1 rounded-l rounded-tr text-black shadow-inner text-xl h-8 mt-1 overflow-hidden"
+							>Swap Views</span
+						>
+						<button
+							class="flex-none swapViewButton bg-white text-center align-middle w-10 h-10 rounded-tl"
+						>
+							<i class="fas fa-exchange-alt"></i>
+						</button>
+					</div>
+					<div class="control flex flex-row justify-end content-end">
+						<span
+							class="flex-none titleHelpText opacity-0 transition-all duration-500 ease-in-out relative mr-1 shadow-lg px-1 rounded-l rounded-tr text-black shadow-inner text-xl h-8 mt-1 overflow-hidden"
+							>Reload Game</span
+						>
+						<button
+							id="reloadGameButton"
+							class="flex-none bg-white text-center w-10 h-10 rounded-bl lg:rounded-l"
+						>
+							<i class="fas fa-redo"></i>
+						</button>
+					</div>
 				</div>
 			</div>
 		</main>

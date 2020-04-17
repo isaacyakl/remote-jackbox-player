@@ -13950,8 +13950,14 @@ video {
   top: 45%;
 }
 
-.buttonTitleText {
-  background: rgba(56, 178, 172, 0.7);
+.titleHelpText {
+  background: rgba(129, 230, 217, 0.9);
+}
+
+.verticalText {
+  -webkit-writing-mode: vertical-lr;
+      -ms-writing-mode: tb-lr;
+          writing-mode: vertical-lr;
 }
 
 #howTo {
