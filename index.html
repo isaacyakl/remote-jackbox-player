@@ -122,14 +122,14 @@
 				<!-- Stream URL Bar -->
 				<div
 					id="streamURLBar"
-					class="absolute flex flex-col justify-start align-middle transition-all duration-1000 ease-in-out z-50 top-0 left-0 text-2xl overflow-hidden w-0"
+					class="absolute flex flex-col justify-start align-middle transition-all duration-1000 ease-in-out z-50 top-0 left-0 text-2xl w-0"
 				>
 					<div
-						class="relative flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out rounded-r shadow-lg z-50 top-0 left-0 text-2xl w-full"
+						class="relative flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out rounded-r shadow-lg z-50 top-0 left-0 text-2xl w-full overflow-hidden"
 						role="navigation"
 					>
 						<button
-							id="closeStreamURLBarButton"
+							id="hideStreamURLBarButton"
 							class="bg-white flex-none text-center align-middle w-10 h-10"
 						>
 							<i class="fas fa-eye-slash"></i>
@@ -164,18 +164,18 @@
 					</div>
 					<div
 						id="streamURLBarTitleHelpText"
-						class="relative flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out z-50 top-0 left-0 text-2xl w-full"
+						class="relative flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out z-50 top-0 left-0 text-2xl w-full h-0"
 						role="navigation"
 					>
 						<span
-							class="flex-none titleHelpText verticalText w-8 mt-1 ml-1 align-middle opacity-0 transition-all duration-500 ease-in-out shadow-lg py-1 rounded-b rounded-tr text-black shadow-inner text-xl overflow-hidden"
+							class="flex-none titleHelpText verticalText w-8 h-16 mt-1 ml-1 align-middle opacity-0 transition-all duration-500 ease-in-out shadow-lg py-1 rounded-b rounded-tr text-black shadow-inner text-xl overflow-hidden"
 							>Hide</span
 						>
 						<span
 							class="flex-grow titleHelpText transition-all duration-500 ease-in-out h-0 overflow-hidden"
 						></span>
 						<span
-							class="flex-none titleHelpText verticalText w-8 mt-1 mr-1 align-middle opacity-0 transition-all duration-500 ease-in-out shadow-lg py-1 rounded-b rounded-tl text-black shadow-inner text-xl overflow-hidden"
+							class="flex-none titleHelpText verticalText w-8 h-16 mt-1 mr-1 align-middle opacity-0 transition-all duration-500 ease-in-out shadow-lg py-1 rounded-b rounded-tl text-black shadow-inner text-xl overflow-hidden"
 							>Share</span
 						>
 						<span

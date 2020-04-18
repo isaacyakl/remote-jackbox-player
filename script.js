@@ -758,7 +758,7 @@ formReady(() => {
 	});
 
 	// Add event listener for close button on stream URL bar
-	document.getElementById("closeStreamURLBarButton").addEventListener("click", () => {
+	document.getElementById("hideStreamURLBarButton").addEventListener("click", () => {
 		updateStreamURLBarElementState("close"); // Close stream URL bar
 	});
 
