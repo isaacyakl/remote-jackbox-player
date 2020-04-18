@@ -445,20 +445,40 @@ formReady(() => {
 
 	// Function for updating the state of the stream URL bar
 	function updateStreamURLBarElementState(state) {
-		// If the requested stream URL bar state is close
-		if (state == "close") {
-			// Set in active styling
-			streamURLBarElement.classList.add("w-0");
-			streamURLBarElement.classList.remove("w-full");
-		}
 		// Else if the requested stream URL bar state is open
-		else if (state == "open") {
+		if (state == "open") {
 			// Increase opacity of stream URL bar
 			setOpacityStreamURLBar("1.0");
 
 			// Set active styling
 			streamURLBarElement.classList.add("w-full");
 			streamURLBarElement.classList.remove("w-0");
+
+			setTimeout(() => {
+				// For each titleHelpText within #streamURLBarTitleHelpText
+				document
+					.querySelectorAll("#streamURLBarTitleHelpText > .titleHelpText")
+					.forEach((e) => {
+						// Show it
+						e.classList.add("opacity-100");
+						e.classList.remove("opacity-0");
+					});
+			}, 500);
+		}
+		// Else if the requested stream URL bar state is close
+		else if (state == "close") {
+			// For each titleHelpText within #streamURLBarTitleHelpText
+			document.querySelectorAll("#streamURLBarTitleHelpText > .titleHelpText").forEach((e) => {
+				// Hide it
+				e.classList.add("opacity-0");
+				e.classList.remove("opacity-100");
+			});
+
+			setTimeout(() => {
+				// Set inactive styling
+				streamURLBarElement.classList.add("w-0");
+				streamURLBarElement.classList.remove("w-full");
+			}, 500);
 		}
 	}
 
@@ -482,8 +502,15 @@ formReady(() => {
 			menuButtonElement.classList.add("shadow-inner");
 
 			setTimeout(() => {
-				// For each titleHelpText
-				document.querySelectorAll(".titleHelpText").forEach((e) => {
+				// For each titleHelpText for a menuItem
+				document.querySelectorAll(".menuItem > .titleHelpText").forEach((e) => {
+					// Show it
+					e.classList.add("opacity-100");
+					e.classList.remove("opacity-0");
+				});
+
+				// For each titleHelpText for a control
+				document.querySelectorAll(".control > .titleHelpText").forEach((e) => {
 					// Show it
 					e.classList.add("opacity-100");
 					e.classList.remove("opacity-0");
@@ -492,8 +519,15 @@ formReady(() => {
 		}
 		// Else if the request state is close
 		else if (state == "close") {
-			// For each titleHelpText
-			document.querySelectorAll(".titleHelpText").forEach((e) => {
+			// For each titleHelpText for a menuItem
+			document.querySelectorAll(".menuItem > .titleHelpText").forEach((e) => {
+				// Hide it
+				e.classList.add("opacity-0");
+				e.classList.remove("opacity-100");
+			});
+
+			// For each titleHelpText for a control
+			document.querySelectorAll(".control > .titleHelpText").forEach((e) => {
 				// Hide it
 				e.classList.add("opacity-0");
 				e.classList.remove("opacity-100");
