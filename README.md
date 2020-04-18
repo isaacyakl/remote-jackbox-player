@@ -14,7 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  If screen is short height (landscape on mobile when soft keyboard is out) bring search bar to bottom on focus
 -  Add "Find random stream" feature
 -  Utilize web workers for frames for better performance
 -  Add support for alternate tlds e.g. Twitch.com

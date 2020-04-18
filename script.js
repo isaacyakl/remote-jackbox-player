@@ -636,12 +636,26 @@ formReady(() => {
 		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
 		setOpacityStreamURLBar("1.0"); // Increase opacity of stream URL bar
+
+		// If the device is low res
+		if (window.innerWidth < 768 || window.innerHeight < 768) {
+			// Move menu to bottom of screen (helpful on mobile devices)
+			document.getElementById("menu").classList.remove("mb-24");
+			document.getElementById("menu").classList.add("mb-6");
+		}
 	});
 
 	// Add event listener for when the URL input field blurs
 	streamURLElement.addEventListener("blur", () => {
 		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
+
+		// If the device is low res
+		if (window.innerWidth < 768 || window.innerHeight < 768) {
+			// Move menu back to original position
+			document.getElementById("menu").classList.remove("mb-6");
+			document.getElementById("menu").classList.add("mb-24");
+		}
 	});
 
 	// Add event listener for when the stream URL form is submitted
