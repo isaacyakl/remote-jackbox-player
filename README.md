@@ -20,6 +20,7 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 -  Add support for alternate tlds e.g. Twitch.com
 -  Add suggested streams: https://twitch.tv/jackboxgames
 -  Add support for Discord Streaming, YouTube Gaming, and Facebook Gaming
+-  Add custom confirmation dialog for trying to reload game pane
 -  Add login with Twitch/Mixer and random from following channels playing a Jackbox game
 -  Add left-hand / right-hand control orientation option
 -  Add room/stream searching feature

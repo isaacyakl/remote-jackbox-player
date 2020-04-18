@@ -21,6 +21,7 @@ formReady(() => {
 	let menuItemsElement = document.getElementById("menuItems"); // Menu div
 	let menuButtonElement = document.getElementById("menuButton"); // Menu button
 	let swapViewButtonElements = document.querySelectorAll(".swapViewButton"); // Swap view buttons
+	let swapViewButtonWrapperElements = document.querySelectorAll(".swapViewButtonWrapper"); // Swap view button wrappers
 
 	// Data variables
 	let activeView = "default"; // Variable for active view
@@ -36,7 +37,9 @@ formReady(() => {
 	const defaultPlayerClasses = playerElement.getAttribute("class"); // Default classes for #player from index.html
 	const defaultStreamPaneClasses = streamPaneElement.getAttribute("class"); // Default classes for #streamPane from index.html
 	const defaultGamePaneClasses = gamePaneElement.getAttribute("class"); // Default classes for #gamePane from index.html
-	const defaultSwapViewButtons = swapViewButtonElements.item(0).getAttribute("class"); // Default classes for .swapViewButton's from index.html
+	const defaultSwapViewButtonWrappersClasses = swapViewButtonWrapperElements
+		.item(0)
+		.getAttribute("class"); // Default classes for .swapViewButton's from index.html
 
 	// Function for setting up default view
 	function setupDefaultView() {
@@ -46,9 +49,9 @@ formReady(() => {
 		gamePaneElement.setAttribute("class", defaultGamePaneClasses); // Revert to default game pane configuration
 
 		// For each swap view button
-		swapViewButtonElements.forEach((e) => {
+		swapViewButtonWrapperElements.forEach((e) => {
 			// Revert swap view button configurations
-			e.setAttribute("class", defaultSwapViewButtons);
+			e.setAttribute("class", defaultSwapViewButtonWrappersClasses);
 		});
 	}
 
@@ -56,8 +59,8 @@ formReady(() => {
 	function updateControls() {
 		// If active view is swap
 		if (activeView == "swap") {
-			// For each control that is hidden on large displays (targeting the swap view buttons)
-			document.querySelectorAll(".control").forEach((e) => {
+			// For each swapViewButton that is hidden on large displays
+			swapViewButtonWrapperElements.forEach((e) => {
 				// Show that control
 				e.classList.remove("lg:hidden");
 				e.classList.remove("hidden");
@@ -71,8 +74,8 @@ formReady(() => {
 		}
 		// Not swap view
 		else {
-			// For each control that is hidden on large displays (targeting the swap view buttons)
-			document.querySelectorAll(".control").forEach((e) => {
+			// For each swapViewButton that is hidden on large displays
+			swapViewButtonWrapperElements.forEach((e) => {
 				// Hide that control
 				e.classList.remove("lg:hidden");
 				e.classList.add("hidden");
