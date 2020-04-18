@@ -15,7 +15,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 ## To-Do
 
 -  Add "Find random stream" feature
--  Utilize web workers for frames for better performance
 -  Add support for alternate tlds e.g. Twitch.com
 -  Add suggested streams: https://twitch.tv/jackboxgames
 -  Add support for Discord Streaming, YouTube Gaming, and Facebook Gaming
