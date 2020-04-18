@@ -28,9 +28,11 @@ formReady(() => {
 	let documentTitle = "Remote Jackbox Player"; // Variable holding the official app title
 	let playerURL = null; // Variable for the player URL used for link sharing
 	let streamURL = ""; // Variable to hold the stream URL value
+	let peekUITimeoutID; // Variable to hold the timeout used in peekUI()
+
+	// Channel id/names
 	let twitchChannelId = ""; // Variable to hold Twitch channel id
 	let mixerChannelName = ""; // Variable to hold Mixer channel name
-	let peekUITimeoutID; // Variable to hold the timeout used in peekUI()
 
 	const defaultStreamURL = ""; // Default stream URL
 	const defaultGameURL = "https://jackbox.tv"; // Default game URL
@@ -297,6 +299,12 @@ formReady(() => {
 			hideTwitchStream(); // Hide Twitch stream
 			hideMixerStream(); // Hide Mixer stream
 		}
+	}
+
+	// Function for clearing channel id/name variables
+	function clearChannelIds() {
+		twitchChannelId = ""; // Clear Twitch channel Id
+		mixerChannelName = ""; // Clear Mixer channel name
 	}
 
 	// Function for navigating stream frame
@@ -670,11 +678,8 @@ formReady(() => {
 
 	// Add event listener to the stream reload button
 	document.getElementById("reloadStreamButton").addEventListener("click", () => {
-		let currentStreamURL = streamURLElement.value; // Grab current stream URL
-		streamURLElement.value = ""; // Clear stream URL
-		updateStreamFrame(); // Update stream frame
-		streamURLElement.value = currentStreamURL; // Replace stream URL
-		updateStreamFrame(); // Update stream frame
+		clearChannelIds(); // Clear channel info so that stream pane will reload
+		updateStreamFrame(); // Update stream pane
 	});
 
 	// Add event listener to the game reload button
