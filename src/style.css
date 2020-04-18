@@ -69,11 +69,11 @@
 }
 
 #mixerStream {
-	height: 50%;
+	height: 65%;
 }
 
 #mixerChat {
-	height: 50%;
+	height: 35%;
 }
 
 @media (hover: hover) {
