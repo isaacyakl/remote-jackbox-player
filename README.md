@@ -16,7 +16,8 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 -  If screen is short height (landscape on mobile when soft keyboard is out) bring search bar to bottom on focus
 -  Add "Find random stream" feature
--  Utilize web workers for frames for better performance
+-  Make stream icons evenly spaced
+-  Do not add to stream URL if the stream URL input is only "https://"
 -  Add support for alternate tlds e.g. Twitch.com
 -  Add suggested streams: https://twitch.tv/jackboxgames
 -  Add support for Discord Streaming, YouTube Gaming, and Facebook Gaming

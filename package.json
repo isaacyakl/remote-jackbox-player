@@ -3,7 +3,8 @@
 	"version": "1.0.0",
 	"browser": "index.html",
 	"scripts": {
-		"build:css": "tailwind build src/style.css -o style.css"
+		"build:css": "tailwind build src/style.css -o style.css",
+		"build:js": "terser src/script.js -c -m --comments -o script.min.js"
 	},
 	"author": "Isaac 'yak' L.",
 	"license": "MIT",

@@ -208,8 +208,12 @@ formReady(() => {
 		playerURL = new URL(document.location.href.toString()); // Grab current URL
 		streamURL = getStreamURLParam(); // Get stream URL from player URL param
 
-		// If stream URL param of the player URL is not blank
-		if (streamURL != "") {
+		// If the hash is not empty (there may be a Twitch auth token for a random stream)
+		if (document.location.hash != "") {
+			document.getElementById("randomStreamButton").click(); // Click the random button
+		}
+		// Else if stream URL param of the player URL is not blank
+		else if (streamURL != "") {
 			streamURLElement.value = streamURL; // Set the stream URL input element to the stream URL
 			document.title = `${documentTitle} - ${streamURL}`; // Update document title
 			updateStreamFrame(); // Show the stream
@@ -733,6 +737,52 @@ formReady(() => {
 		// If stream URL input is not empty
 		if (streamURLElement.value != "") {
 			setOpacityStreamURLBar("0.5"); // Decrease opacity of stream URL bar
+		}
+	});
+
+	// Add event listener for random stream button
+	document.getElementById("randomStreamButton").addEventListener("click", async () => {
+		function getHashParam(query) {
+			let parameter = query;
+			parameter = parameter.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+			let regex = new RegExp("[\\#|&]" + parameter.toLowerCase() + "=([^&#]*)");
+			let results = regex.exec("#" + playerURL.toString().toLowerCase().split("#")[1]);
+			return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
+		}
+
+		streamURLElement.disabled = true; // Disable the stream URL input
+		streamURLElement.value = "Searching..."; // Indicate to the user that searching is in progress
+
+		console.log(`RJP http://${window.location.hostname}:5500`);
+
+		// If there is no auth token hash
+		if (document.location.hash == "") {
+			// Send the user to get an auth token
+			document.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=ysaytynx3opj4orxahqrpc2fvsrwj1&redirect_uri=${
+				"http://" + window.location.hostname + ":5500"
+			}&response_type=token+id_token&scope=openid`;
+		}
+		// Else if the location hash contains something
+		else if (document.location.hash != "") {
+			let authToken = getHashParam("access_token");
+			console.log(`RJP Auth Token: ${authToken}`);
+
+			let twitchData = await fetch(
+				"https://api.twitch.tv/helix/streams?language=en&first=100&game_id=508752",
+				{
+					headers: { "Client-ID": "ysaytynx3opj4orxahqrpc2fvsrwj1" },
+				}
+			);
+
+			if (twitchData.ok) {
+				let results = await twitchData.json();
+				console.log(`RJP ${JSON.stringify(results)}`);
+
+				streamURLElement.disabled = false;
+				streamURLElement.value = "Done.";
+			} else {
+				console.error("HTTP-Error:" + twitchData.status);
+			}
 		}
 	});
 
