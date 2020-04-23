@@ -16,7 +16,7 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 !! Revert commented out reload preventDefault() @ 669
 
--  Add follow stream button
+-  Make random search include streams with 7 viewers or less unless there are less than 30 streams active for that game
 -  Add feature to select a stream from user's followed list on Twitch if the streams is currently playing a Jackbox game
 -  Make stream icons evenly spaced
 -  Utilize Babel.js for wider support/polyfilling

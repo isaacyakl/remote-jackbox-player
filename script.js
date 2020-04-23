@@ -210,6 +210,9 @@ formReady(() => {
 
 		// If the hash is not empty (there may be a Twitch auth token for a random stream)
 		if (document.location.hash != "") {
+			streamURLElement.disabled = true; // Disable the stream URL input
+			streamURLElement.value = "Searching..."; // Indicate to the user that searching is in progress
+			setUIState("open"); // Open UI
 			document.getElementById("randomStreamButton").click(); // Click the random button
 		}
 		// Else if stream URL param of the player URL is not blank
@@ -751,14 +754,12 @@ formReady(() => {
 			return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
 		}
 
+		// Function for getting a random integer
 		function getRandomInt(min, max) {
 			min = Math.ceil(min);
 			max = Math.floor(max);
 			return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 		}
-
-		streamURLElement.disabled = true; // Disable the stream URL input
-		streamURLElement.value = "Searching..."; // Indicate to the user that searching is in progress
 
 		let clientID = "ysaytynx3opj4orxahqrpc2fvsrwj1"; // Twitch Client ID
 		let twitchGameIDsFile = await fetch("feature-random-stream_twitch-game-ids.json"); // Retrieve Twitch game ids json file
@@ -774,7 +775,6 @@ formReady(() => {
 		// If the location hash contains something and there is an access token
 		if (document.location.hash != "" && getHashParam("access_token") != "") {
 			let authToken = getHashParam("access_token"); // Get the access token
-			console.log(`Auth Token: ${authToken}`);
 
 			// Clear URL params
 			window.history.pushState(null, null, "/");
@@ -802,6 +802,7 @@ formReady(() => {
 				}
 			}
 
+			// Start process of getting a random stream
 			let randomGameIndex = getRandomInt(0, twitchData.length); // Get a random game
 			let randomStreamIndex = getRandomInt(0, twitchData[randomGameIndex].data.length); // Get a random stream
 			let randomStream = twitchData[randomGameIndex].data[randomStreamIndex].user_name; // Get the random stream's name
@@ -809,7 +810,6 @@ formReady(() => {
 			streamURLElement.value = `https://twitch.tv/${randomStream}`; // Set the stream URL input
 			streamURLElement.disabled = false; // Enable the stream URL input
 
-			setUIState("open"); // Open UI
 			updatePlayer(); // Update the player URL based on user input
 			updateStreamFrame(); // Update the stream frame
 		}
