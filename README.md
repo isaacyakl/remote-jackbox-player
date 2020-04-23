@@ -14,8 +14,9 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Add feature to select a stream from user's followed list on Twitch if the streams is currently playing a Jackbox game
+-  Add feature to select a stream from user's followed list on Twitch if the streamer is currently playing a Jackbox game
 -  Make stream icons evenly spaced
+-  Make titleHelpText appear on .control mouseover
 -  Utilize Babel.js for wider support/polyfilling
 -  Do not add to stream URL if the stream URL input is only "https://"
 -  Add support for alternate tlds e.g. Twitch.com
