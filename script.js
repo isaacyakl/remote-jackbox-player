@@ -889,7 +889,7 @@ formReady(() => {
 		else {
 			// Send the user to get an auth token
 			document.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${clientID}&redirect_uri=${
-				"http://" + window.location.hostname + ":5500"
+				"https://" + window.location.hostname
 			}&response_type=token&scope=analytics:read:games`;
 		}
 	});
