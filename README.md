@@ -2,7 +2,7 @@
 
 Play Jackbox games remotely using one device/browser window!
 
-Try it on your mobile device 📲 
+Try it on your mobile device 📲
 
 [Launch ↗️](https://remote-jackbox-player.isaacyakl.com)
 
@@ -14,16 +14,16 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Add "Find random stream" feature
+-  Make titleHelpText appear on .control mouseover
+-  Do not add to stream URL if the stream URL input is only "https://"
+-  Add feature to select a stream from user's followed list on Twitch if the streamer is currently playing a Jackbox game
+-  Utilize Babel.js for wider support/polyfilling
+-  Add Stream URL bar button in menu to unhide it
 -  Add support for alternate tlds e.g. Twitch.com
 -  Add suggested streams: https://twitch.tv/jackboxgames
 -  Add support for Discord Streaming, YouTube Gaming, and Facebook Gaming
 -  Add custom confirmation dialog for trying to reload game pane
--  Add Stream URL bar button in menu to unhide it
--  Add login with Twitch/Mixer and random from following channels playing a Jackbox game
 -  Add left-hand / right-hand control orientation option
--  Add room/stream searching feature
--  Maximize browser support/polyfill/evaluate minimum reqs
 -  Block inception by keeping user from inputting URL of the Remote Jackbox Player
 -  Add frame width adjustment in Split View
 -  Disable touch input when stream URL input is focused

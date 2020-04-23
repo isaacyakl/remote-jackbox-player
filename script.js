@@ -213,8 +213,15 @@ formReady(() => {
 		playerURL = new URL(document.location.href.toString()); // Grab current URL
 		streamURL = getStreamURLParam(); // Get stream URL from player URL param
 
-		// If stream URL param of the player URL is not blank
-		if (streamURL != "") {
+		// If the hash is not empty (there may be a Twitch auth token for a random stream)
+		if (document.location.hash != "") {
+			streamURLElement.disabled = true; // Disable the stream URL input
+			streamURLElement.value = "Searching..."; // Indicate to the user that searching is in progress
+			setUIState("open"); // Open UI
+			document.getElementById("randomStreamButton").click(); // Click the random button
+		}
+		// Else if stream URL param of the player URL is not blank
+		else if (streamURL != "") {
 			streamURLElement.value = streamURL; // Set the stream URL input element to the stream URL
 			document.title = `${documentTitle} - ${streamURL}`; // Update document title
 			updateStreamFrame(); // Show the stream
@@ -789,6 +796,101 @@ formReady(() => {
 		// If stream URL input is not empty
 		if (streamURLElement.value != "") {
 			setOpacityStreamURLBar("0.5"); // Decrease opacity of stream URL bar
+		}
+	});
+
+	// Add event listener for random stream button
+	document.getElementById("randomStreamButton").addEventListener("click", async () => {
+		// Function for pulling hash parameters from the URL
+		function getHashParam(query) {
+			let parameter = query;
+			parameter = parameter.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+			let regex = new RegExp("[\\#|&]" + parameter + "=([^&#]*)");
+			let results = regex.exec("#" + playerURL.toString().split("#")[1]);
+			return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
+		}
+
+		// Function for getting a random integer
+		function getRandomInt(min, max) {
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+		}
+
+		let clientID = "ysaytynx3opj4orxahqrpc2fvsrwj1"; // Twitch Client ID
+		let twitchGameIDsFile = await fetch("feature-random-stream_twitch-game-ids.json"); // Retrieve Twitch game ids json file
+		let twitchGameIDs; // Variable to hold array of game ids
+
+		// If the game ids json file was retrieved successfully
+		if (twitchGameIDsFile.ok) {
+			twitchGameIDs = Array.from(await twitchGameIDsFile.json()); // Parse the game id json into an array
+		}
+
+		// If the location hash contains something and there is an access token
+		if (document.location.hash != "" && getHashParam("access_token") != "") {
+			let authToken = getHashParam("access_token"); // Get the access token
+
+			// Clear URL params
+			window.history.pushState(null, null, "/");
+
+			let streamPool = []; // Array of possible streams
+			let currentGameIDPool = []; // Array of streams gather thus far for a given game id
+			let twitchCursor = ""; // Variable for holding the results cursor
+
+			// Retrieve top 30 streams (based on view count) using a game id
+			for (let i = 0; i < twitchGameIDs.length; ) {
+				// For this game id fetch top 30 streams
+				let twitchResult = await fetch(
+					`https://api.twitch.tv/helix/streams?language=en&first=30&game_id=${twitchGameIDs[i].game_id}&after=${twitchCursor}`,
+					{
+						headers: { "Client-ID": clientID, Authorization: `Bearer ${authToken}` },
+					}
+				);
+
+				// If retrieval was successful
+				if (twitchResult.ok) {
+					let resultJSON = await twitchResult.json(); // Get results as a json object
+
+					// For each stream
+					for (let j = 0; j < resultJSON.data.length; j++) {
+						// If there are less than 8 viewers
+						if (resultJSON.data[j].viewer_count < 8) {
+							currentGameIDPool.push(resultJSON.data[j]); // Add it to current game id pool
+						}
+					}
+
+					// If there are less than 30 results and more results exist
+					if (currentGameIDPool.length < 30 && resultJSON.pagination.cursor != undefined) {
+						twitchCursor = resultJSON.pagination.cursor; // Save last pagination location
+					}
+					// Else pagination is blank (no more results left) or we have enough results already
+					else {
+						twitchCursor = ""; // Empty the cursor
+						currentGameIDPool.forEach((s) => streamPool.push(s)); // Add the current game id pool to the total stream pool
+						currentGameIDPool = []; // Clear current game id pool
+						i++; // Move to the next game id
+					}
+				}
+				// Else retrieval failed for some reason
+				else {
+					console.error("HTTP-Error:" + twitchResult.status); // Log error
+				}
+			}
+
+			// Choose a random stream
+			let randomStreamIndex = getRandomInt(0, streamPool.length); // Get a random stream
+			streamURLElement.value = `https://twitch.tv/${streamPool[randomStreamIndex].user_name}`; // Set the stream URL input
+			streamURLElement.disabled = false; // Enable the stream URL input
+
+			updatePlayer(); // Update the player URL based on user input
+			updateStreamFrame(); // Update the stream frame
+		}
+		// Else if there is no auth token hash
+		else {
+			// Send the user to get an auth token
+			document.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${clientID}&redirect_uri=${
+				"http://" + window.location.hostname + ":5500"
+			}&response_type=token&scope=analytics:read:games`;
 		}
 	});
 
