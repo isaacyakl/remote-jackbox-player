@@ -206,6 +206,12 @@ formReady(() => {
 				window.history.pushState(null, null, "/"); // Remove the streamURL param and log in history
 			}
 		}
+		// Else if it is simply "https://" make sure the streamURL param is not there
+		else if (streamURLElement.value != "https://") {
+			document.title = `${documentTitle}`; // Update document title
+			playerURL.searchParams.delete("streamURL"); // Delete streamURL param from the player URL
+			window.history.pushState(null, null, "/"); // Remove the streamURL param and log in history
+		}
 	}
 
 	// Function for initializing the player based on a new URL
@@ -891,7 +897,7 @@ formReady(() => {
 			document.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${clientID}&redirect_uri=${
 				window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
 					? "http://localhost:5500"
-					: "https://" + window.location.hostname
+					: window.location.origin + window.location.pathname
 			}&response_type=token&scope=analytics:read:games`;
 		}
 	});
