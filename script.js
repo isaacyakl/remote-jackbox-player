@@ -236,8 +236,20 @@ formReady(() => {
 		// Else it is empty
 		else {
 			document.title = `${documentTitle}`; // Update document title
-			updateMenuElementState("close"); // Close menu
-			updateStreamURLBarElementState("open"); // Open stream URL bar
+
+			// If this is a small screen
+			if (window.innerWidth < 768) {
+				setUIState("open"); // Open all UI
+
+				// After 3000 seconds
+				setTimeout(() => {
+					setMenuElementState("close"); // Close menu
+				}, 3000);
+			}
+			// Else is is large enough to open everything
+			else {
+				setUIState("open"); // Open all UI
+			}
 		}
 	}
 
@@ -290,7 +302,7 @@ formReady(() => {
 			hideUnknownStream(); // Hide unknown stream
 			hideTwitchStream(); // Hide twitch
 			hideMixerStream(); // Hide Mixer stream
-			updateStreamURLBarElementState("open"); // Show stream URL bar
+			setStreamURLBarElementState("open"); // Show stream URL bar
 		}
 		// If type equals mixer
 		else if (type == "mixer") {
@@ -458,7 +470,7 @@ formReady(() => {
 	}
 
 	// Function for updating the state of the stream URL bar
-	function updateStreamURLBarElementState(state) {
+	function setStreamURLBarElementState(state) {
 		// Else if the requested stream URL bar state is open
 		if (state == "open") {
 			// Increase opacity of stream URL bar
@@ -497,7 +509,7 @@ formReady(() => {
 	}
 
 	// Function for updating the state of the menu
-	function updateMenuElementState(state) {
+	function setMenuElementState(state) {
 		const closedMenuIcon = `<i class="fas fa-times" aria-hidden="true"></i>`;
 		const menuIcon = `<i class="fas fa-bars" aria-hidden="true"></i>`;
 
@@ -565,8 +577,8 @@ formReady(() => {
 
 	// Function for setting the UI state
 	function setUIState(state) {
-		updateStreamURLBarElementState(state);
-		updateMenuElementState(state);
+		setStreamURLBarElementState(state);
+		setMenuElementState(state);
 	}
 
 	// Function for peeking UI
@@ -718,7 +730,7 @@ formReady(() => {
 	document.getElementById("howToButton").addEventListener("click", () => {
 		// If the how-to is hidden
 		if (Array.from(howToElement.classList).includes("hidden")) {
-			updateMenuElementState("close"); // Hide the menu
+			setMenuElementState("close"); // Hide the menu
 			showStreamFrameElement("howTo"); // Show how-to element
 		} else {
 			updateStreamFrame(); // Update the stream frame
@@ -773,7 +785,7 @@ formReady(() => {
 
 	// Add event listener for close button on stream URL bar
 	document.getElementById("hideStreamURLBarButton").addEventListener("click", () => {
-		updateStreamURLBarElementState("close"); // Close stream URL bar
+		setStreamURLBarElementState("close"); // Close stream URL bar
 	});
 
 	// Add event listener for button title text mouseover
