@@ -14,7 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Make titleHelpText appear on .control mouseover
 -  Fix swap view pausing Twitch stream on mobile
 -  Add feature to select a stream from user's followed list on Twitch if the streamer is currently playing a Jackbox game
 -  Utilize Babel.js for wider support/polyfilling
@@ -24,7 +23,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 -  Add Stream URL bar button in menu to unhide it
 -  Add game client ids for individual Jackbox games
 -  Add support for alternate tlds e.g. Twitch.com
--  Add suggested streams: https://twitch.tv/jackboxgames
 -  Add support for Discord Streaming, YouTube Gaming, and Facebook Gaming
 -  Add custom confirmation dialog for trying to reload game pane
 -  Add left-hand / right-hand control orientation option

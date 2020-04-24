@@ -236,7 +236,8 @@ formReady(() => {
 		// Else it is empty
 		else {
 			document.title = `${documentTitle}`; // Update document title
-			setUIState("open"); // Open UI
+			updateMenuElementState("close"); // Close menu
+			updateStreamURLBarElementState("open"); // Open stream URL bar
 		}
 	}
 
