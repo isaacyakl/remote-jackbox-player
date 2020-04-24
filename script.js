@@ -182,10 +182,10 @@ formReady(() => {
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
 	}
 
-	// Function for updating the player's state based on new user input
+	// Function for updating the player's state based on new user input. Always call after calling updateStreamFrame()
 	function updatePlayer() {
-		// If the stream URL input is different than the last saved one
-		if (streamURLElement.value != streamURL) {
+		// If the stream URL input is different than the last saved one and is not just "https://"
+		if (streamURLElement.value != streamURL && streamURLElement.value != "https://") {
 			// Reload gameFrame frame
 			gameFrameElement.src = ""; // Clear src of gameFrame frame
 			gameFrameElement.src = defaultGameURL; // Set src back to default game URL
@@ -632,16 +632,16 @@ formReady(() => {
 
 	// Add event listener for when the URL input field receives input
 	streamURLElement.addEventListener("input", () => {
-		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
+		updatePlayer(); // Update the player URL based on user input
 		setOpacityStreamURLBar("1.0"); // Increase opacity of stream URL bar
 	});
 
 	// Add event listener for when the URL input field receives focus
 	streamURLElement.addEventListener("focus", () => {
 		stopPeekUI(); // Stop menus from hiding after peekUI()
-		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
+		updatePlayer(); // Update the player URL based on user input
 		setOpacityStreamURLBar("1.0"); // Increase opacity of stream URL bar
 
 		// If the device is low res
@@ -654,8 +654,8 @@ formReady(() => {
 
 	// Add event listener for when the URL input field blurs
 	streamURLElement.addEventListener("blur", () => {
-		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
+		updatePlayer(); // Update the player URL based on user input
 
 		// If the device is low res
 		if (window.innerWidth < 768 || window.innerHeight < 768) {
@@ -667,8 +667,8 @@ formReady(() => {
 
 	// Add event listener for when the stream URL form is submitted
 	document.getElementById("streamURLForm").addEventListener("submit", function (e) {
-		updatePlayer(); // Update the player URL based on user input
 		updateStreamFrame(); // Update the stream frame
+		updatePlayer(); // Update the player URL based on user input
 		setUIState("close"); // Hide UI
 
 		e.preventDefault(); // Prevent form submission
@@ -714,8 +714,8 @@ formReady(() => {
 			updateMenuElementState("close"); // Hide the menu
 			showStreamFrameElement("howTo"); // Show how-to element
 		} else {
-			updatePlayer(); // Update the player URL based on user input
 			updateStreamFrame(); // Update the stream frame
+			updatePlayer(); // Update the player URL based on user input
 		}
 	});
 
@@ -882,8 +882,8 @@ formReady(() => {
 			streamURLElement.value = `https://twitch.tv/${streamPool[randomStreamIndex].user_name}`; // Set the stream URL input
 			streamURLElement.disabled = false; // Enable the stream URL input
 
-			updatePlayer(); // Update the player URL based on user input
 			updateStreamFrame(); // Update the stream frame
+			updatePlayer(); // Update the player URL based on user input
 		}
 		// Else if there is no auth token hash
 		else {
