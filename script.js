@@ -738,8 +738,8 @@ formReady(() => {
 		}
 	});
 
-	// Add event listener for when the page is reloaded in order to confirm that session will be lost
-	window.addEventListener("beforeunload", (e) => {
+	// Function for prompting unload confirmation dialog
+	function confirmUnload(e) {
 		// Prompt always shown in Mozilla Firefox
 		// Prompt only show in Chrome if user interacted with the page
 
@@ -748,7 +748,10 @@ formReady(() => {
 
 		// Chrome requires returnValue to be set
 		e.returnValue = "";
-	});
+	}
+
+	// Add event listener for when the page is reloaded in order to confirm that session will be lost
+	window.addEventListener("beforeunload", confirmUnload);
 
 	// Add event listener to the stream reload button
 	document.getElementById("reloadStreamButton").addEventListener("click", () => {
@@ -906,6 +909,9 @@ formReady(() => {
 		}
 		// Else if there is no auth token hash
 		else {
+			// Remove event listener for when the page is reloaded in order to stop the confirmUnload dialog
+			window.removeEventListener("beforeunload", confirmUnload);
+
 			// Send the user to get an auth token
 			document.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${clientID}&redirect_uri=${
 				window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
