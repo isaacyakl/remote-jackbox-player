@@ -16,6 +16,7 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 -  Fix swap view pausing Twitch stream on mobile
 -  Add feature to select a stream from user's followed list on Twitch if the streamer is currently playing a Jackbox game
+-  Remember previous view
 -  Utilize Babel.js for wider support/polyfilling
 -  Detect lag in stream and reload it automagically
 -  Save auth token to session storage

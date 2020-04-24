@@ -4,13 +4,16 @@
 	"browser": "index.html",
 	"scripts": {
 		"build:css": "tailwind build src/style.css -o style.css",
-		"build:js": "terser src/script.js -c -m --comments -o script.min.js"
+		"build:js": "terser src/script.js -c -m --comments -o script.min.js",
+		"push:prod": "git push production",
+		"push:origin": "git push origin",
+		"push:all": "git push origin && git push production"
 	},
 	"author": "Isaac 'yak' L.",
 	"license": "MIT",
 	"description": "Play Jackbox games with your friends remotely.",
 	"dependencies": {
-		"tailwindcss": "^1.2.0"
+		"tailwindcss": "^1.3.5"
 	},
 	"devDependencies": {},
 	"repository": {
