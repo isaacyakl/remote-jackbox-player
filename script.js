@@ -351,28 +351,11 @@ formReady(() => {
 			// Clean up URL formatting //
 			/////////////////////////////
 
-			// If the entered URL starts with "http://" but not "https://"
-			if (
-				streamURLElement.value.toString().startsWith("http://") &&
-				!streamURLElement.value.toString().startsWith("https://")
-			) {
-				// Swap "http://" out for "https://"
-				streamURLElement.value = streamURLElement.value
-					.toString()
-					.replace(/http:\/\//, "https://");
-			}
-			// Else if it does not start with "https://"
-			else if (!streamURLElement.value.toString().startsWith("https://")) {
-				// Clear input
-				streamURLElement.value = "";
-
-				// Add https
-				streamURLElement.value = "https://";
-			}
-			// Else if the stream URL is only "https://"
-			else if (streamURLElement.value == "https://") {
-				// Show how-to
-				document.getElementById("howToButton").click();
+			// If the user has not typed part of "https://"
+			if (!"https://".startsWith(streamURLElement.value.toString())) {
+				streamURLElement.value = streamURLElement.value.toString().replace(/http:\/\//g, ""); // Remove any "http://""'s
+				streamURLElement.value = streamURLElement.value.toString().replace(/https:\/\//g, ""); // Remove any "https://""'s
+				streamURLElement.value = `https://${streamURLElement.value.toString()}`; // Add secure protocol
 			}
 
 			/////////////////////////////
@@ -380,7 +363,7 @@ formReady(() => {
 			/////////////////////////////
 
 			// If the stream URL is for Twitch
-			else if (streamURLElement.value.toString().includes("twitch.tv")) {
+			if (streamURLElement.value.toString().includes("twitch.tv")) {
 				// If Twitch channel id is blank or has changed
 				if (
 					twitchChannelId === "" ||
