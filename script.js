@@ -912,5 +912,10 @@ formReady(() => {
 		}
 	});
 
+	// Add event listener for showStreamURLBarButton
+	document.getElementById("showStreamURLBarButton").addEventListener("click", () => {
+		setStreamURLBarElementState("open"); // Show stream URL bar
+	});
+
 	initializePlayer(); // Update the player based on the stream URL if present
 });
