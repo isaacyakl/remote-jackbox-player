@@ -14,7 +14,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Save auth token if included in URL so that it can be reused if random is clicked again to avoid needless page redirect to Twitch auth page
 -  Remember previous view
 -  Remove extra white space at bottom in swap view
 -  Add feature to select a stream from user's followed list on Twitch if the streamer is currently playing a Jackbox game

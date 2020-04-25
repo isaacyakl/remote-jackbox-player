@@ -29,6 +29,7 @@ formReady(() => {
 	let playerURL = null; // Variable for the player URL used for link sharing
 	let streamURL = ""; // Variable to hold the stream URL value
 	let peekUITimeoutID; // Variable to hold the timeout used in peekUI()
+	let twitchAuthToken = ""; // Variable to hold Twitch auth token
 
 	// Channel id/names
 	let twitchChannelId = ""; // Variable to hold Twitch channel id
@@ -839,9 +840,15 @@ formReady(() => {
 			twitchGameIDs = Array.from(await twitchGameIDsFile.json()); // Parse the game id json into an array
 		}
 
-		// If the location hash contains something and there is an access token
-		if (document.location.hash != "" && getHashParam("access_token") != "") {
-			let authToken = getHashParam("access_token"); // Get the access token
+		// If the location hash contains something and there is an access token or twitchAuthToken already set
+		if (
+			(document.location.hash !== "" && getHashParam("access_token") !== "") ||
+			twitchAuthToken !== ""
+		) {
+			// If a auth token was included with the URL
+			if (getHashParam("access_token") !== "") {
+				twitchAuthToken = getHashParam("access_token"); // Get the access token
+			} // Otherwise we proceed with the saved one in twitchAuthToken
 
 			// Clear URL params
 			window.history.pushState(null, null, "/");
@@ -856,7 +863,7 @@ formReady(() => {
 				let twitchResult = await fetch(
 					`https://api.twitch.tv/helix/streams?language=en&first=30&game_id=${twitchGameIDs[i].game_id}&after=${twitchCursor}`,
 					{
-						headers: { "Client-ID": clientID, Authorization: `Bearer ${authToken}` },
+						headers: { "Client-ID": clientID, Authorization: `Bearer ${twitchAuthToken}` },
 					}
 				);
 
