@@ -14,18 +14,14 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Add feature to select a stream from user's followed list on Twitch if the streamer is currently playing a Jackbox game
--  Remember previous view
--  Utilize Babel.js for wider support/polyfilling
--  Detect lag in stream and reload it automagically
--  Save auth token to session storage
--  Check if auth token in session storage when random is clicked to avoid needless redirect
 -  Add Stream URL bar button in menu to unhide it
--  Add game client ids for individual Jackbox games
--  Add support for alternate tlds e.g. Twitch.com
--  Add support for Discord Streaming, YouTube Gaming, and Facebook Gaming
--  Add custom confirmation dialog for trying to reload game pane
--  Add left-hand / right-hand control orientation option
+-  Save auth token if included in URL so that it can be reused if random is clicked again to avoid needless page redirect to Twitch auth page
+-  Remember previous view
+-  Add feature to select a stream from user's followed list on Twitch if the streamer is currently playing a Jackbox game
 -  Block inception by keeping user from inputting URL of the Remote Jackbox Player
--  Add frame width adjustment in Split View
--  Disable touch input when stream URL input is focused
+-  Utilize Babel.js for wider support/polyfilling
+-  Add game client ids for individual Jackbox games
+-  Add support for Discord Streaming, YouTube Gaming, and Facebook Gaming
+-  Add left-hand / right-hand control orientation option
+-  Detect lag in stream and reload it automagically
+-  Add custom confirmation dialog for trying to reload game pane
