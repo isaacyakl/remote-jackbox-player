@@ -107,28 +107,38 @@ formReady(() => {
 		playerElement.setAttribute("class", "w-screen h-screen"); // Configure player to fill the screen
 
 		// If the stream pane is hidden
-		if (streamPaneElement.classList.contains("hidden")) {
-			streamPaneElement.setAttribute("class", "relative hidden w-full h-full"); // Configure the stream pane to fill the screen and keep it hidden
-			gamePaneElement.setAttribute("class", "relative w-full h-full"); // Configure the game pane to fill the screen
+		if (streamPaneElement.classList.contains("z-10")) {
+			streamPaneElement.setAttribute("class", "absolute z-10 w-full h-full"); // Configure the stream pane to fill the screen and keep it hidden
+			gamePaneElement.setAttribute("class", "absolute z-20 w-full h-full"); // Configure the game pane to fill the screen
 		}
 		// Else hide the game pane
 		else {
-			streamPaneElement.setAttribute("class", "relative w-full h-full"); // Configure the stream pane to fill the screen
-			gamePaneElement.setAttribute("class", "relative hidden w-full h-full"); // Configure the game pane to fill the screen and hide it
+			streamPaneElement.setAttribute("class", "absolute z-20 w-full h-full"); // Configure the stream pane to fill the screen
+			gamePaneElement.setAttribute("class", "absolute z-10 w-full h-full"); // Configure the game pane to fill the screen and hide it
 		}
 	}
 
 	// Function for swapping which frame is in front
 	function swapView() {
 		// If the stream pane is hidden
-		if (streamPaneElement.classList.contains("hidden")) {
-			gamePaneElement.classList.add("hidden"); // Hide game pane
-			streamPaneElement.classList.remove("hidden"); // Show stream pane
+		if (streamPaneElement.classList.contains("z-10")) {
+			// Show stream pane
+			streamPaneElement.classList.add("z-20");
+			streamPaneElement.classList.remove("z-10");
+
+			// Hide game pane
+			gamePaneElement.classList.add("z-10");
+			gamePaneElement.classList.remove("z-20");
 		}
 		// Else assume game pane is hidden
 		else {
-			streamPaneElement.classList.add("hidden"); // Hide stream pane
-			gamePaneElement.classList.remove("hidden"); // Show game pane
+			// Show game pane
+			gamePaneElement.classList.add("z-20");
+			gamePaneElement.classList.remove("z-10");
+
+			// Hide stream pane
+			streamPaneElement.classList.add("z-10");
+			streamPaneElement.classList.remove("z-20");
 		}
 	}
 
@@ -384,26 +394,24 @@ formReady(() => {
 
 					// TTV configuration
 					let ttvConfig = () => {
-						var embed = new Twitch.Embed("twitchStream", {
-							allowfullscreen: false,
-							width: "100%",
-							height: "100%",
-							channel: twitchChannelId,
-							theme: "dark",
-							layout: "video-with-chat",
-							autoplay: true,
-							// only needed if your site is also embedded on embed.example.com and othersite.example.com
-							parent: [
-								"remote-jackbox-player.isaacyakl.com",
-								"isaacyakl.com",
-								"isaacyakl.github.io",
-							],
-						});
+						try {
+							var embed = new Twitch.Embed("twitchStream", {
+								allowfullscreen: false,
+								width: "100%",
+								height: "100%",
+								channel: twitchChannelId,
+								theme: "dark",
+								layout: "video-with-chat",
+								autoplay: true,
+							});
 
-						embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
-							var player = embed.getPlayer();
-							player.play();
-						});
+							embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
+								var player = embed.getPlayer();
+								player.play();
+							});
+						} catch (error) {
+							console.error("Twitch embed setup error: \n%o", error); // Log error
+						}
 					};
 
 					// If the Twitch embed script has not previously been loaded
