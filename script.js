@@ -195,7 +195,7 @@ formReady(() => {
 	// Function for updating the player's state based on new user input. Always call after calling updateStreamFrame()
 	function updatePlayer() {
 		// If the stream URL input is different than the last saved one and is not just "https://"
-		if (streamURLElement.value != streamURL && streamURLElement.value != "https://") {
+		if (streamURLElement.value !== streamURL && streamURLElement.value !== "https://") {
 			// Reload gameFrame frame
 			gameFrameElement.src = ""; // Clear src of gameFrame frame
 			gameFrameElement.src = defaultGameURL; // Set src back to default game URL
@@ -217,7 +217,7 @@ formReady(() => {
 			}
 		}
 		// Else if it is simply "https://" make sure the streamURL param is not there
-		else if (streamURLElement.value != "https://") {
+		else if (streamURLElement.value === "https://") {
 			document.title = `${documentTitle}`; // Update document title
 			playerURL.searchParams.delete("streamURL"); // Delete streamURL param from the player URL
 			window.history.pushState(null, null, "/"); // Remove the streamURL param and log in history
