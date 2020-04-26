@@ -44,18 +44,11 @@ formReady(() => {
 		.item(0)
 		.getAttribute("class"); // Default classes for .swapViewButton's from index.html
 
-	// Function for setting up default view
-	function setupDefaultView() {
-		activeView = "default"; // Set active view variable
-		playerElement.setAttribute("class", defaultPlayerClasses); // Revert to default player configuration
-		streamPaneElement.setAttribute("class", defaultStreamPaneClasses); // Revert to default stream pane configuration
-		gamePaneElement.setAttribute("class", defaultGamePaneClasses); // Revert to default game pane configuration
-
-		// For each swap view button
-		swapViewButtonWrapperElements.forEach((e) => {
-			// Revert swap view button configurations
-			e.setAttribute("class", defaultSwapViewButtonWrappersClasses);
-		});
+	// If there is an active view saved from a previous session
+	if (localStorage.getItem("rjp-activeView") !== null) {
+		setView(localStorage.getItem("rjp-activeView")); // Set view back to what it was
+	} else {
+		localStorage.setItem("rjp-activeView", activeView); // Save the default view as the active view
 	}
 
 	// Function for updating visible controls based on active view
@@ -92,33 +85,6 @@ formReady(() => {
 		}
 	}
 
-	// Function for setting up split view
-	function setupSplitView() {
-		activeView = "split"; // Set active view variable
-		updateControls(); // Hide controls
-		playerElement.setAttribute("class", "flex flex-row w-screen h-screen"); // Configure player to fill the screen with flex rows
-		streamPaneElement.setAttribute("class", "relative w-1/2"); // Configure stream pane to take 50% of the screen
-		gamePaneElement.setAttribute("class", "relative w-1/2"); // Configure game pane to take 50% of the screen
-	}
-
-	// Function for setting up swap view
-	function setupSwapView() {
-		activeView = "swap"; // Set active view variable
-		updateControls(); // Show controls
-		playerElement.setAttribute("class", "w-screen h-screen"); // Configure player to fill the screen
-
-		// If the stream pane is hidden
-		if (streamPaneElement.classList.contains("z-10")) {
-			streamPaneElement.setAttribute("class", "absolute z-10 w-full h-full"); // Configure the stream pane to fill the screen and keep it hidden
-			gamePaneElement.setAttribute("class", "absolute z-20 w-full h-full"); // Configure the game pane to fill the screen
-		}
-		// Else hide the game pane
-		else {
-			streamPaneElement.setAttribute("class", "absolute z-20 w-full h-full"); // Configure the stream pane to fill the screen
-			gamePaneElement.setAttribute("class", "absolute z-10 w-full h-full"); // Configure the game pane to fill the screen and hide it
-		}
-	}
-
 	// Function for swapping which frame is in front
 	function swapView() {
 		// If the stream pane is hidden
@@ -143,22 +109,90 @@ formReady(() => {
 		}
 	}
 
-	// Function for setting up scroll view
-	function setupScrollView() {
-		activeView = "scroll"; // Set active view variable
-		updateControls(); // Hide controls
-		playerElement.setAttribute("class", ""); // Configure player to be static
-		streamPaneElement.setAttribute("class", "relative w-full h-screen"); // Configure stream pane to fill the screen
-		gamePaneElement.setAttribute("class", "relative w-full h-screen"); // Configure game pane to fill the screen
-	}
+	// Function for setting the view
+	function setView(view) {
+		// Function for setting up default view
+		function setupDefaultView() {
+			activeView = "default"; // Set active view variable
+			playerElement.setAttribute("class", defaultPlayerClasses); // Revert to default player configuration
+			streamPaneElement.setAttribute("class", defaultStreamPaneClasses); // Revert to default stream pane configuration
+			gamePaneElement.setAttribute("class", defaultGamePaneClasses); // Revert to default game pane configuration
 
-	// Function for setting up swipe view
-	function setupSwipeView() {
-		activeView = "swipe"; // Set active view variable
-		updateControls(); // Hide controls
-		playerElement.setAttribute("class", "flex flex-no-wrap w-screen h-screen overflow-x-auto"); // Configure player to fill the screen with flex no wrapping and scrolling on the x axis
-		streamPaneElement.setAttribute("class", "relative flex-none w-full h-full"); // Configure the stream pane to fill a screen's worth of content without wrapping
-		gamePaneElement.setAttribute("class", "relative flex-none w-full h-full"); // Configure the game pane to fill a screen's worth of content without wrapping
+			// For each swap view button
+			swapViewButtonWrapperElements.forEach((e) => {
+				// Revert swap view button configurations
+				e.setAttribute("class", defaultSwapViewButtonWrappersClasses);
+			});
+		}
+
+		// Function for setting up split view
+		function setupSplitView() {
+			activeView = "split"; // Set active view variable
+			updateControls(); // Hide controls
+			playerElement.setAttribute("class", "flex flex-row w-screen h-screen"); // Configure player to fill the screen with flex rows
+			streamPaneElement.setAttribute("class", "relative w-1/2"); // Configure stream pane to take 50% of the screen
+			gamePaneElement.setAttribute("class", "relative w-1/2"); // Configure game pane to take 50% of the screen
+		}
+
+		// Function for setting up swap view
+		function setupSwapView() {
+			activeView = "swap"; // Set active view variable
+			updateControls(); // Show controls
+			playerElement.setAttribute("class", "w-screen h-screen"); // Configure player to fill the screen
+
+			// If the stream pane is hidden
+			if (streamPaneElement.classList.contains("z-10")) {
+				streamPaneElement.setAttribute("class", "absolute z-10 w-full h-full"); // Configure the stream pane to fill the screen and keep it hidden
+				gamePaneElement.setAttribute("class", "absolute z-20 w-full h-full"); // Configure the game pane to fill the screen
+			}
+			// Else hide the game pane
+			else {
+				streamPaneElement.setAttribute("class", "absolute z-20 w-full h-full"); // Configure the stream pane to fill the screen
+				gamePaneElement.setAttribute("class", "absolute z-10 w-full h-full"); // Configure the game pane to fill the screen and hide it
+			}
+		}
+
+		// Function for setting up scroll view
+		function setupScrollView() {
+			activeView = "scroll"; // Set active view variable
+			updateControls(); // Hide controls
+			playerElement.setAttribute("class", ""); // Configure player to be static
+			streamPaneElement.setAttribute("class", "relative w-full h-screen"); // Configure stream pane to fill the screen
+			gamePaneElement.setAttribute("class", "relative w-full h-screen"); // Configure game pane to fill the screen
+		}
+
+		// Function for setting up swipe view
+		function setupSwipeView() {
+			activeView = "swipe"; // Set active view variable
+			updateControls(); // Hide controls
+			playerElement.setAttribute("class", "flex flex-no-wrap w-screen h-screen overflow-x-auto"); // Configure player to fill the screen with flex no wrapping and scrolling on the x axis
+			streamPaneElement.setAttribute("class", "relative flex-none w-full h-full"); // Configure the stream pane to fill a screen's worth of content without wrapping
+			gamePaneElement.setAttribute("class", "relative flex-none w-full h-full"); // Configure the game pane to fill a screen's worth of content without wrapping
+		}
+
+		// If default view is requested
+		if (view === "default") {
+			setupDefaultView(); // Set default view
+		}
+		// Else if split view is requested
+		else if (view === "split") {
+			setupSplitView(); // Set split view
+		}
+		// Else if swap view is requested
+		else if (view === "swap") {
+			setupSwapView(); // Set swap view
+		}
+		// Else if scroll view is requested
+		else if (view === "scroll") {
+			setupScrollView(); // Set scroll view
+		}
+		// Else if swipe view is requested
+		else if (view === "swipe") {
+			setupSwipeView(); // Set swipe view
+		}
+
+		// Save view preference
+		localStorage.setItem("rjp-activeView", view);
 	}
 
 	// Function for copying a string to clipboard
@@ -606,7 +640,7 @@ formReady(() => {
 
 	// Add event listener to the setup split view button
 	document.getElementById("setupSplitViewButton").addEventListener("click", () => {
-		setupSplitView(); // Setup split view
+		setView("split"); // Setup split view
 	});
 
 	// Add event listeners to the swap view buttons
@@ -614,7 +648,7 @@ formReady(() => {
 		e.addEventListener("click", () => {
 			// If the active view is not already swap view (this should never happen if the UI controls are setup correctly)
 			if (activeView != "swap") {
-				setupSwapView(); // Setup swap view
+				setView("swap"); // Setup swap view
 			}
 			swapView(); // Swap view
 		});
@@ -628,18 +662,18 @@ formReady(() => {
 		}
 		// Active view is already swap view
 		else {
-			setupSwapView(); // Setup swap view
+			setView("swap"); // Setup swap view
 		}
 	});
 
 	// Add event listener to the setup scroll view button
 	document.getElementById("setupScrollViewButton").addEventListener("click", () => {
-		setupScrollView(); // Setup scroll view
+		setView("scroll"); // Setup scroll view
 	});
 
 	// Add event listener to the setup swipe view button
 	document.getElementById("setupSwipeViewButton").addEventListener("click", () => {
-		setupSwipeView(); // Setup swipe view
+		setView("swipe"); // Setup swipe view
 	});
 
 	// Add event listener for when the URL input field receives input
