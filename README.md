@@ -12,6 +12,11 @@ Show support by following me on [Twitter](https://www.twitter.com/isaacyakl) and
 
 Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-player/issues/new).
 
+## Unsupported Stream platforms
+| Platform | Reason       |
+| -------- | ------------ |
+| Steam    | Stream delay |
+
 ## To-Do
 
 -  Remove hashtag before copying share link
@@ -21,7 +26,7 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 -  Block inception by keeping user from inputting URL of the Remote Jackbox Player
 -  Utilize Babel.js for wider support/polyfilling
 -  Add game client ids for individual Jackbox games
--  Add support for Discord Streaming, YouTube Gaming, and Facebook Gaming
+-  Add support for YouTube Gaming and Facebook Gaming
 -  Add left-hand / right-hand control orientation option
 -  Detect lag in stream and reload it automagically
 -  Add custom confirmation dialog for trying to reload game pane
