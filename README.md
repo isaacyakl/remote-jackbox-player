@@ -22,7 +22,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 -  Remove extra white space at bottom in swap view
 -  Add feature to select a stream from user's followed list on Twitch if the streamer is currently playing a Jackbox game
--  Block inception by keeping user from inputting URL of the Remote Jackbox Player
 -  Utilize Babel.js for wider support/polyfilling
 -  Add game client ids for individual Jackbox games
 -  Add support for YouTube Gaming and Facebook Gaming
