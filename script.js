@@ -698,7 +698,7 @@ formReady(() => {
 	// Add event listener to the share button
 	document.getElementById("shareButton").addEventListener("click", () => {
 		stopPeekUI(); // Stop menus from hiding after peekUI()
-		console.log(playerURL.toString().replace(playerURL.hash, ""));
+
 		// Copy URL to clipboard
 		copyToClipboard(playerURL.toString().replace(playerURL.hash, ""));
 
