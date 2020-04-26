@@ -342,6 +342,7 @@ formReady(() => {
 	function clearChannelIds() {
 		twitchChannelId = ""; // Clear Twitch channel Id
 		mixerChannelName = ""; // Clear Mixer channel name
+		unknownStreamElement.src = ""; // Clear unknown stream src
 	}
 
 	// Function for navigating stream frame
