@@ -697,11 +697,10 @@ formReady(() => {
 
 	// Add event listener to the share button
 	document.getElementById("shareButton").addEventListener("click", () => {
-		setUIState("open"); // Show UI
 		stopPeekUI(); // Stop menus from hiding after peekUI()
-
+		console.log(playerURL.toString().replace(playerURL.hash, ""));
 		// Copy URL to clipboard
-		copyToClipboard(playerURL.toString());
+		copyToClipboard(playerURL.toString().replace(playerURL.hash, ""));
 
 		// Let the user know the link was copied to the clipboard
 		document.getElementById("shareText").classList.add("px-1"); // Add padding on left and right
