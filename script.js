@@ -398,8 +398,14 @@ formReady(() => {
 			//   Setup stream element  //
 			/////////////////////////////
 
-			// If the stream URL is for Twitch
-			if (streamURLElement.value.toString().includes("twitch.tv")) {
+			// If the stream URL is this web app
+			if (streamURLElement.value.toString().includes("remote-jackbox-player")) {
+				// Block inception...
+				// Click the how-to button instead
+				document.getElementById("howToButton").click();
+			}
+			// Else if the stream URL is for Twitch
+			else if (streamURLElement.value.toString().includes("twitch.tv")) {
 				// If Twitch channel id is blank or has changed
 				if (
 					twitchChannelId === "" ||
@@ -476,12 +482,6 @@ formReady(() => {
 					mixerChatElement.src =
 						"https://mixer.com/embed/chat/" + streamURLElement.value.toString().split("/")[3];
 				}
-			}
-			// If the stream URL is this web app
-			else if (streamURLElement.value.toString().includes("remote-jackbox-player")) {
-				// Block inception...
-				// Click the how-to button instead
-				document.getElementById("howToButton").click();
 			}
 			// Use unknown stream element
 			else {

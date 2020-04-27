@@ -20,10 +20,10 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Remove extra white space at bottom in swap view
 -  Add feature to select a stream from user's followed list on Twitch if the streamer is currently playing a Jackbox game
 -  Utilize Babel.js for wider support/polyfilling
 -  Add game client ids for individual Jackbox games
+-  Remove extra white space at bottom in swap view
 -  Add support for YouTube Gaming and Facebook Gaming
 -  Add left-hand / right-hand control orientation option
 -  Detect lag in stream and reload it automagically
