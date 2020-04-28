@@ -20,6 +20,7 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
+-  Don't expand follow list until animation for streamURLBar finishes
 -  Add feature to select a stream from user's followed list on Twitch if the streamer is currently playing a Jackbox game
 -  Utilize Babel.js for wider support/polyfilling
 -  Add game client ids for individual Jackbox games

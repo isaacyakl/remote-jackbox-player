@@ -30,6 +30,9 @@ formReady(() => {
 	let streamURL = ""; // Variable to hold the stream URL value
 	let peekUITimeoutID; // Variable to hold the timeout used in peekUI()
 	let twitchAuthToken = ""; // Variable to hold Twitch auth token
+	let twitchGameIDs; // Variable to hold array of Twitch game ids
+
+	const twitchClientID = "ysaytynx3opj4orxahqrpc2fvsrwj1"; // Twitch Client ID
 
 	// Channel id/names
 	let twitchChannelId = ""; // Variable to hold Twitch channel id
@@ -43,13 +46,6 @@ formReady(() => {
 	const defaultSwapViewButtonWrappersClasses = swapViewButtonWrapperElements
 		.item(0)
 		.getAttribute("class"); // Default classes for .swapViewButton's from index.html
-
-	// If there is an active view saved from a previous session
-	if (localStorage.getItem("rjp-activeView") !== null) {
-		setView(localStorage.getItem("rjp-activeView")); // Set view back to what it was
-	} else {
-		localStorage.setItem("rjp-activeView", activeView); // Save the default view as the active view
-	}
 
 	// Function for updating visible controls based on active view
 	function updateControls() {
@@ -217,14 +213,23 @@ formReady(() => {
 		}
 	};
 
-	// Function for getting stream URL from player URL param
+	// Function for getting a player URL param
 	// Based on: https://blog.bitscry.com/2018/08/17/getting-and-setting-url-parameters-with-javascript/
-	function getStreamURLParam() {
-		let parameter = "streamURL";
+	function getURLParam(param) {
+		let parameter = param;
 		parameter = parameter.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-		let regex = new RegExp("[\\?|&]" + parameter.toLowerCase() + "=([^&#]*)");
-		let results = regex.exec("?" + playerURL.toString().toLowerCase().split("?")[1]);
-		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
+		let regex = new RegExp("[\\?|&]" + parameter + "=([^&#]*)");
+		let results = regex.exec("?" + playerURL.toString().split("?")[1]);
+		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, "%20"));
+	}
+
+	// Function for pulling hash parameters from the URL
+	function getURLHashParam(query) {
+		let parameter = query;
+		parameter = parameter.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		let regex = new RegExp("[\\#|&]" + parameter + "=([^&#]*)");
+		let results = regex.exec("#" + playerURL.toString().split("#")[1]);
+		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, "%20"));
 	}
 
 	// Function for updating the player's state based on new user input. Always call after calling updateStreamFrame()
@@ -262,17 +267,31 @@ formReady(() => {
 	// Function for initializing the player based on a new URL
 	function initializePlayer() {
 		playerURL = new URL(document.location.href.toString()); // Grab current URL
-		streamURL = getStreamURLParam(); // Get stream URL from player URL param
+		streamURL = getURLParam("streamURL"); // Get stream URL from player URL param
 
-		// If the hash is not empty (there may be a Twitch auth token for a random stream)
-		if (document.location.hash != "") {
-			streamURLElement.disabled = true; // Disable the stream URL input
-			streamURLElement.value = "Searching..."; // Indicate to the user that searching is in progress
-			setUIState("open"); // Open UI
-			document.getElementById("randomStreamButton").click(); // Click the random button
+		// If there is a Twitch auth token saved from a previous session
+		if (localStorage.getItem("rjp-twitchAuthToken") !== null) {
+			twitchAuthToken = localStorage.getItem("rjp-twitchAuthToken"); // Get twitchAuthToken
 		}
-		// Else if stream URL param of the player URL is not blank
-		else if (streamURL != "") {
+
+		// If a auth token was included with the URL
+		if (getURLHashParam("access_token") !== "") {
+			twitchAuthToken = getURLHashParam("access_token"); // Get the access token
+
+			// Store it for future requests
+			localStorage.setItem("rjp-twitchAuthToken", twitchAuthToken);
+
+			// If there is a rjpAction specified for execution after redirect and it equals random
+			if (getURLParam("rjpAction") === "random") {
+				document.getElementById("randomStreamButton").click(); // Click the random button again
+			}
+
+			// Clear hashes
+			window.history.pushState(null, null, window.location.pathname + window.location.search);
+		}
+
+		// If stream URL param of the player URL is not blank
+		if (streamURL != "") {
 			streamURLElement.value = streamURL; // Set the stream URL input element to the stream URL
 			document.title = `${documentTitle} - ${streamURL}`; // Update document title
 			updateStreamFrame(); // Show the stream
@@ -294,6 +313,25 @@ formReady(() => {
 			// Else is is large enough to open everything
 			else {
 				setUIState("open"); // Open all UI
+			}
+
+			// If there is an error param from Twitch auth attempt
+			if (getURLParam("error") !== "") {
+				// If it was because the user denied access
+				if (getURLParam("error_description") === "The user denied you access") {
+					// Let them know
+					alert(
+						"To find a random stream or use the follow list browser, please authorize Twitch access."
+					);
+				}
+				// Else it may be because of an expired token
+				else {
+					// Clear token
+					localStorage.removeItem("rjp-twitchAuthToken");
+
+					// Send them to get an auth token
+					redirectForTwitchAuthToken();
+				}
 			}
 		}
 	}
@@ -514,6 +552,9 @@ formReady(() => {
 			streamURLBarElement.classList.remove("w-0");
 
 			setTimeout(() => {
+				// Show followed streamers content
+				document.getElementById("followedStreamersWrapper").classList.remove("scale-y-0");
+
 				// For each titleHelpText within #streamURLBarTitleHelpText
 				document
 					.querySelectorAll("#streamURLBarTitleHelpText > .titleHelpText")
@@ -526,6 +567,9 @@ formReady(() => {
 		}
 		// Else if the requested stream URL bar state is close
 		else if (state == "close") {
+			// Hide followed streamers content
+			document.getElementById("followedStreamersWrapper").classList.add("scale-y-0");
+
 			// For each titleHelpText within #streamURLBarTitleHelpText
 			document.querySelectorAll("#streamURLBarTitleHelpText > .titleHelpText").forEach((e) => {
 				// Hide it
@@ -853,17 +897,39 @@ formReady(() => {
 		}
 	});
 
+	// Function for getting Twitch game ids from file
+	async function getTwitchGameIDs() {
+		let twitchGameIDsFile = await fetch("feature-random-stream_twitch-game-ids.json"); // Retrieve Twitch game ids json file
+
+		// If the game ids json file was retrieved successfully
+		if (twitchGameIDsFile.ok) {
+			twitchGameIDs = Array.from(await twitchGameIDsFile.json()); // Parse the game id json into an array
+		} else {
+			console.error("HTTP-Error:" + twitchGameIDsFile.status); // Log error
+			alert("Hmmm couldn't retrieve game list. Please try again."); // Ask user to try again
+
+			// Remove event listener for when the page is reloaded in order to stop the confirmUnload dialog
+			window.removeEventListener("beforeunload", confirmUnload);
+
+			location.reload(); // Reload page
+		}
+	}
+
+	// Function for redirecting user to get a new Twitch auth token
+	function redirectForTwitchAuthToken() {
+		// Remove event listener for when the page is reloaded in order to stop the confirmUnload dialog
+		window.removeEventListener("beforeunload", confirmUnload);
+
+		// Send the user to get an auth token
+		document.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientID}&redirect_uri=${
+			window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+				? "http://localhost:5500/"
+				: window.location.origin + window.location.pathname
+		}?rjpAction=random&response_type=token&scope=analytics:read:games`;
+	}
+
 	// Add event listener for random stream button
 	document.getElementById("randomStreamButton").addEventListener("click", async () => {
-		// Function for pulling hash parameters from the URL
-		function getHashParam(query) {
-			let parameter = query;
-			parameter = parameter.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-			let regex = new RegExp("[\\#|&]" + parameter + "=([^&#]*)");
-			let results = regex.exec("#" + playerURL.toString().split("#")[1]);
-			return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
-		}
-
 		// Function for getting a random integer
 		function getRandomInt(min, max) {
 			min = Math.ceil(min);
@@ -871,28 +937,16 @@ formReady(() => {
 			return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 		}
 
-		let clientID = "ysaytynx3opj4orxahqrpc2fvsrwj1"; // Twitch Client ID
-		let twitchGameIDsFile = await fetch("feature-random-stream_twitch-game-ids.json"); // Retrieve Twitch game ids json file
-		let twitchGameIDs; // Variable to hold array of game ids
+		streamURLElement.disabled = true; // Disable the stream URL input
+		streamURLElement.value = "Searching..."; // Indicate to the user that searching is in progress
 
-		// If the game ids json file was retrieved successfully
-		if (twitchGameIDsFile.ok) {
-			twitchGameIDs = Array.from(await twitchGameIDsFile.json()); // Parse the game id json into an array
+		// If the twitchGameIDs have not yet been retrieved
+		if (twitchGameIDs === undefined) {
+			await getTwitchGameIDs(); // Get the Twitch game ids from file
 		}
 
-		// If the location hash contains something and there is an access token or twitchAuthToken already set
-		if (
-			(document.location.hash !== "" && getHashParam("access_token") !== "") ||
-			twitchAuthToken !== ""
-		) {
-			// If a auth token was included with the URL
-			if (getHashParam("access_token") !== "") {
-				twitchAuthToken = getHashParam("access_token"); // Get the access token
-			} // Otherwise we proceed with the saved one in twitchAuthToken
-
-			// Clear URL params
-			window.history.pushState(null, null, "/");
-
+		// If there is a twitchAuthToken already set and twitchGameIDs is not undefined
+		if (twitchAuthToken !== "" && twitchGameIDs !== undefined) {
 			let streamPool = []; // Array of possible streams
 			let currentGameIDPool = []; // Array of streams gather thus far for a given game id
 			let twitchCursor = ""; // Variable for holding the results cursor
@@ -903,7 +957,10 @@ formReady(() => {
 				let twitchResult = await fetch(
 					`https://api.twitch.tv/helix/streams?language=en&first=30&game_id=${twitchGameIDs[i].game_id}&after=${twitchCursor}`,
 					{
-						headers: { "Client-ID": clientID, Authorization: `Bearer ${twitchAuthToken}` },
+						headers: {
+							"Client-ID": twitchClientID,
+							Authorization: `Bearer ${twitchAuthToken}`,
+						},
 					}
 				);
 
@@ -934,6 +991,11 @@ formReady(() => {
 				// Else retrieval failed for some reason
 				else {
 					console.error("HTTP-Error:" + twitchResult.status); // Log error
+					// If the client was denied access
+					if (twitchResult.status === 401) {
+						// End execution and send user to get a Twitch auth token
+						return redirectForTwitchAuthToken();
+					}
 				}
 			}
 
@@ -947,15 +1009,7 @@ formReady(() => {
 		}
 		// Else if there is no auth token hash
 		else {
-			// Remove event listener for when the page is reloaded in order to stop the confirmUnload dialog
-			window.removeEventListener("beforeunload", confirmUnload);
-
-			// Send the user to get an auth token
-			document.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${clientID}&redirect_uri=${
-				window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-					? "http://localhost:5500"
-					: window.location.origin + window.location.pathname
-			}&response_type=token&scope=analytics:read:games`;
+			redirectForTwitchAuthToken(); // Go get a Twitch auth token
 		}
 	});
 
@@ -963,6 +1017,13 @@ formReady(() => {
 	document.getElementById("showStreamURLBarButton").addEventListener("click", () => {
 		setStreamURLBarElementState("open"); // Show stream URL bar
 	});
+
+	// If there is an active view saved from a previous session
+	if (localStorage.getItem("rjp-activeView") !== null) {
+		setView(localStorage.getItem("rjp-activeView")); // Get and set view back to what it was
+	} else {
+		localStorage.setItem("rjp-activeView", activeView); // Save the default view as the active view
+	}
 
 	initializePlayer(); // Update the player based on the stream URL if present
 });
