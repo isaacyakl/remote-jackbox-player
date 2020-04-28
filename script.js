@@ -552,9 +552,6 @@ formReady(() => {
 			streamURLBarElement.classList.remove("w-0");
 
 			setTimeout(() => {
-				// Show followed streamers content
-				document.getElementById("followedStreamersWrapper").classList.remove("scale-y-0");
-
 				// For each titleHelpText within #streamURLBarTitleHelpText
 				document
 					.querySelectorAll("#streamURLBarTitleHelpText > .titleHelpText")
@@ -563,7 +560,10 @@ formReady(() => {
 						e.classList.add("opacity-100");
 						e.classList.remove("opacity-0");
 					});
-			}, 500);
+
+				// Show followed streamers content
+				document.getElementById("followedStreamersWrapper").classList.remove("scale-y-0");
+			}, 1000);
 		}
 		// Else if the requested stream URL bar state is close
 		else if (state == "close") {
@@ -925,7 +925,7 @@ formReady(() => {
 			window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
 				? "http://localhost:5500/"
 				: window.location.origin + window.location.pathname
-		}?rjpAction=random&response_type=token&scope=analytics:read:games`;
+		}?rjpAction=random&response_type=token`;
 	}
 
 	// Add event listener for random stream button
