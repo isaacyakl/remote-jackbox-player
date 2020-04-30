@@ -15006,6 +15006,10 @@ video {
   }
 }
 
+#streamURLBarControls {
+  min-height: 2.5rem;
+}
+
 @media (min-width: 640px) {
   .sm\:space-y-0 > :not(template) ~ :not(template) {
     --space-y-reverse: 0;

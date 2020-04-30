@@ -30,9 +30,9 @@ formReady(() => {
 	let streamURL = ""; // Variable to hold the stream URL value
 	let peekUITimeoutID; // Variable to hold the timeout used in peekUI()
 	let twitchAuthToken = ""; // Variable to hold Twitch auth token
-	let twitchGameIDs; // Variable to hold array of Twitch game ids
+	let twitchGameIds; // Variable for array of Twitch game ids
 
-	const twitchClientID = "ysaytynx3opj4orxahqrpc2fvsrwj1"; // Twitch Client ID
+	let twitchClientID = ""; // Variable for Twitch Client ID
 
 	// Channel id/names
 	let twitchChannelId = ""; // Variable to hold Twitch channel id
@@ -274,20 +274,52 @@ formReady(() => {
 			twitchAuthToken = localStorage.getItem("rjp-twitchAuthToken"); // Get twitchAuthToken
 		}
 
-		// If a auth token was included with the URL
+		// If an auth token was included with the URL update the stored one
 		if (getURLHashParam("access_token") !== "") {
 			twitchAuthToken = getURLHashParam("access_token"); // Get the access token
 
 			// Store it for future requests
 			localStorage.setItem("rjp-twitchAuthToken", twitchAuthToken);
 
-			// If there is a rjpAction specified for execution after redirect and it equals random
-			if (getURLParam("rjpAction") === "random") {
-				document.getElementById("randomStreamButton").click(); // Click the random button again
-			}
-
 			// Clear hashes
 			window.history.pushState(null, null, window.location.pathname + window.location.search);
+		}
+
+		// If there is an error param from Twitch auth attempt
+		if (getURLParam("error") !== "") {
+			// If it was because the user denied access
+			if (getURLParam("error_description") === "The user denied you access") {
+				// Let them know
+				alert(
+					"To find a random stream or use the followed streams list, please authorize Twitch access."
+				);
+
+				// If the afterAuthAction is "random"
+				if (localStorage.getItem("rjp-afterAuthAction") === "random") {
+					localStorage.removeItem("rjp-afterAuthAction"); // Remove that action
+				}
+			}
+			// Else it may be because of an expired token
+			else {
+				// Clear token
+				localStorage.removeItem("rjp-twitchAuthToken");
+
+				// Send them to get an auth token
+				redirectForTwitchAuthToken("stream");
+			}
+		}
+
+		// If there is an action saved which needs to be performed
+		if (localStorage.getItem("rjp-afterAuthAction") !== null) {
+			// If the afterAuthAction is "random"
+			if (localStorage.getItem("rjp-afterAuthAction") === "random") {
+				document.getElementById("randomStreamButton").click(); // Click the random button again
+			}
+			// Assume it is a stream URL
+			else {
+				streamURL = localStorage.getItem("rjp-afterAuthAction"); // Set the streamURL to the saved afterAuthAction
+			}
+			localStorage.removeItem("rjp-afterAuthAction"); // Remove that action
 		}
 
 		// If stream URL param of the player URL is not blank
@@ -313,25 +345,6 @@ formReady(() => {
 			// Else is is large enough to open everything
 			else {
 				setUIState("open"); // Open all UI
-			}
-
-			// If there is an error param from Twitch auth attempt
-			if (getURLParam("error") !== "") {
-				// If it was because the user denied access
-				if (getURLParam("error_description") === "The user denied you access") {
-					// Let them know
-					alert(
-						"To find a random stream or use the follow list browser, please authorize Twitch access."
-					);
-				}
-				// Else it may be because of an expired token
-				else {
-					// Clear token
-					localStorage.removeItem("rjp-twitchAuthToken");
-
-					// Send them to get an auth token
-					redirectForTwitchAuthToken();
-				}
 			}
 		}
 	}
@@ -560,15 +573,12 @@ formReady(() => {
 						e.classList.add("opacity-100");
 						e.classList.remove("opacity-0");
 					});
-
-				// Show followed streamers content
-				document.getElementById("followedStreamersWrapper").classList.remove("scale-y-0");
 			}, 1000);
 		}
 		// Else if the requested stream URL bar state is close
 		else if (state == "close") {
-			// Hide followed streamers content
-			document.getElementById("followedStreamersWrapper").classList.add("scale-y-0");
+			// Blur stream URL input
+			streamURLElement.blur();
 
 			// For each titleHelpText within #streamURLBarTitleHelpText
 			document.querySelectorAll("#streamURLBarTitleHelpText > .titleHelpText").forEach((e) => {
@@ -662,16 +672,10 @@ formReady(() => {
 	function peekUI() {
 		setUIState("open"); // Open the UI
 
-		// A stream URL is included already
-		if (streamURL != "") {
-			// Hide UI
-			peekUITimeoutID = setTimeout(() => {
-				streamURLElement.blur(); // Blur the stream URL input
-				setUIState("close"); // Close the UI
-			}, 3000);
-		} else {
-			streamURLElement.focus(); // Focus the stream URL input
-		}
+		// Hide UI
+		peekUITimeoutID = setTimeout(() => {
+			setUIState("close"); // Close the UI
+		}, 3000);
 	}
 
 	// Function for stopping peekUI()
@@ -739,6 +743,10 @@ formReady(() => {
 		updateStreamFrame(); // Update the stream frame
 		updatePlayer(); // Update the player URL based on user input
 		setOpacityStreamURLBar("1.0"); // Increase opacity of stream URL bar
+		generateFollowedStreamsList(); // Update the followed streams list
+
+		// Show followed streams wrapper
+		document.getElementById("followedStreamsListWrapper").classList.remove("scale-y-0");
 
 		// If the device is low res
 		if (window.innerWidth < 768 || window.innerHeight < 768) {
@@ -752,6 +760,9 @@ formReady(() => {
 	streamURLElement.addEventListener("blur", () => {
 		updateStreamFrame(); // Update the stream frame
 		updatePlayer(); // Update the player URL based on user input
+
+		// Hide followed streams wrapper
+		document.getElementById("followedStreamsListWrapper").classList.add("scale-y-0");
 
 		// If the device is low res
 		if (window.innerWidth < 768 || window.innerHeight < 768) {
@@ -853,7 +864,10 @@ formReady(() => {
 		// If the menu is closed
 		if (menuButtonElement.title.includes("Open")) {
 			setUIState("open"); // Open UI
-			streamURLElement.focus(); // Focus on stream URL input
+
+			setTimeout(() => {
+				streamURLElement.focus(); // Focus on stream URL input
+			}, 1000); // After 1 sec
 		}
 		// Else if the menu is open
 		else if (menuButtonElement.title.includes("Close")) {
@@ -898,14 +912,15 @@ formReady(() => {
 	});
 
 	// Function for getting Twitch game ids from file
-	async function getTwitchGameIDs() {
-		let twitchGameIDsFile = await fetch("feature-random-stream_twitch-game-ids.json"); // Retrieve Twitch game ids json file
+	async function getTwitchGameIds() {
+		let gameIdsFile = await fetch("feature-random-stream-game-ids.json"); // Retrieve Twitch game ids json file
 
 		// If the game ids json file was retrieved successfully
-		if (twitchGameIDsFile.ok) {
-			twitchGameIDs = Array.from(await twitchGameIDsFile.json()); // Parse the game id json into an array
+		if (gameIdsFile.ok) {
+			gameIdsFileJSON = await gameIdsFile.json(); // Convert to a json object
+			twitchGameIds = Array.from(gameIdsFileJSON.twitch); // Convert to an array and save
 		} else {
-			console.error("HTTP-Error:" + twitchGameIDsFile.status); // Log error
+			console.error("HTTP-Error:" + gameIdsFile.status); // Log error
 			alert("Hmmm couldn't retrieve game list. Please try again."); // Ask user to try again
 
 			// Remove event listener for when the page is reloaded in order to stop the confirmUnload dialog
@@ -915,8 +930,18 @@ formReady(() => {
 		}
 	}
 
-	// Function for redirecting user to get a new Twitch auth token
-	function redirectForTwitchAuthToken() {
+	// Function for redirecting user to get a new Twitch auth toke
+	// Accepts an action string to perform when it receives a response from Twitch
+	function redirectForTwitchAuthToken(action) {
+		// If the action is "random"
+		if (action === "random") {
+			localStorage.setItem("rjp-afterAuthAction", "random"); // Set afterAuthAction to "random"
+		}
+		// Else if it is stream
+		else if (action === "stream") {
+			localStorage.setItem("rjp-afterAuthAction", streamURL); // Set afterAuthAction to the current stream URL
+		} // Otherwise ignore action value
+
 		// Remove event listener for when the page is reloaded in order to stop the confirmUnload dialog
 		window.removeEventListener("beforeunload", confirmUnload);
 
@@ -925,7 +950,7 @@ formReady(() => {
 			window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
 				? "http://localhost:5500/"
 				: window.location.origin + window.location.pathname
-		}?rjpAction=random&response_type=token`;
+		}&response_type=token`;
 	}
 
 	// Add event listener for random stream button
@@ -940,22 +965,22 @@ formReady(() => {
 		streamURLElement.disabled = true; // Disable the stream URL input
 		streamURLElement.value = "Searching..."; // Indicate to the user that searching is in progress
 
-		// If the twitchGameIDs have not yet been retrieved
-		if (twitchGameIDs === undefined) {
-			await getTwitchGameIDs(); // Get the Twitch game ids from file
+		// If the twitchGameIds have not yet been retrieved
+		if (twitchGameIds === undefined) {
+			await getTwitchGameIds(); // Get the Twitch game ids from file
 		}
 
-		// If there is a twitchAuthToken already set and twitchGameIDs is not undefined
-		if (twitchAuthToken !== "" && twitchGameIDs !== undefined) {
-			let streamPool = []; // Array of possible streams
-			let currentGameIDPool = []; // Array of streams gather thus far for a given game id
+		// If there is a twitchAuthToken already set and twitchGameIds is not undefined
+		if (twitchAuthToken !== "" && twitchGameIds !== undefined) {
+			let streamPool = []; // Array of possible streams to choose from
+			let currentGameIDPool = []; // Array of streams gathered` thus far for a given game id
 			let twitchCursor = ""; // Variable for holding the results cursor
 
 			// Retrieve top 30 streams (based on view count) using a game id
-			for (let i = 0; i < twitchGameIDs.length; ) {
+			for (let i = 0; i < twitchGameIds.length; ) {
 				// For this game id fetch top 30 streams
 				let twitchResult = await fetch(
-					`https://api.twitch.tv/helix/streams?language=en&first=30&game_id=${twitchGameIDs[i].game_id}&after=${twitchCursor}`,
+					`https://api.twitch.tv/helix/streams?language=en&first=30&game_id=${twitchGameIds[i].game_id}&after=${twitchCursor}`,
 					{
 						headers: {
 							"Client-ID": twitchClientID,
@@ -994,7 +1019,7 @@ formReady(() => {
 					// If the client was denied access
 					if (twitchResult.status === 401) {
 						// End execution and send user to get a Twitch auth token
-						return redirectForTwitchAuthToken();
+						return redirectForTwitchAuthToken("random");
 					}
 				}
 			}
@@ -1008,15 +1033,298 @@ formReady(() => {
 			updatePlayer(); // Update the player URL based on user input
 		}
 		// Else if there is no auth token hash
-		else {
-			redirectForTwitchAuthToken(); // Go get a Twitch auth token
+		else if (twitchAuthToken === "") {
+			redirectForTwitchAuthToken("random"); // Go get a Twitch auth token
 		}
 	});
 
+	// Function for generating a list of the user's followed streams playing Jackbox games
+	async function generateFollowedStreamsList() {
+		let followedStreamsListElement = document.getElementById("followedStreamsList");
+		let followedStreamsListStatusElement = document.getElementById("followedStreamsListStatus");
+
+		// If the twitchGameIds have not yet been retrieved
+		if (twitchGameIds === undefined) {
+			await getTwitchGameIds(); // Get the Twitch game ids from file
+		}
+
+		// If there is a twitchAuthToken already set and twitchGameIds is not undefined
+		if (twitchAuthToken !== "" && twitchGameIds !== undefined) {
+			// Show the streams list status element
+			followedStreamsListStatusElement.classList.remove("hidden");
+
+			// If no streams have been generated yet
+			if (followedStreamsListElement.innerHTML === "") {
+				// Let the user know a list is being generated
+				followedStreamsListStatusElement.innerHTML = `Generating list...`;
+			}
+			// Let the user know the list is updating
+			else {
+				// Let the user know a list is being generated
+				followedStreamsListStatusElement.innerHTML = `Updating list...`;
+			}
+
+			// Fetch user object
+			let usersResult = await fetch(`https://api.twitch.tv/helix/users`, {
+				headers: {
+					"Client-ID": twitchClientID,
+					Authorization: `Bearer ${twitchAuthToken}`,
+				},
+			});
+
+			// The user object was successfully fetched
+			if (usersResult.ok) {
+				let userObject = await usersResult.json(); // Get user id
+
+				let followedStreamsPlayingJG = []; // Array of followed streams which are playing Jackbox games
+				let twitchCursor = ""; // Variable for holding the results cursor
+
+				// Iterate through each page of query results
+				do {
+					//Followed streams in the current query
+					let currentPageOfFollowedStreams = await fetch(
+						`https://api.twitch.tv/helix/users/follows?from_id=${userObject.data[0].id}&first=30&after=${twitchCursor}`,
+						{
+							headers: {
+								"Client-ID": twitchClientID,
+								Authorization: `Bearer ${twitchAuthToken}`,
+							},
+						}
+					);
+
+					let currentPageOfFollowedStreamsJSON = await currentPageOfFollowedStreams.json(); // Convert query result to json object
+					let userIdParamString = ""; // Variable user ids parameters
+
+					// If the user is following at least one stream
+					if (currentPageOfFollowedStreamsJSON.data.length > 0) {
+						// Add each user from the current page to the userIdParamString
+						for (let u = 0; u < currentPageOfFollowedStreamsJSON.data.length; u++) {
+							userIdParamString += "user_id=";
+							userIdParamString += currentPageOfFollowedStreamsJSON.data[u].to_id;
+
+							// If this is not the last param append an "&" after
+							if (u + 1 < currentPageOfFollowedStreamsJSON.data.length) {
+								userIdParamString += "&";
+							}
+						}
+
+						// Fetch stream status info of the current page
+						let streamInfo = await fetch(
+							`https://api.twitch.tv/helix/streams?${userIdParamString}`,
+							{
+								headers: {
+									"Client-ID": twitchClientID,
+									Authorization: `Bearer ${twitchAuthToken}`,
+								},
+							}
+						);
+
+						userIdParamString = ""; // Clear param string
+
+						// Add each user from the current page to the userIdParamString
+						for (let u = 0; u < currentPageOfFollowedStreamsJSON.data.length; u++) {
+							userIdParamString += "id=";
+							userIdParamString += currentPageOfFollowedStreamsJSON.data[u].to_id;
+
+							// If this is not the last param append an "&" after
+							if (u + 1 < currentPageOfFollowedStreamsJSON.data.length) {
+								userIdParamString += "&";
+							}
+						}
+
+						// Fetch user info of the current page
+						let userInfo = await fetch(
+							`https://api.twitch.tv/helix/users?${userIdParamString}`,
+							{
+								headers: {
+									"Client-ID": twitchClientID,
+									Authorization: `Bearer ${twitchAuthToken}`,
+								},
+							}
+						);
+
+						// If fetch successfully got stream status and user info for the current page
+						if (streamInfo.ok && userInfo.ok) {
+							let streamInfoJSON = await streamInfo.json(); // Convert query result to json object
+							let userInfoJSON = await userInfo.json(); // Convert query result to json object
+
+							// Iterate through each stream result
+							for (let s = 0; s < streamInfoJSON.data.length; s++) {
+								// Iterate through each game id
+								for (let g = 0; g < twitchGameIds.length; g++) {
+									// If the stream is playing a game matching one from the list of game ids
+									if (twitchGameIds[g].game_id === streamInfoJSON.data[s].game_id) {
+										let tempObject = streamInfoJSON.data[s]; // Copy current stream to a temp object
+
+										// Iterate through all the user info to find the matching profile image
+										for (let p = 0; p < userInfoJSON.data.length; p++) {
+											// If the user info id matches the stream info user id
+											if (userInfoJSON.data[p].id === streamInfoJSON.data[s].user_id)
+												tempObject.profile_image_url =
+													userInfoJSON.data[p].profile_image_url; // Copy profile image from user info
+										}
+										followedStreamsPlayingJG.push(tempObject); // Push the stream object
+									}
+								}
+							}
+						}
+					}
+
+					// If there are more query pages
+					if (currentPageOfFollowedStreamsJSON.pagination.cursor !== undefined) {
+						twitchCursor = currentPageOfFollowedStreamsJSON.pagination.cursor; // Save the cursor
+					}
+					// Else there are no more query pages
+					else {
+						twitchCursor = ""; // Empty the cursor
+					}
+				} while (twitchCursor !== "");
+
+				// If at least one stream is playing a valid game id
+				if (followedStreamsPlayingJG.length > 0) {
+					// If more than one stream
+					if (followedStreamsPlayingJG.length > 1) {
+						// sort based on view count
+					}
+
+					followedStreamsListElement.innerHTML = ""; // Clear followedStreamsList
+
+					// For each stream add it to the dropdown list
+					followedStreamsPlayingJG.forEach((s) => {
+						let gameName = ""; // Variable for holding game name
+
+						// Iterate through game ids
+						for (let g = 0; g < twitchGameIds.length; g++) {
+							// If the game id matches the stream's game id
+							if (twitchGameIds[g].game_id === s.game_id) {
+								gameName = twitchGameIds[g].game_name; // Grab the game name
+							}
+						}
+
+						// Create a stream list component
+						followedStreamsListElement.innerHTML += `
+							<div 
+								class="followedStream flex flex-row flex-no-wrap p-2 text-center align-middle cursor-pointer border-b border-solid border-gray-400 hover:bg-teal-100" 
+								title="${
+									s.user_name +
+									" playing " +
+									gameName +
+									" for " +
+									(s.viewer_count === 1
+										? s.viewer_count + " viewer"
+										: s.viewer_count === 0
+										? "no one."
+										: s.viewer_count.toLocaleString() + " viewers.")
+								}" 
+								data-stream-name="${s.user_name}"
+							>
+								<div class="flex-initial w-4/12 text-left truncate">
+									<img src="${s.profile_image_url}" class="inline w-6 rounded">
+									<span class="font-bold">${s.user_name}</span>
+								</div>
+								<div class="flex-grow text-left truncate">
+									<span class="underline">${gameName}</span>
+								</div>
+								<div class="flex-initial w-3/12 text-right">
+									${
+										s.viewer_count === 1
+											? s.viewer_count + " viewer"
+											: s.viewer_count === 0
+											? "No viewers"
+											: s.viewer_count.toLocaleString() + " viewers"
+									}
+								</div>
+							</div>
+						`;
+					});
+
+					// Add event listener to each stream component
+					document.querySelectorAll(".followedStream").forEach((e) => {
+						e.addEventListener("click", () => {
+							streamURLElement.value = `https://twitch.tv/${e.getAttribute(
+								"data-stream-name"
+							)}`; // Set the stream URL input
+							updateStreamFrame(); // Update the stream frame
+							updatePlayer(); // Update the player URL based on user input
+						});
+					});
+				}
+				// No followed streams are playing a valid game id
+				else {
+					// Let the user know
+					followedStreamsListElement.innerHTML = `
+						<div class="p-2 text-center">
+							Sorry, none of your followed streams are playing a Jackbox game.
+						</div>
+					`;
+				}
+			}
+			// Failed to fetch the user object from Twitch
+			else {
+				// Let the user know
+				followedStreamsListElement.innerHTML = `
+					<div class="p-2 text-center">
+						Hmm... couldn't connect to Twitch.<br />
+					</div>
+				`;
+			}
+
+			// Hide the streams list status element
+			followedStreamsListStatusElement.classList.add("hidden");
+		}
+		// Else let the user know
+		else {
+			// Set followedStreamsList innerHTML to a notice
+			followedStreamsListElement.innerHTML = `
+				<div class="p-2 text-center">
+					Want to see which of your followed Twitch streams are playing Jackbox
+					games?<br />
+					<button
+						id="authorizeTwitchAccessButton"
+						class="bg-purple-500 text-white rounded mt-1 px-4 py-1 hover:bg-purple-600"
+					>
+						Authorize <i class="fab fa-twitch"></i> access
+					</button>
+				</div>
+			`;
+
+			// Add event listener for authorizeTwitchAccessButton
+			document.getElementById("authorizeTwitchAccessButton").addEventListener("click", () => {
+				redirectForTwitchAuthToken("stream"); // Send the user to get a Twitch auth token
+			});
+		}
+	}
+
 	// Add event listener for showStreamURLBarButton
 	document.getElementById("showStreamURLBarButton").addEventListener("click", () => {
-		setStreamURLBarElementState("open"); // Show stream URL bar
+		// If the streamURLBar is already open
+		if (streamURLBarElement.classList.toString().includes("w-full")) {
+			streamURLElement.focus(); // Focus on stream URL input
+		}
+		// Else the streamURLBar is closed
+		else {
+			setStreamURLBarElementState("open"); // Show stream URL bar
+
+			setTimeout(() => {
+				streamURLElement.focus(); // Focus on stream URL input
+			}, 1000); // After 1 sec
+		}
 	});
+
+	// Function for retrieving web app client ids
+	async function retrieveClientIds() {
+		let retrieveClientIds = await fetch("client-ids.json"); // Get contents of json file
+
+		// If the json file was retrieved successfully
+		if (retrieveClientIds.ok) {
+			let retrieveClientIdsJSON = await retrieveClientIds.json(); // Convert to json object
+			twitchClientID = retrieveClientIdsJSON["twitch-client-id"]; // Extract the Twitch id
+		} else {
+			console.error(
+				"Unable to get client ids. The application will not operate as intended. Please reload the page to try again."
+			);
+		}
+	}
 
 	// If there is an active view saved from a previous session
 	if (localStorage.getItem("rjp-activeView") !== null) {
@@ -1024,6 +1332,6 @@ formReady(() => {
 	} else {
 		localStorage.setItem("rjp-activeView", activeView); // Save the default view as the active view
 	}
-
+	retrieveClientIds(); // Get client ids
 	initializePlayer(); // Update the player based on the stream URL if present
 });

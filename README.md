@@ -20,9 +20,10 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Add feature to select a stream from user's followed list on Twitch if the streamer is currently playing a Jackbox game
+-  Update to tailwindcss 1.4.0
 -  Utilize Babel.js for wider support/polyfilling
 -  Add game client ids for individual Jackbox games
+-  Animate icons on hover
 -  Remove extra white space at bottom in swap view
 -  Add support for YouTube Gaming and Facebook Gaming
 -  Add left-hand / right-hand control orientation option

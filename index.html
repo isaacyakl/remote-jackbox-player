@@ -68,7 +68,7 @@
 					</p>
 					<p class="text-center mb-4">
 						<i class="fas fa-share transform -rotate-90 mr-2"></i>
-						Paste a stream URL in the field above.
+						Paste or select a stream in the field above.
 					</p>
 					<p class="text-center font-bold mb-4 text-black">
 						THEN
@@ -140,9 +140,10 @@
 				<!-- Stream URL Bar -->
 				<div
 					id="streamURLBar"
-					class="absolute flex flex-col justify-start align-middle transition-all duration-1000 ease-in-out z-50 top-0 left-0 text-2xl w-0"
+					class="absolute flex flex-col justify-start align-middle transition-all duration-1000 ease-in-out z-50 top-0 left-0 text-2xl w-0 max-h-full"
 				>
 					<div
+						id="streamURLBarControls"
 						class="relative flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out rounded-r shadow-lg z-50 top-0 left-0 text-2xl w-full overflow-hidden"
 						role="navigation"
 					>
@@ -157,7 +158,7 @@
 								id="streamURL"
 								type="url"
 								name="streamURL"
-								placeholder="Paste a stream URL here"
+								placeholder="Paste or select a stream here"
 								pattern="https://.*"
 								class="flex-grow text-center transition-all duration-1000 ease-in-out px-1 h-10 bg-teal-200 hover:bg-teal-300 hover:shadow-inner focus:bg-teal-300 w-full"
 								value=""
@@ -210,20 +211,14 @@
 						></span>
 					</div>
 					<div
-						id="followedStreamersWrapper"
-						class="relative bg-white overflow-hidden transform origin-top scale-y-0 transition-all duration-500 ease-in-out ml-10 mr-20 z-40 shadow-md"
+						id="followedStreamsListWrapper"
+						class="relative bg-white overflow-hidden transform origin-top scale-y-0 transition-all duration-500 ease-in-out ml-10 mr-20 z-40 shadow-md rounded-b overflow-y-auto text-base"
 					>
-						<div class="p-2 text-base text-center">
-							Want to see which of your followed Twitch streamers are playing Jackbox
-							games?<br />
-							<button
-								id="authorizeTwitchAccessButton"
-								class="bg-purple-500 text-white rounded mt-1 px-4 py-1 hover:bg-purple-600"
-							>
-								Authorize <i class="fab fa-twitch"></i> access
-							</button>
-						</div>
-						<div class="p-2 text-lg hidden"></div>
+						<div id="followedStreamsList"></div>
+						<div
+							id="followedStreamsListStatus"
+							class="hidden p-2 text-center bg-yellow-100"
+						></div>
 					</div>
 				</div>
 				<!-- Menu -->
