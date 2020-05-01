@@ -14,9 +14,9 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## Unsupported Stream platforms
 
-| Platform | Reason       |
-| -------- | ------------ |
-| Steam    | Stream delay |
+| Platform           | Reason                                   |
+| ------------------ | ---------------------------------------- |
+| Steam Broadcasting | Stream delay, Lack of iOS device support |
 
 ## To-Do
 
