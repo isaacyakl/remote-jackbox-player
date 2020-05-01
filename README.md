@@ -21,7 +21,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 ## To-Do
 
 -  Utilize Babel.js for wider support/polyfilling
--  Add game client ids for individual Jackbox games
 -  Animate icons on hover
 -  Remove extra white space at bottom in swap view
 -  Add support for YouTube Gaming and Facebook Gaming

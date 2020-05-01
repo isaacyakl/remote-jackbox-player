@@ -23,6 +23,18 @@
 		{
 			"game_name": "The Jackbox Party Pack 6",
 			"game_id": "511959"
+		},
+		{
+			"game_name": "Drawful 2",
+			"game_id": "492935"
+		},
+		{
+			"game_name": "Quiplash",
+			"game_id": "490414"
+		},
+		{
+			"game_name": "Fibbage",
+			"game_id": "476477"
 		}
 	]
 }
