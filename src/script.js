@@ -43,9 +43,7 @@ formReady(() => {
 	const defaultPlayerClasses = playerElement.getAttribute("class"); // Default classes for #player from index.html
 	const defaultStreamPaneClasses = streamPaneElement.getAttribute("class"); // Default classes for #streamPane from index.html
 	const defaultGamePaneClasses = gamePaneElement.getAttribute("class"); // Default classes for #gamePane from index.html
-	const defaultSwapViewButtonWrappersClasses = swapViewButtonWrapperElements
-		.item(0)
-		.getAttribute("class"); // Default classes for .swapViewButton's from index.html
+	const defaultSwapViewButtonWrappersClasses = swapViewButtonWrapperElements.item(0).getAttribute("class"); // Default classes for .swapViewButton's from index.html
 
 	// Function for updating visible controls based on active view
 	function updateControls() {
@@ -290,9 +288,7 @@ formReady(() => {
 			// If it was because the user denied access
 			if (getURLParam("error_description") === "The user denied you access") {
 				// Let them know
-				alert(
-					"To find a random stream or use the followed streams list, please authorize Twitch access."
-				);
+				alert("To find a random stream or use the followed streams list, please authorize Twitch access.");
 
 				// If the afterAuthAction is "random"
 				if (localStorage.getItem("rjp-afterAuthAction") === "random") {
@@ -458,10 +454,7 @@ formReady(() => {
 			// Else if the stream URL is for Twitch
 			else if (streamURLElement.value.toString().includes("twitch.tv")) {
 				// If Twitch channel id is blank or has changed
-				if (
-					twitchChannelId === "" ||
-					twitchChannelId !== streamURLElement.value.toString().split("/")[3]
-				) {
+				if (twitchChannelId === "" || twitchChannelId !== streamURLElement.value.toString().split("/")[3]) {
 					// Update the Twitch channel id
 					twitchChannelId = streamURLElement.value.toString().split("/")[3];
 
@@ -491,10 +484,7 @@ formReady(() => {
 					};
 
 					// If the Twitch embed script has not previously been loaded
-					if (
-						document.getElementById("ttvEmbedScript") == null ||
-						document.getElementById("ttvEmbedScript") == undefined
-					) {
+					if (document.getElementById("ttvEmbedScript") == null || document.getElementById("ttvEmbedScript") == undefined) {
 						// Load and configure Twitch script
 						let ttvEmbedScript = document.createElement("script");
 						ttvEmbedScript.setAttribute("id", "ttvEmbedScript");
@@ -516,22 +506,16 @@ formReady(() => {
 			// If the stream URL is for Mixer
 			else if (streamURLElement.value.toString().includes("mixer.com")) {
 				// If Mixer channel name is blank or has changed
-				if (
-					mixerChannelName === "" ||
-					mixerChannelName !== streamURLElement.value.toString().split("/")[3]
-				) {
+				if (mixerChannelName === "" || mixerChannelName !== streamURLElement.value.toString().split("/")[3]) {
 					// Update the Mixer channel name
 					mixerChannelName = streamURLElement.value.toString().split("/")[3];
 
 					// Show Mixer stream
 					showStreamFrameElement("mixer");
 
-					mixerStreamElement.src =
-						"https://mixer.com/embed/player/" +
-						streamURLElement.value.toString().split("/")[3];
+					mixerStreamElement.src = "https://mixer.com/embed/player/" + streamURLElement.value.toString().split("/")[3];
 
-					mixerChatElement.src =
-						"https://mixer.com/embed/chat/" + streamURLElement.value.toString().split("/")[3];
+					mixerChatElement.src = "https://mixer.com/embed/chat/" + streamURLElement.value.toString().split("/")[3];
 				}
 			}
 			// Use unknown stream element
@@ -566,13 +550,11 @@ formReady(() => {
 
 			setTimeout(() => {
 				// For each titleHelpText within #streamURLBarTitleHelpText
-				document
-					.querySelectorAll("#streamURLBarTitleHelpText > .titleHelpText")
-					.forEach((e) => {
-						// Show it
-						e.classList.add("opacity-100");
-						e.classList.remove("opacity-0");
-					});
+				document.querySelectorAll("#streamURLBarTitleHelpText > .titleHelpText").forEach((e) => {
+					// Show it
+					e.classList.add("opacity-100");
+					e.classList.remove("opacity-0");
+				});
 			}, 1000);
 		}
 		// Else if the requested stream URL bar state is close
@@ -849,7 +831,7 @@ formReady(() => {
 	// Add event listener to the game reload button
 	document.getElementById("reloadGameButton").addEventListener("click", () => {
 		let result = false; // Result for user prompt
-		result = window.confirm("Reload the game?\nYou will lose your spot in the lobby."); // Check if the user really wants to reload their game
+		result = window.confirm("Reload the game?\nYou may lose your spot in the lobby."); // Check if the user really wants to reload their game
 
 		// If results are true
 		if (result === true) {
@@ -921,7 +903,7 @@ formReady(() => {
 			twitchGameIds = Array.from(gameIdsFileJSON.twitch); // Convert to an array and save
 		} else {
 			console.error("HTTP-Error:" + gameIdsFile.status); // Log error
-			alert("Hmmm couldn't retrieve game list. Please try again."); // Ask user to try again
+			alert("Hmm...couldn't retrieve game list. Please try again."); // Ask user to try again
 
 			// Remove event listener for when the page is reloaded in order to stop the confirmUnload dialog
 			window.removeEventListener("beforeunload", confirmUnload);
@@ -946,11 +928,7 @@ formReady(() => {
 		window.removeEventListener("beforeunload", confirmUnload);
 
 		// Send the user to get an auth token
-		document.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientID}&redirect_uri=${
-			window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-				? "http://localhost:5500/"
-				: window.location.origin + window.location.pathname
-		}&response_type=token`;
+		document.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientID}&redirect_uri=${window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "http://localhost:5500/" : window.location.origin + window.location.pathname}&response_type=token`;
 	}
 
 	// Add event listener for random stream button
@@ -979,15 +957,12 @@ formReady(() => {
 			// Retrieve top 30 streams (based on view count) using a game id
 			for (let i = 0; i < twitchGameIds.length; ) {
 				// For this game id fetch top 30 streams
-				let twitchResult = await fetch(
-					`https://api.twitch.tv/helix/streams?language=en&first=30&game_id=${twitchGameIds[i].game_id}&after=${twitchCursor}`,
-					{
-						headers: {
-							"Client-ID": twitchClientID,
-							Authorization: `Bearer ${twitchAuthToken}`,
-						},
-					}
-				);
+				let twitchResult = await fetch(`https://api.twitch.tv/helix/streams?language=en&first=30&game_id=${twitchGameIds[i].game_id}&after=${twitchCursor}`, {
+					headers: {
+						"Client-ID": twitchClientID,
+						Authorization: `Bearer ${twitchAuthToken}`,
+					},
+				});
 
 				// If retrieval was successful
 				if (twitchResult.ok) {
@@ -1082,15 +1057,12 @@ formReady(() => {
 				// Iterate through each page of query results
 				do {
 					//Followed streams in the current query
-					let currentPageOfFollowedStreams = await fetch(
-						`https://api.twitch.tv/helix/users/follows?from_id=${userObject.data[0].id}&first=30&after=${twitchCursor}`,
-						{
-							headers: {
-								"Client-ID": twitchClientID,
-								Authorization: `Bearer ${twitchAuthToken}`,
-							},
-						}
-					);
+					let currentPageOfFollowedStreams = await fetch(`https://api.twitch.tv/helix/users/follows?from_id=${userObject.data[0].id}&first=30&after=${twitchCursor}`, {
+						headers: {
+							"Client-ID": twitchClientID,
+							Authorization: `Bearer ${twitchAuthToken}`,
+						},
+					});
 
 					let currentPageOfFollowedStreamsJSON = await currentPageOfFollowedStreams.json(); // Convert query result to json object
 					let userIdParamString = ""; // Variable user ids parameters
@@ -1109,15 +1081,12 @@ formReady(() => {
 						}
 
 						// Fetch stream status info of the current page
-						let streamInfo = await fetch(
-							`https://api.twitch.tv/helix/streams?${userIdParamString}`,
-							{
-								headers: {
-									"Client-ID": twitchClientID,
-									Authorization: `Bearer ${twitchAuthToken}`,
-								},
-							}
-						);
+						let streamInfo = await fetch(`https://api.twitch.tv/helix/streams?${userIdParamString}`, {
+							headers: {
+								"Client-ID": twitchClientID,
+								Authorization: `Bearer ${twitchAuthToken}`,
+							},
+						});
 
 						userIdParamString = ""; // Clear param string
 
@@ -1133,15 +1102,12 @@ formReady(() => {
 						}
 
 						// Fetch user info of the current page
-						let userInfo = await fetch(
-							`https://api.twitch.tv/helix/users?${userIdParamString}`,
-							{
-								headers: {
-									"Client-ID": twitchClientID,
-									Authorization: `Bearer ${twitchAuthToken}`,
-								},
-							}
-						);
+						let userInfo = await fetch(`https://api.twitch.tv/helix/users?${userIdParamString}`, {
+							headers: {
+								"Client-ID": twitchClientID,
+								Authorization: `Bearer ${twitchAuthToken}`,
+							},
+						});
 
 						// If fetch successfully got stream status and user info for the current page
 						if (streamInfo.ok && userInfo.ok) {
@@ -1159,9 +1125,7 @@ formReady(() => {
 										// Iterate through all the user info to find the matching profile image
 										for (let p = 0; p < userInfoJSON.data.length; p++) {
 											// If the user info id matches the stream info user id
-											if (userInfoJSON.data[p].id === streamInfoJSON.data[s].user_id)
-												tempObject.profile_image_url =
-													userInfoJSON.data[p].profile_image_url; // Copy profile image from user info
+											if (userInfoJSON.data[p].id === streamInfoJSON.data[s].user_id) tempObject.profile_image_url = userInfoJSON.data[p].profile_image_url; // Copy profile image from user info
 										}
 										followedStreamsPlayingJG.push(tempObject); // Push the stream object
 									}
@@ -1205,17 +1169,7 @@ formReady(() => {
 						followedStreamsListElement.innerHTML += `
 							<div 
 								class="followedStream flex flex-row flex-no-wrap p-2 text-center align-middle cursor-pointer border-b border-solid border-gray-400 hover:bg-teal-100" 
-								title="${
-									s.user_name +
-									" playing " +
-									gameName +
-									" for " +
-									(s.viewer_count === 1
-										? s.viewer_count + " viewer"
-										: s.viewer_count === 0
-										? "no one."
-										: s.viewer_count.toLocaleString() + " viewers.")
-								}" 
+								title="${s.user_name + " playing " + gameName + " for " + (s.viewer_count === 1 ? s.viewer_count + " viewer" : s.viewer_count === 0 ? "no one." : s.viewer_count.toLocaleString() + " viewers.")}" 
 								data-stream-name="${s.user_name}"
 							>
 								<div class="flex-initial w-4/12 text-left truncate">
@@ -1226,13 +1180,7 @@ formReady(() => {
 									<span class="underline">${gameName}</span>
 								</div>
 								<div class="flex-initial w-3/12 text-right">
-									${
-										s.viewer_count === 1
-											? s.viewer_count + " viewer"
-											: s.viewer_count === 0
-											? "No viewers"
-											: s.viewer_count.toLocaleString() + " viewers"
-									}
+									${s.viewer_count === 1 ? s.viewer_count + " viewer" : s.viewer_count === 0 ? "No viewers" : s.viewer_count.toLocaleString() + " viewers"}
 								</div>
 							</div>
 						`;
@@ -1241,9 +1189,7 @@ formReady(() => {
 					// Add event listener to each stream component
 					document.querySelectorAll(".followedStream").forEach((e) => {
 						e.addEventListener("click", () => {
-							streamURLElement.value = `https://twitch.tv/${e.getAttribute(
-								"data-stream-name"
-							)}`; // Set the stream URL input
+							streamURLElement.value = `https://twitch.tv/${e.getAttribute("data-stream-name")}`; // Set the stream URL input
 							updateStreamFrame(); // Update the stream frame
 							updatePlayer(); // Update the player URL based on user input
 						});
@@ -1259,12 +1205,19 @@ formReady(() => {
 					`;
 				}
 			}
-			// Failed to fetch the user object from Twitch
+			// Failed to fetch the user object from Twitch (probably the user revoked access)
 			else {
-				// Let the user know
+				// Set followedStreamsList innerHTML to a notice
 				followedStreamsListElement.innerHTML = `
 					<div class="p-2 text-center">
-						Hmm... couldn't connect to Twitch.<br />
+						Want to see which of your followed Twitch streams are playing Jackbox
+						games?<br />
+						<button
+							id="authorizeTwitchAccessButton"
+							class="bg-purple-500 text-white rounded mt-1 px-4 py-1 hover:bg-purple-600"
+						>
+							Authorize <i class="fab fa-twitch"></i> access
+						</button>
 					</div>
 				`;
 			}
@@ -1320,9 +1273,7 @@ formReady(() => {
 			let retrieveClientIdsJSON = await retrieveClientIds.json(); // Convert to json object
 			twitchClientID = retrieveClientIdsJSON["twitch-client-id"]; // Extract the Twitch id
 		} else {
-			console.error(
-				"Unable to get client ids. The application will not operate as intended. Please reload the page to try again."
-			);
+			console.error("Unable to get client ids. The application will not operate as intended. Please reload the page to try again.");
 		}
 	}
 
