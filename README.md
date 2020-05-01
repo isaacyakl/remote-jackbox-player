@@ -20,7 +20,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Update to tailwindcss 1.4.0
 -  Utilize Babel.js for wider support/polyfilling
 -  Add game client ids for individual Jackbox games
 -  Animate icons on hover

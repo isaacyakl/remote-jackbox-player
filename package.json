@@ -13,7 +13,7 @@
 	"license": "MIT",
 	"description": "Play Jackbox games with your friends remotely.",
 	"dependencies": {
-		"tailwindcss": "^1.3.5"
+		"tailwindcss": "^1.4.4"
 	},
 	"devDependencies": {},
 	"repository": {
