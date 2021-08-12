@@ -13,13 +13,14 @@
 	"license": "MIT",
 	"description": "Play Jackbox games with your friends remotely.",
 	"dependencies": {
-		"@babel/polyfill": "^7.10.4",
-		"tailwindcss": "^1.6.2"
+		"@babel/polyfill": "^7.12.1",
+		"tailwindcss": "^1.9.6",
+		"terser": "^5.7.1"
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.10.5",
-		"@babel/core": "^7.11.1",
-		"@babel/preset-env": "^7.11.0"
+		"@babel/cli": "^7.14.8",
+		"@babel/core": "^7.15.0",
+		"@babel/preset-env": "^7.15.0"
 	},
 	"repository": {
 		"type": "git",
