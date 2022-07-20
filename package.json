@@ -15,7 +15,7 @@
 	"dependencies": {
 		"@babel/polyfill": "^7.12.1",
 		"tailwindcss": "^1.9.6",
-		"terser": "^5.7.1"
+		"terser": "^5.14.2"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.14.8",
