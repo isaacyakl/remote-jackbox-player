@@ -1,6 +1,6 @@
 # remote-jackbox-player
 
-Play Jackbox games remotely using one device/browser window!
+Find and play Jackbox games remotely, even if you don't own any. Find random Jackbox hosts who are streaming their games on Twitch and join them, or directly enter a streamer's URL!
 
 Try it on your mobile device 📲
 
@@ -12,18 +12,20 @@ Show support by following me on [Twitter](https://www.twitter.com/isaacyakl) and
 
 Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-player/issues/new).
 
-## Unsupported Stream platforms
+## Stream platforms
 
-| Platform           | Reason                                   |
-| ------------------ | ---------------------------------------- |
-| Steam Broadcasting | Stream delay, Lack of iOS device support |
+| Platform           | Status                                          |
+| ------------------ | ----------------------------------------------- |
+| Twitch             | Supported                                       |
+| YouTube            | Work In Progress                                |
+| Facebook           | Work In Progress                                |
+| Discord            | Work In Progress                                |
+| Steam Broadcasting | Unsupported (Stream delay, Lack of iOS support) |
 
 ## To-Do
 
--  Utilize Babel.js for wider support/polyfilling
 -  Animate icons on hover
 -  Remove extra white space at bottom in swap view
--  Add support for YouTube Gaming and Facebook Gaming
 -  Add left-hand / right-hand control orientation option
 -  Detect lag in stream and reload it automagically
 -  Add custom confirmation dialog for trying to reload game pane
