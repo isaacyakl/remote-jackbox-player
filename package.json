@@ -1,10 +1,10 @@
 {
 	"name": "remote-jackbox-player",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"browser": "index.html",
 	"scripts": {
-		"build:css": "tailwind build src/style.css -o style.css",
-		"build:js": "terser src/script.js -c -m --comments -o script.min.js",
+		"build:css": "tailwind build -i ./src/style.css -o ./dist/style.css",
+		"build:js": "terser ./src/script.js -c -m --comments -o ./dist/script.min.js",
 		"push:prod": "git push production",
 		"push:origin": "git push origin",
 		"push:all": "git push origin && git push production"
@@ -14,13 +14,15 @@
 	"description": "Play Jackbox games with your friends remotely.",
 	"dependencies": {
 		"@babel/polyfill": "^7.12.1",
-		"tailwindcss": "^1.9.6",
 		"terser": "^5.7.1"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.14.8",
 		"@babel/core": "^7.15.0",
-		"@babel/preset-env": "^7.15.0"
+		"@babel/preset-env": "^7.15.0",
+		"autoprefixer": "^10.4.7",
+		"postcss": "^8.4.14",
+		"tailwindcss": "^3.1.6"
 	},
 	"repository": {
 		"type": "git",
