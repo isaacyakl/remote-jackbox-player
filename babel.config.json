@@ -1,0 +1,14 @@
+{
+	"presets": [
+		[
+			"@babel/preset-env",
+			{
+				"targets": "defaults"
+			}
+		]
+	],
+	"sourceMaps": true,
+	"compact": true,
+	"minified": true,
+	"comments": false
+}
