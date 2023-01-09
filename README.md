@@ -17,9 +17,9 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 | Platform           | Status                                          |
 | ------------------ | ----------------------------------------------- |
 | Twitch             | Supported                                       |
-| YouTube            | Work In Progress                                |
-| Facebook           | Work In Progress                                |
-| Discord            | Work In Progress                                |
+| YouTube            | If requested                                    |
+| Facebook           | If requested                                    |
+| Discord            | If requested                                    |
 | Steam Broadcasting | Unsupported (Stream delay, Lack of iOS support) |
 
 ## To-Do
