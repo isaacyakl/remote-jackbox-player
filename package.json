@@ -3,11 +3,10 @@
 	"version": "1.0.1",
 	"browser": "dist/script.js",
 	"scripts": {
-		"dev": "babel src -d dist --watch",
-		"build": "babel src -d dist",
-		"build:css": "tailwind build -i ./src/style.css -o ./dist/style.css",
-		"build:js": "terser ./src/script.js -c -m --comments -o ./dist/script.min.js",
-		"push:origin": "git push origin"
+		"dev": "npm run build:js -- --watch & npm run build:css -- --watch",
+		"build": "npm run build:js && npm run build:css && cp \"src/index.html\" \"dist/index.html\"",
+		"build:js": "babel src -d dist",
+		"build:css": "npx tailwindcss -i ./src/input.css -o ./dist/output.css"
 	},
 	"author": "Isaac 'yak' L.",
 	"license": "MIT",
@@ -16,8 +15,6 @@
 		"@babel/cli": "^7.20.7",
 		"@babel/core": "^7.20.12",
 		"@babel/preset-env": "^7.20.2",
-		"autoprefixer": "^10.4.7",
-		"postcss": "^8.4.14",
 		"tailwindcss": "^3.1.6"
 	},
 	"repository": {
