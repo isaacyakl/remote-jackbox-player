@@ -1,11 +1,48 @@
-// Check if DOM is ready
-let formReady = (callback) => {
-	if (document.readyState != "loading") callback();
-	else document.addEventListener("DOMContentLoaded", callback);
+const gameIds = {
+	twitch: [
+		{
+			game_name: "The Jackbox Party Pack",
+			game_id: "488572",
+		},
+		{
+			game_name: "The Jackbox Party Pack 2",
+			game_id: "490921",
+		},
+		{
+			game_name: "The Jackbox Party Pack 3",
+			game_id: "493174",
+		},
+		{
+			game_name: "The Jackbox Party Pack 4",
+			game_id: "498303",
+		},
+		{
+			game_name: "The Jackbox Party Pack 5",
+			game_id: "508752",
+		},
+		{
+			game_name: "The Jackbox Party Pack 6",
+			game_id: "511959",
+		},
+		{
+			game_name: "Drawful 2",
+			game_id: "492935",
+		},
+		{
+			game_name: "Quiplash",
+			game_id: "490414",
+		},
+		{
+			game_name: "Fibbage",
+			game_id: "476477",
+		},
+	],
+};
+const clientIds = {
+	"twitch-client-id": "0h2wo7u731sh7c2r3st47cf6dtpnn9",
 };
 
-// Execute form code when DOM is ready
-formReady(() => {
+const rJP = () => {
 	// Element variables
 	let playerElement = document.getElementById("player"); // Main container
 	let streamPaneElement = document.getElementById("streamPane"); // Stream pane for all stream related elements
@@ -28,9 +65,9 @@ formReady(() => {
 	let streamURL = ""; // Variable to hold the stream URL value
 	let peekUITimeoutID; // Variable to hold the timeout used in peekUI()
 	let twitchAuthToken = ""; // Variable to hold Twitch auth token
-	let twitchGameIds; // Variable for array of Twitch game ids
+	let twitchGameIds = Array.from(gameIds.twitch); // Variable for array of Twitch game ids
 
-	let twitchClientID = ""; // Variable for Twitch Client ID
+	let twitchClientID = clientIds["twitch-client-id"]; // Variable for Twitch Client ID
 
 	// Channel id/names
 	let twitchChannelId = ""; // Variable to hold Twitch channel id
@@ -850,25 +887,6 @@ formReady(() => {
 		}
 	});
 
-	// Function for getting Twitch game ids from file
-	async function getTwitchGameIds() {
-		let gameIdsFile = await fetch("feature-random-stream-game-ids.json"); // Retrieve Twitch game ids json file
-
-		// If the game ids json file was retrieved successfully
-		if (gameIdsFile.ok) {
-			gameIdsFileJSON = await gameIdsFile.json(); // Convert to a json object
-			twitchGameIds = Array.from(gameIdsFileJSON.twitch); // Convert to an array and save
-		} else {
-			console.error("HTTP-Error:" + gameIdsFile.status); // Log error
-			alert("Hmm...couldn't retrieve game list. Please try again."); // Ask user to try again
-
-			// Remove event listener for when the page is reloaded in order to stop the confirmUnload dialog
-			window.removeEventListener("beforeunload", confirmUnload);
-
-			location.reload(); // Reload page
-		}
-	}
-
 	// Function for redirecting user to get a new Twitch auth toke
 	// Accepts an action string to perform when it receives a response from Twitch
 	function redirectForTwitchAuthToken(action) {
@@ -899,11 +917,6 @@ formReady(() => {
 
 		streamURLElement.disabled = true; // Disable the stream URL input
 		streamURLElement.value = "Searching..."; // Indicate to the user that searching is in progress
-
-		// If the twitchGameIds have not yet been retrieved
-		if (twitchGameIds === undefined) {
-			await getTwitchGameIds(); // Get the Twitch game ids from file
-		}
 
 		// If there is a twitchAuthToken already set and twitchGameIds is not undefined
 		if (twitchAuthToken !== "" && twitchGameIds !== undefined) {
@@ -974,11 +987,6 @@ formReady(() => {
 	async function generateFollowedStreamsList() {
 		let followedStreamsListElement = document.getElementById("followedStreamsList");
 		let followedStreamsListStatusElement = document.getElementById("followedStreamsListStatus");
-
-		// If the twitchGameIds have not yet been retrieved
-		if (twitchGameIds === undefined) {
-			await getTwitchGameIds(); // Get the Twitch game ids from file
-		}
 
 		// If there is a twitchAuthToken already set and twitchGameIds is not undefined
 		if (twitchAuthToken !== "" && twitchGameIds !== undefined) {
@@ -1221,25 +1229,12 @@ formReady(() => {
 		}
 	});
 
-	// Function for retrieving web app client ids
-	async function retrieveClientIds() {
-		let retrieveClientIds = await fetch("client-ids.json"); // Get contents of json file
-
-		// If the json file was retrieved successfully
-		if (retrieveClientIds.ok) {
-			let retrieveClientIdsJSON = await retrieveClientIds.json(); // Convert to json object
-			twitchClientID = retrieveClientIdsJSON["twitch-client-id"]; // Extract the Twitch id
-		} else {
-			console.error("Unable to get client ids. The application will not operate as intended. Please reload the page to try again.");
-		}
-	}
-
 	// If there is an active view saved from a previous session
 	if (localStorage.getItem("rjp-activeView") !== null) {
 		setView(localStorage.getItem("rjp-activeView")); // Get and set view back to what it was
 	} else {
 		localStorage.setItem("rjp-activeView", activeView); // Save the default view as the active view
 	}
-	retrieveClientIds(); // Get client ids
 	initializePlayer(); // Update the player based on the stream URL if present
-});
+};
+document.addEventListener("DOMContentLoaded", rJP);
