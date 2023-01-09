@@ -1,25 +1,28 @@
 {
 	"name": "remote-jackbox-player",
 	"version": "1.0.1",
-	"browser": "dist/script.js",
+	"browser": "dist/index.html",
 	"scripts": {
-		"dev": "npm run build:js -- --watch & npm run build:css -- --watch",
-		"build": "npm run build:js && npm run build:css && cp \"src/index.html\" \"dist/index.html\"",
+		"dev": "concurrently -k -c auto \"npm run build:js -- --watch\" \"npm run build:css -- --watch\"",
+		"build": "npm run build:js && npm run build:css && npm run build:html",
 		"build:js": "babel src -d dist",
-		"build:css": "npx tailwindcss -i ./src/input.css -o ./dist/output.css"
+		"build:css": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+		"build:html": "html-minifier ./src/index.html --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --remove-empty-attributes --use-short-doctype --minify-css true --minify-js true -o ./dist/index.html"
 	},
-	"author": "Isaac 'yak' L.",
+	"author": "Isaac 'yak' L. <i@isaacyakl.com> (https://www.isaacyakl.com/)",
 	"license": "MIT",
 	"description": "Play Jackbox games with your friends remotely.",
 	"devDependencies": {
 		"@babel/cli": "^7.20.7",
 		"@babel/core": "^7.20.12",
 		"@babel/preset-env": "^7.20.2",
+		"concurrently": "^7.6.0",
+		"html-minifier": "^4.0.0",
 		"tailwindcss": "^3.1.6"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/isaacyakl/remote-jackbox-player.git"
+		"url": "https://github.com/isaacyakl/remote-jackbox-player.git"
 	},
 	"keywords": [
 		"jackbox",
@@ -29,5 +32,5 @@
 	"bugs": {
 		"url": "https://github.com/isaacyakl/remote-jackbox-player/issues"
 	},
-	"homepage": "https://github.com/isaacyakl/remote-jackbox-player#readme"
+	"homepage": "https://remote-jackbox-player.isaacyakl.com"
 }
