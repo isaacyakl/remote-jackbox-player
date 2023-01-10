@@ -1,28 +1,12 @@
+// search source of a Twitch category for "/ttv-boxart/"
+// and you will find "<game_id>-<width>x<height>.jpg"
+// directly following. That is an easy way to grab
+// game ids without needing to CURL.
 const gameIds = {
 	twitch: [
 		{
-			game_name: "The Jackbox Party Pack",
-			game_id: "488572",
-		},
-		{
-			game_name: "The Jackbox Party Pack 2",
-			game_id: "490921",
-		},
-		{
-			game_name: "The Jackbox Party Pack 3",
+			game_name: "Jackbox Party Packs",
 			game_id: "493174",
-		},
-		{
-			game_name: "The Jackbox Party Pack 4",
-			game_id: "498303",
-		},
-		{
-			game_name: "The Jackbox Party Pack 5",
-			game_id: "508752",
-		},
-		{
-			game_name: "The Jackbox Party Pack 6",
-			game_id: "511959",
 		},
 		{
 			game_name: "Drawful 2",
