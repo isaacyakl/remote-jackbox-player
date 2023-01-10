@@ -16,17 +16,18 @@ Created by [yak](https://isaacyakl.com)
 
 ## Streaming Platform Support
 
-| Platform           | Status                                             |
-| ------------------ | -------------------------------------------------- |
-| Twitch             | ✅ Supported                                       |
-| YouTube            | If [requested]()                                   |
-| Steam Broadcasting | ❎ Unsupported (Stream delay, Lack of iOS support) |
+| Platform           | Status                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------ |
+| Twitch             | ✅ Supported                                                                         |
+| YouTube            | If [requested](https://github.com/isaacyakl/remote-jackbox-player/issues/new/choose) |
+| Steam Broadcasting | ❎ Unsupported (Stream delay, Lack of iOS support)                                   |
 
-Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-player/issues/new).
+Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-player/issues/new/choose).
 
 ## To-Do
 
 -  Simplify UI
+-  Implement language localization **(I am looking for someone to help with this)**
 -  Remove extra white space at bottom in swap view
 -  Add left-hand / right-hand control orientation option
 -  Detect lag in stream and reload it automagically
