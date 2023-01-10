@@ -7,7 +7,8 @@
 		"build": "npm run build:js && npm run build:css && npm run build:html",
 		"build:js": "babel src -o public/script.js",
 		"build:css": "npx tailwindcss -i ./src/input.css -o ./public/output.css --minify",
-		"build:html": "html-minifier ./src/index.html --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --remove-empty-attributes --use-short-doctype --minify-css true --minify-js true -o ./public/index.html"
+		"build:html": "html-minifier ./src/index.html --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --remove-empty-attributes --use-short-doctype --minify-css true --minify-js true -o ./public/index.html",
+		"preview": "open-cli https://remote-jackbox-player-git-preview-isaacyakl.vercel.app/"
 	},
 	"author": "Isaac 'yak' L. <i@isaacyakl.com> (https://www.isaacyakl.com/)",
 	"license": "MIT",
@@ -18,6 +19,7 @@
 		"@babel/preset-env": "^7.20.2",
 		"concurrently": "^7.6.0",
 		"html-minifier": "^4.0.0",
+		"open-cli": "^7.1.0",
 		"tailwindcss": "^3.1.6"
 	},
 	"repository": {
