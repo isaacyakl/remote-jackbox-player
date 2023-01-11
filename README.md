@@ -27,6 +27,7 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 ## To-Do
 
 -  Text hints are transparent when hidden but are still displaying!
+-  Add a clear button for stream URL
 -  Rename how to pane
 -  Add social share preview
 -  Implement language localization **(I am looking for someone to help with this)**
