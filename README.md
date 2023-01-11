@@ -30,7 +30,5 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 -  Add a clear button for stream URL
 -  Rename how to pane
 -  Implement language localization **(I am looking for someone to help with this)**
--  Remove extra white space at bottom in swap view
 -  Add left-hand / right-hand control orientation option
 -  Detect lag in stream and reload it automagically
--  Add custom confirmation dialog for trying to reload game pane
