@@ -362,7 +362,7 @@ const rJP = () => {
 			if (window.innerWidth < 768) {
 				setUIState("open"); // Open all UI
 
-				// After 3000 seconds
+				// After peekTimeMs seconds
 				setTimeout(() => {
 					setMenuElementState("close"); // Close menu
 				}, peekTimeMs);
@@ -718,13 +718,6 @@ const rJP = () => {
 
 		// Show followed streams wrapper
 		document.getElementById("followedStreamsListWrapper").classList.remove("scale-y-0");
-
-		// If the device is low res
-		if (window.innerWidth < 768 || window.innerHeight < 768) {
-			// Move menu to bottom of screen (helpful on mobile devices)
-			document.getElementById("menu").classList.remove("mb-24");
-			document.getElementById("menu").classList.add("mb-6");
-		}
 	});
 
 	// Add event listener for when the URL input field blurs
@@ -735,12 +728,6 @@ const rJP = () => {
 		// Hide followed streams wrapper
 		document.getElementById("followedStreamsListWrapper").classList.add("scale-y-0");
 
-		// If the device is low res
-		if (window.innerWidth < 768 || window.innerHeight < 768) {
-			// Move menu back to original position
-			document.getElementById("menu").classList.remove("mb-6");
-			document.getElementById("menu").classList.add("mb-24");
-		}
 		setUIState("close"); // Hide UI
 	});
 
