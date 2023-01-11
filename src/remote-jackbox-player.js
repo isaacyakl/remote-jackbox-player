@@ -311,6 +311,9 @@ const rJP = () => {
 			// Store it for future requests
 			localStorage.setItem("rjp-twitchAuthToken", twitchAuthToken);
 
+			console.log(`New Twitch Auth Token: ${twitchAuthToken}`);
+			revokeTwitchBtnElement.classList.remove("hidden");
+
 			// Clear hashes
 			window.history.pushState(null, null, window.location.pathname + window.location.search);
 		}
