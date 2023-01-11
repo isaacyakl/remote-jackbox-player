@@ -774,7 +774,7 @@ const rJP = () => {
 			document.getElementById("shareButton").classList.add("rounded-r"); // Add rounding on right side of share button
 			document.getElementById("shareTextDoppelganger").classList.remove("px-1"); // Remove padding on left and right of doppelganger
 			document.getElementById("shareTextDoppelganger").classList.remove("w-40"); // Collapse doppelganger
-			// setUIState("close"); // Hide UI
+			setUIState("close"); // Hide UI
 		}, 3000);
 	});
 
