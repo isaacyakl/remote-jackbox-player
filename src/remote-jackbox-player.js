@@ -730,8 +730,6 @@ const rJP = () => {
 
 		// Hide followed streams wrapper
 		document.getElementById("followedStreamsListWrapper").classList.add("scale-y-0");
-
-		setUIState("close"); // Hide UI
 	});
 
 	// Add event listener for when the stream URL form is submitted

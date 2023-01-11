@@ -27,6 +27,8 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 ## To-Do
 
 -  Text hints are transparent when hidden but are still displaying!
+-  Rename how to pane
+-  Rename disconnect twitch
 -  Add social share preview
 -  Implement language localization **(I am looking for someone to help with this)**
 -  Remove extra white space at bottom in swap view
