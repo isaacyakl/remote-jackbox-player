@@ -121,6 +121,11 @@ const rJP = () => {
 		}
 	}
 
+	// Bind any element to swap views if it has the specified class
+	document.querySelectorAll(".game-pane-btn").forEach((e) => {
+		e.addEventListener("click", swapView);
+	});
+
 	// Function for setting the view
 	function setView(view) {
 		// Function for setting up default view

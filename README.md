@@ -2,7 +2,7 @@
 
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/isaacyakl/remote-jackbox-player/master?label=last%20update) ![GitHub deployments](https://img.shields.io/github/deployments/isaacyakl/remote-jackbox-player/production?label=status) ![GitHub](https://img.shields.io/github/license/isaacyakl/remote-jackbox-player)
 
-Find and play Jackbox games remotely, even if you don't own any! This website allows you to randomly find people streaming Jackbox game sessions on Twitch and join them, or to directly enter a stream URL!
+Find and play Jackbox games remotely (even if you don't own any) all on a single screen! This website allows you to simultaneously watch a Jackbox stream and join the fun from one mobile device. You can find random game sessions hosted on Twitch and join or directly enter a stream URL (if your friend or family member is streaming their game)!
 
 Try it on your mobile device 📲
 
@@ -26,6 +26,8 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
+-  Default to swap view on small screens
+-  Add social share preview
 -  Simplify UI
 -  Implement language localization **(I am looking for someone to help with this)**
 -  Remove extra white space at bottom in swap view
