@@ -299,6 +299,7 @@ const rJP = () => {
 		// If there is a Twitch auth token saved from a previous session
 		if (localStorage.getItem("rjp-twitchAuthToken") !== null) {
 			twitchAuthToken = localStorage.getItem("rjp-twitchAuthToken"); // Get twitchAuthToken
+			console.log(`Twitch Auth Token: ${twitchAuthToken}`);
 		}
 
 		// If an auth token was included with the URL update the stored one
@@ -344,6 +345,7 @@ const rJP = () => {
 			else {
 				streamURL = localStorage.getItem("rjp-afterAuthAction"); // Set the streamURL to the saved afterAuthAction
 			}
+			console.log(`After Twitch Auth Action: ${localStorage.getItem("rjp-afterAuthAction")}`);
 			localStorage.removeItem("rjp-afterAuthAction"); // Remove that action
 		}
 
@@ -367,7 +369,7 @@ const rJP = () => {
 					setMenuElementState("close"); // Close menu
 				}, peekTimeMs);
 			}
-			// Else is is large enough to open everything
+			// Else is is large enough to keep everything open
 			else {
 				setUIState("open"); // Open all UI
 			}
@@ -1195,12 +1197,15 @@ const rJP = () => {
 		}
 	}
 
+	console.group("Remote Jackbox Player Settings Restored");
 	// If there is an active view saved from a previous session
 	if (localStorage.getItem("rjp-activeView") !== null) {
 		setView(localStorage.getItem("rjp-activeView")); // Get and set view back to what it was
+		console.log(`View: ${localStorage.getItem("rjp-activeView")}`);
 	} else {
 		localStorage.setItem("rjp-activeView", activeView); // Save the default view as the active view
 	}
 	initializePlayer(); // Update the player based on the stream URL if present
+	console.groupEnd("Remote Jackbox Player Settings Restored");
 };
 document.addEventListener("DOMContentLoaded", rJP);
