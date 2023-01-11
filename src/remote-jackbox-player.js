@@ -735,6 +735,7 @@ const rJP = () => {
 			document.getElementById("menu").classList.remove("mb-6");
 			document.getElementById("menu").classList.add("mb-24");
 		}
+		setUIState("close"); // Hide UI
 	});
 
 	// Add event listener for when the stream URL form is submitted
