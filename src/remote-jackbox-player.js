@@ -726,8 +726,10 @@ const rJP = () => {
 		updateStreamFrame(); // Update the stream frame
 		updatePlayer(); // Update the player URL based on user input
 
-		// Hide followed streams wrapper
-		document.getElementById("followedStreamsListWrapper").classList.add("scale-y-0");
+		window.setTimeout(() => {
+			// Hide followed streams wrapper
+			document.getElementById("followedStreamsListWrapper").classList.add("scale-y-0");
+		}, 3000);
 	});
 
 	// Add event listener for when the stream URL form is submitted
