@@ -830,9 +830,12 @@ const rJP = () => {
 		if (menuButtonElement.title.includes("Open")) {
 			setUIState("open"); // Open UI
 
-			setTimeout(() => {
-				streamURLElement.focus(); // Focus on stream URL input
-			}, 1000); // After 1 sec
+			// This checks if the current device is not mobile
+			if (!/Android|iPhone/i.test(navigator.userAgent)) {
+				setTimeout(() => {
+					streamURLElement.focus(); // Focus on stream URL input
+				}, 1000); // After 1 sec
+			}
 		}
 		// Else if the menu is open
 		else if (menuButtonElement.title.includes("Close")) {
