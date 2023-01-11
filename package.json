@@ -1,6 +1,6 @@
 {
 	"name": "remote-jackbox-player",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"browser": "public/index.html",
 	"scripts": {
 		"dev": "concurrently -k -c auto \"npm run build:js -- --watch\" \"npm run build:css -- --watch\" \"npm run watch:html\"",
