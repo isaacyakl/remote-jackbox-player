@@ -1211,9 +1211,11 @@ const rJP = () => {
 					localStorage.removeItem("rjp-twitchAuthToken");
 
 					const tempInnerHTML = revokeTwitchBtnElement.innerHTML;
+					revokeTwitchBtnElement.disabled = true;
 					revokeTwitchBtnElement.innerHTML = '<i class="fas fa-check"></i> Done';
 					window.setTimeout(() => {
 						revokeTwitchBtnElement.classList.add("hidden");
+						revokeTwitchBtnElement.disabled = false;
 						revokeTwitchBtnElement.innerHTML = tempInnerHTML;
 					}, 3000);
 				}
