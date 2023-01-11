@@ -41,7 +41,7 @@ const rJP = () => {
 	let menuButtonElement = document.getElementById("menuButton"); // Menu button
 	let swapViewButtonElements = document.querySelectorAll(".swapViewButton"); // Swap view buttons
 	let swapViewButtonWrapperElements = document.querySelectorAll(".swapViewButtonWrapper"); // Swap view button wrappers
-	const disconnectTwitchBtnElement = document.getElementById("disconnectTwitchBtn");
+	const revokeTwitchBtnElement = document.getElementById("revokeTwitchBtn");
 
 	// Data variables
 	let activeView = "default"; // Variable for active view
@@ -301,6 +301,7 @@ const rJP = () => {
 		if (localStorage.getItem("rjp-twitchAuthToken") !== null) {
 			twitchAuthToken = localStorage.getItem("rjp-twitchAuthToken"); // Get twitchAuthToken
 			console.log(`Twitch Auth Token: ${twitchAuthToken}`);
+			revokeTwitchBtnElement.classList.remove("hidden");
 		}
 
 		// If an auth token was included with the URL update the stored one
@@ -1194,7 +1195,7 @@ const rJP = () => {
 	}
 
 	// allows the user to quickly disconnect from Twitch and reauth if there is some sort of reason to
-	disconnectTwitchBtnElement.addEventListener("click", async () => {
+	revokeTwitchBtnElement.addEventListener("click", async () => {
 		{
 			if (twitchAuthToken != "") {
 				const twitchResult = await fetch(`https://id.twitch.tv/oauth2/revoke`, {
@@ -1208,6 +1209,13 @@ const rJP = () => {
 					console.log(`Revoked Twitch access token: ${localStorage.getItem("rjp-twitchAuthToken")}`);
 					twitchAuthToken = "";
 					localStorage.removeItem("rjp-twitchAuthToken");
+
+					const tempInnerHTML = revokeTwitchBtnElement.innerHTML;
+					revokeTwitchBtnElement.innerHTML = '<i class="fas fa-check"></i> Done';
+					window.setTimeout(() => {
+						revokeTwitchBtnElement.classList.add("hidden");
+						revokeTwitchBtnElement.innerHTML = tempInnerHTML;
+					}, 3000);
 				}
 			}
 		}
