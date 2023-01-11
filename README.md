@@ -26,9 +26,8 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Default to swap view on small screens
+-  Text hints are transparent when hidden but are still displaying!
 -  Add social share preview
--  Simplify UI
 -  Implement language localization **(I am looking for someone to help with this)**
 -  Remove extra white space at bottom in swap view
 -  Add left-hand / right-hand control orientation option

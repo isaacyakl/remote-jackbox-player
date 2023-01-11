@@ -41,6 +41,7 @@ const rJP = () => {
 	let menuButtonElement = document.getElementById("menuButton"); // Menu button
 	let swapViewButtonElements = document.querySelectorAll(".swapViewButton"); // Swap view buttons
 	let swapViewButtonWrapperElements = document.querySelectorAll(".swapViewButtonWrapper"); // Swap view button wrappers
+	const disconnectTwitchBtnElement = document.getElementById("disconnectTwitchBtn");
 
 	// Data variables
 	let activeView = "default"; // Variable for active view
@@ -1196,6 +1197,24 @@ const rJP = () => {
 			});
 		}
 	}
+
+	// allows the user to quickly disconnect from Twitch and reauth if there is some sort of reason to
+	disconnectTwitchBtnElement.addEventListener("click", async () => {
+		{
+			if (twitchAuthToken != "") {
+				const twitchResult = await fetch(`https://id.twitch.tv/oauth2/revoke`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+					},
+					body: `client_id=${twitchClientID}&token=${twitchAuthToken}`,
+				});
+				if (twitchResult.ok) {
+					console.log("Revoked Twitch access token");
+				}
+			}
+		}
+	});
 
 	console.group("Remote Jackbox Player Settings Restored");
 	// If there is an active view saved from a previous session
