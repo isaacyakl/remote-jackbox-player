@@ -4,10 +4,11 @@
 	"browser": "public/index.html",
 	"scripts": {
 		"dev": "concurrently -k -c auto \"npm run build:js -- --watch\" \"npm run build:css -- --watch\" \"npm run watch:html\"",
-		"build": "npm run build:js && npm run build:css && npm run build:html",
+		"build": "npm run build:js && npm run build:css && npm run build:html && npm run build:static",
 		"build:js": "babel src -o public/script.js",
 		"build:css": "npx tailwindcss -i ./src/input.css -o ./public/output.css --minify",
 		"build:html": "html-minifier ./src/index.html --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --remove-empty-attributes --use-short-doctype --minify-css true --minify-js true -o ./public/index.html",
+		"build:static": "cp ./src/remote-jackbox-player-screencap.jpg ./public/remote-jackbox-player-screencap.jpg",
 		"watch:html": "run-when-changed --watch \"./src/index.html\" --exec \"npm run build:html\"",
 		"preview": "open-cli https://remote-jackbox-player-git-preview-isaacyakl.vercel.app/",
 		"preversion": "git checkout master && git pull && npm ci",

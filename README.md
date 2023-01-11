@@ -26,7 +26,6 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Add social share preview
 -  Add a clear button for stream URL
 -  Rename how to pane
 -  Implement language localization **(I am looking for someone to help with this)**
