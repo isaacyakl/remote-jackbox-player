@@ -26,10 +26,9 @@ Found a 🐛? Create a [new issue](https://github.com/isaacyakl/remote-jackbox-p
 
 ## To-Do
 
--  Text hints are transparent when hidden but are still displaying!
+-  Add social share preview
 -  Add a clear button for stream URL
 -  Rename how to pane
--  Add social share preview
 -  Implement language localization **(I am looking for someone to help with this)**
 -  Remove extra white space at bottom in swap view
 -  Add left-hand / right-hand control orientation option

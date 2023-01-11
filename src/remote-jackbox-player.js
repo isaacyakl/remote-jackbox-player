@@ -547,6 +547,10 @@ const rJP = () => {
 					// Show it
 					e.classList.add("opacity-100");
 					e.classList.remove("opacity-0");
+
+					window.setTimeout((e) => {
+						e.classList.remove("hidden");
+					}, 500);
 				});
 			}, peekTimeMs / 3);
 		}
@@ -560,6 +564,10 @@ const rJP = () => {
 				// Hide it
 				e.classList.add("opacity-0");
 				e.classList.remove("opacity-100");
+
+				window.setTimeout((e) => {
+					e.classList.add("hidden");
+				}, 500);
 			});
 
 			setTimeout(() => {
@@ -595,6 +603,10 @@ const rJP = () => {
 					// Show it
 					e.classList.add("opacity-100");
 					e.classList.remove("opacity-0");
+
+					window.setTimeout((e) => {
+						e.classList.remove("hidden");
+					}, 500);
 				});
 
 				// For each titleHelpText for a control
@@ -602,6 +614,10 @@ const rJP = () => {
 					// Show it
 					e.classList.add("opacity-100");
 					e.classList.remove("opacity-0");
+
+					window.setTimeout((e) => {
+						e.classList.remove("hidden");
+					}, 500);
 				});
 			}, peekTimeMs / 3);
 		}
@@ -612,6 +628,10 @@ const rJP = () => {
 				// Hide it
 				e.classList.add("opacity-0");
 				e.classList.remove("opacity-100");
+
+				window.setTimeout((e) => {
+					e.classList.add("hidden");
+				}, 500);
 			});
 
 			// For each titleHelpText for a control
@@ -619,6 +639,10 @@ const rJP = () => {
 				// Hide it
 				e.classList.add("opacity-0");
 				e.classList.remove("opacity-100");
+
+				window.setTimeout((e) => {
+					e.classList.add("hidden");
+				}, 500);
 			});
 
 			setTimeout(() => {
