@@ -123,9 +123,13 @@ const rJP = () => {
 		}
 	}
 
-	// Bind any element to swap views if it has the specified class
+	// Bind any game-pane-btn class element to swap views if it is clicked
 	document.querySelectorAll(".game-pane-btn").forEach((e) => {
-		e.addEventListener("click", swapView);
+		e.addEventListener("click", () => {
+			if (activeView === "swap") {
+				swapView();
+			}
+		});
 	});
 
 	// Function for setting the view
@@ -370,17 +374,17 @@ const rJP = () => {
 		}
 	}
 
+	// Hide how-to
+	function hideHowTo() {
+		howToElement.classList.add("hidden"); // Hide how-to
+	}
+
 	// Show appropriate stream type
 	function showStreamFrameElement(type) {
 		// Hide unknown Stream Element
 		function hideUnknownStream() {
 			unknownStreamElement.classList.add("hidden"); // Hide unknown stream element
 			unknownStreamElement.src = ""; // Clear unknown stream element
-		}
-
-		// Hide how-to
-		function hideHowTo() {
-			howToElement.classList.add("hidden"); // Hide how-to
 		}
 
 		// Hide Twitch Stream Element
