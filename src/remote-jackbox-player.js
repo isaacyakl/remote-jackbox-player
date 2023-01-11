@@ -318,9 +318,6 @@ const rJP = () => {
 		if (getURLParam("error") !== "") {
 			// If it was because the user denied access
 			if (getURLParam("error_description") === "The user denied you access") {
-				// Let them know
-				alert("To find a random stream or use the followed streams list, please authorize Twitch access.");
-
 				// If the afterAuthAction is "random"
 				if (localStorage.getItem("rjp-afterAuthAction") === "random") {
 					localStorage.removeItem("rjp-afterAuthAction"); // Remove that action
