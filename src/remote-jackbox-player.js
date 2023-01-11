@@ -29,6 +29,12 @@ const clientIds = {
 const rJP = () => {
 	// Element variables
 	let playerElement = document.getElementById("player"); // Main container
+
+	playerElement.style.height = `${window.innerHeight}px`;
+	window.addEventListener("resize", () => {
+		playerElement.style.height = `${window.innerHeight}px`;
+	});
+
 	let streamPaneElement = document.getElementById("streamPane"); // Stream pane for all stream related elements
 	let unknownStreamElement = document.getElementById("unknownStream"); // Unknown stream iframe
 	let twitchStreamElement = document.getElementById("twitchStream"); // Twitch stream div
