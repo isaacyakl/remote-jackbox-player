@@ -1201,22 +1201,6 @@ const rJP = () => {
 		}
 	}
 
-	// Add event listener for showStreamURLBarButton
-	document.getElementById("showStreamURLBarButton").addEventListener("click", () => {
-		// If the streamURLBar is already open
-		if (streamURLBarElement.classList.toString().includes("w-full")) {
-			streamURLElement.focus(); // Focus on stream URL input
-		}
-		// Else the streamURLBar is closed
-		else {
-			setStreamURLBarElementState("open"); // Show stream URL bar
-
-			setTimeout(() => {
-				streamURLElement.focus(); // Focus on stream URL input
-			}, 1000); // After 1 sec
-		}
-	});
-
 	// If there is an active view saved from a previous session
 	if (localStorage.getItem("rjp-activeView") !== null) {
 		setView(localStorage.getItem("rjp-activeView")); // Get and set view back to what it was
