@@ -9,7 +9,10 @@
 		"build:css": "npx tailwindcss -i ./src/input.css -o ./public/output.css --minify",
 		"build:html": "html-minifier ./src/index.html --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --remove-empty-attributes --use-short-doctype --minify-css true --minify-js true -o ./public/index.html",
 		"watch:html": "run-when-changed --watch \"./src/index.html\" --exec \"npm run build:html\"",
-		"preview": "open-cli https://remote-jackbox-player-git-preview-isaacyakl.vercel.app/"
+		"preview": "open-cli https://remote-jackbox-player-git-preview-isaacyakl.vercel.app/",
+		"preversion": "git checkout master && git pull && npm ci",
+		"version": "npm run build && git add *",
+		"postversion": "git push && git push --tags"
 	},
 	"author": "Isaac 'yak' L. <i@isaacyakl.com> (https://www.isaacyakl.com/)",
 	"license": "MIT",
