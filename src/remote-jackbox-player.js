@@ -803,7 +803,9 @@ const rJP = () => {
 	}
 
 	// Add event listener for when the page is reloaded in order to confirm that session will be lost
-	window.addEventListener("beforeunload", confirmUnload);
+	if (window.location.hostname.includes("localhost") === false && window.location.hostname.includes("127.0.0.1") === false) {
+		window.addEventListener("beforeunload", confirmUnload);
+	}
 
 	// Add event listener to the stream reload button
 	document.getElementById("reloadStreamButton").addEventListener("click", () => {
@@ -889,7 +891,9 @@ const rJP = () => {
 		} // Otherwise ignore action value
 
 		// Remove event listener for when the page is reloaded in order to stop the confirmUnload dialog
-		window.removeEventListener("beforeunload", confirmUnload);
+		if (window.location.hostname.includes("localhost") === false && window.location.hostname.includes("127.0.0.1") === false) {
+			window.removeEventListener("beforeunload", confirmUnload);
+		}
 
 		// Send the user to get an auth token
 		document.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientID}&redirect_uri=${window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "http://localhost:5500/" : window.location.origin + window.location.pathname}&response_type=token`;
