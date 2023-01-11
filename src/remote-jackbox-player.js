@@ -63,6 +63,8 @@ const rJP = () => {
 	const defaultGamePaneClasses = gamePaneElement.getAttribute("class"); // Default classes for #gamePane from index.html
 	const defaultSwapViewButtonWrappersClasses = swapViewButtonWrapperElements.item(0).getAttribute("class"); // Default classes for .swapViewButton's from index.html
 
+	const peekTimeMs = 1250; // Time in milliseconds for UI to peek when called by functions like peekUI()
+
 	// Function for updating visible controls based on active view
 	function updateControls() {
 		// If active view is swap
@@ -359,7 +361,7 @@ const rJP = () => {
 				// After 3000 seconds
 				setTimeout(() => {
 					setMenuElementState("close"); // Close menu
-				}, 3000);
+				}, peekTimeMs);
 			}
 			// Else is is large enough to open everything
 			else {
@@ -538,7 +540,7 @@ const rJP = () => {
 					e.classList.add("opacity-100");
 					e.classList.remove("opacity-0");
 				});
-			}, 1000);
+			}, peekTimeMs / 3);
 		}
 		// Else if the requested stream URL bar state is close
 		else if (state == "close") {
@@ -556,7 +558,7 @@ const rJP = () => {
 				// Set inactive styling
 				streamURLBarElement.classList.add("w-0");
 				streamURLBarElement.classList.remove("w-full");
-			}, 500);
+			}, peekTimeMs / 3);
 		}
 	}
 
@@ -593,7 +595,7 @@ const rJP = () => {
 					e.classList.add("opacity-100");
 					e.classList.remove("opacity-0");
 				});
-			}, 500);
+			}, peekTimeMs / 3);
 		}
 		// Else if the request state is close
 		else if (state == "close") {
@@ -623,7 +625,7 @@ const rJP = () => {
 				menuButtonElement.classList.remove("rounded-br");
 				menuButtonElement.classList.add("bg-white");
 				menuButtonElement.classList.add("rounded-r");
-			}, 500);
+			}, peekTimeMs / 3);
 		}
 	}
 
@@ -640,7 +642,7 @@ const rJP = () => {
 		// Hide UI
 		peekUITimeoutID = setTimeout(() => {
 			setUIState("close"); // Close the UI
-		}, 3000);
+		}, peekTimeMs);
 	}
 
 	// Function for stopping peekUI()
