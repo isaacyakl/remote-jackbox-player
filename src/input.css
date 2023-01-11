@@ -28,14 +28,6 @@ a:visited {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#134e4a', endColorstr='#134e4a',GradientType=0 ); /* IE6-9 */
 }
 
-#mixerStream {
-	height: 65%;
-}
-
-#mixerChat {
-	height: 35%;
-}
-
 @media (hover: hover) {
 	button:hover {
 		background-color: #81e6d9;
