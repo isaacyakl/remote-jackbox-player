@@ -1208,7 +1208,7 @@ const rJP = () => {
 					body: `client_id=${twitchClientID}&token=${twitchAuthToken}`,
 				});
 				if (twitchResult.ok) {
-					console.log("Revoked Twitch access token");
+					console.log(`Revoked Twitch access token: ${localStorage.getItem("rjp-twitchAuthToken")}`);
 					localStorage.removeItem("rjp-twitchAuthToken");
 				}
 			}
