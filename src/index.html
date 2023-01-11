@@ -76,9 +76,6 @@
 				<!-- Stream URL Bar -->
 				<div id="streamURLBar" class="absolute flex flex-col justify-start align-middle transition-all duration-1000 ease-in-out z-50 top-0 left-0 text-2xl w-0 max-h-full">
 					<div id="streamURLBarControls" class="relative flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out rounded-r shadow-lg z-50 top-0 left-0 text-2xl w-full overflow-hidden" role="navigation">
-						<button id="hideStreamURLBarButton" class="bg-white flex-none text-center align-middle w-10 h-10">
-							<i class="fas fa-eye-slash"></i>
-						</button>
 						<form id="streamURLForm" class="w-full" autocomplete="off">
 							<input id="streamURL" type="url" name="streamURL" placeholder="Tap to browse your streams" pattern="https://.*" class="flex-grow text-center transition-all duration-1000 ease-in-out px-1 h-10 bg-teal-100 hover:bg-teal-200 hover:shadow-inner focus:bg-teal-200 w-full text-base placeholder:text-gray-800 placeholder:font-semibold" value="" title="Enter a stream URL" required />
 						</form>
@@ -88,16 +85,15 @@
 						<button id="shareButton" class="bg-white flex-none text-center align-middle w-10 h-10 rounded-r">
 							<i class="fas fa-share-alt"></i>
 						</button>
-						<span id="shareText" class="flex-none text-center align-middle transition-all duration-1000 ease-in-out w-0 h-10 rounded-r shadow-inner bg-green-300 overflow-hidden" role="alert">URL copied!</span>
+						<div id="shareText" class="flex-none text-center align-middle transition-all duration-1000 ease-in-out w-0 h-10 rounded-r shadow-inner bg-teal-200 text-base overflow-hidden" role="alert">URL Copied</div>
 					</div>
 					<div id="streamURLBarTitleHelpText" class="relative flex flex-row flex-no-wrap justify-start align-middle transition-all duration-1000 ease-in-out z-50 top-0 left-0 text-2xl w-full h-0 hidden" role="navigation">
-						<span class="flex-none titleHelpText verticalText w-8 h-12 mt-1 ml-1 align-middle opacity-0 transition-all duration-500 ease-in-out shadow-lg py-1 rounded-b rounded-tr text-black shadow-inner text-xl overflow-hidden">Hide</span>
 						<span class="flex-grow titleHelpText transition-all duration-500 ease-in-out h-0 overflow-hidden"></span>
 						<span class="flex-none titleHelpText verticalText w-8 h-20 mt-1 mr-1 align-middle opacity-0 transition-all duration-500 ease-in-out shadow-lg py-1 rounded-b rounded-tl text-black shadow-inner text-xl overflow-hidden">Random</span>
 						<span class="flex-none titleHelpText verticalText w-8 h-16 mt-1 mr-1 align-middle opacity-0 transition-all duration-500 ease-in-out shadow-lg py-1 rounded-b rounded-tl text-black shadow-inner text-xl overflow-hidden">Share</span>
 						<span id="shareTextDoppelganger" class="flex-none titleHelpText transition-all duration-500 ease-in-out w-0 h-0 overflow-hidden"></span>
 					</div>
-					<div id="followedStreamsListWrapper" class="relative bg-white overflow-hidden transform origin-top scale-y-0 transition-all duration-500 ease-in-out ml-10 mr-20 z-40 shadow-md rounded-b overflow-y-auto text-base">
+					<div id="followedStreamsListWrapper" class="relative bg-white overflow-hidden transform origin-top scale-y-0 transition-all duration-500 ease-in-out z-40 shadow-md rounded-b overflow-y-auto text-base">
 						<div id="followedStreamsList"></div>
 						<div id="followedStreamsListStatus" class="hidden p-2 text-center bg-yellow-100"></div>
 					</div>

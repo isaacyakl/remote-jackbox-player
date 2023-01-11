@@ -774,7 +774,7 @@ const rJP = () => {
 			document.getElementById("shareButton").classList.add("rounded-r"); // Add rounding on right side of share button
 			document.getElementById("shareTextDoppelganger").classList.remove("px-1"); // Remove padding on left and right of doppelganger
 			document.getElementById("shareTextDoppelganger").classList.remove("w-40"); // Collapse doppelganger
-			setUIState("close"); // Hide UI
+			// setUIState("close"); // Hide UI
 		}, 3000);
 	});
 
@@ -841,11 +841,6 @@ const rJP = () => {
 			setUIState("close"); // Close UI
 			streamURLElement.blur(); // Blur stream URL input
 		}
-	});
-
-	// Add event listener for close button on stream URL bar
-	document.getElementById("hideStreamURLBarButton").addEventListener("click", () => {
-		setStreamURLBarElementState("close"); // Close stream URL bar
 	});
 
 	// Add event listener for button title text mouseover
