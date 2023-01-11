@@ -592,6 +592,7 @@ const rJP = () => {
 		// If the request state is open
 		if (state == "open") {
 			menuButtonElement.innerHTML = closedMenuIcon; // Change the icon to the close button
+			menuItemsElement.classList.remove("w-0");
 			menuItemsElement.classList.remove("h-0");
 			menuItemsElement.style.height = menuItemsElement.childElementCount * 2.5 + "rem"; // Expand the menu 2.5 rem per button
 			menuButtonElement.title = "Close menu"; // Set title
@@ -656,6 +657,10 @@ const rJP = () => {
 				menuItemsElement.classList.remove("h-0");
 				menuItemsElement.style.height = "0rem"; // Close the menu
 				menuButtonElement.title = "Open menu"; // Set title
+
+				window.setTimeout(() => {
+					menuItemsElement.classList.add("w-0");
+				}, 1000);
 
 				// Set inactive styling
 				menuButtonElement.classList.remove("bg-teal-300");
